@@ -20,6 +20,14 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.Color;
 import javax.swing.JList;
 
+/**
+ * The ViewFlights class represents the main graphical user interface (GUI)
+ * to the flight reservation system. It is the key class with which any user
+ * to the system must interact to perform any operation.
+ * 
+ * @author Alexander W. Witt
+ * @version March 14, 2016
+ */
 public class ViewFlights implements ListSelectionListener {
 	
 	private JFrame frame;
@@ -166,6 +174,18 @@ public class ViewFlights implements ListSelectionListener {
 		
 		// Configuration of layout for the button used for making flight reservations
 		JButton btnMakeReservation = new JButton("Make Reservation");
+		btnMakeReservation.addMouseListener(new MouseAdapter() {
+			
+			/**
+			 * This method defines the activity that will be executed every
+			 * time that the make reservation button for price is clicked by the mouse icon.
+			 * @param e An event in which the mouse clicks on the make reservation button
+			 */
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Make Reservation Button Clicked");
+			}
+		});
 		springLayout.putConstraint(SpringLayout.SOUTH, list, -33, SpringLayout.NORTH, btnMakeReservation);
 		springLayout.putConstraint(SpringLayout.WEST, btnMakeReservation, 283, SpringLayout.EAST, separator_1);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnMakeReservation, -30, SpringLayout.SOUTH, frame.getContentPane());
@@ -202,6 +222,21 @@ public class ViewFlights implements ListSelectionListener {
 		springLayout.putConstraint(SpringLayout.NORTH, btnApplyPriceFilter, 26, SpringLayout.SOUTH, filterByPriceLabel);
 		springLayout.putConstraint(SpringLayout.WEST, btnApplyPriceFilter, 0, SpringLayout.WEST, departureAirportLabel);
 		frame.getContentPane().add(btnApplyPriceFilter);
+		
+		// Configuration of layout for first horizontal separator in filter column of view
+		JSeparator separator_2 = new JSeparator();
+		springLayout.putConstraint(SpringLayout.NORTH, separator_2, 6, SpringLayout.SOUTH, btnApplyArrivalDateFilter);
+		springLayout.putConstraint(SpringLayout.WEST, separator_2, 0, SpringLayout.WEST, separator);
+		springLayout.putConstraint(SpringLayout.SOUTH, separator_2, -87, SpringLayout.SOUTH, btnApplyPriceFilter);
+		springLayout.putConstraint(SpringLayout.EAST, separator_2, 6, SpringLayout.WEST, separator_1);
+		frame.getContentPane().add(separator_2);
+		
+		// Configuration of layout for second horizontal separator in filter column of view
+		JSeparator separator_3 = new JSeparator();
+		springLayout.putConstraint(SpringLayout.NORTH, separator_3, 6, SpringLayout.SOUTH, btnApplyPriceFilter);
+		springLayout.putConstraint(SpringLayout.WEST, separator_3, 0, SpringLayout.WEST, separator);
+		springLayout.putConstraint(SpringLayout.EAST, separator_3, 6, SpringLayout.WEST, separator_1);
+		frame.getContentPane().add(separator_3);
 	}
 
 	/**
