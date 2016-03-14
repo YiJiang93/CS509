@@ -1,7 +1,5 @@
 package edu.wpi.cs509.team04;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -28,7 +26,7 @@ import javax.swing.JList;
  * @author Alexander W. Witt
  * @version March 14, 2016
  */
-public class ViewFlights implements ListSelectionListener {
+public class GUI implements ListSelectionListener {
 	
 	JFrame frame;
 	private JTextField departureAirportEntryBox;
@@ -37,7 +35,7 @@ public class ViewFlights implements ListSelectionListener {
 	/**
 	 * Create the application.
 	 */
-	public ViewFlights() {
+	public GUI() {
 		initialize();
 	}
 
