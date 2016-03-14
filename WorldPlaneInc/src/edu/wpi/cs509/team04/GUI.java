@@ -26,7 +26,7 @@ import javax.swing.JList;
  * @author Alexander W. Witt
  * @version March 14, 2016
  */
-public class ViewFlights implements ListSelectionListener {
+public class GUI implements ListSelectionListener {
 	
 	JFrame frame;
 	private JTextField departureAirportEntryBox;
@@ -35,7 +35,7 @@ public class ViewFlights implements ListSelectionListener {
 	/**
 	 * Create the application.
 	 */
-	public ViewFlights() {
+	public GUI() {
 		initialize();
 	}
 
@@ -83,7 +83,6 @@ public class ViewFlights implements ListSelectionListener {
 		// Configuration of layout and on click activity for departure and arrival airport search button
 		JButton btnSearch = new JButton("Search");
 		springLayout.putConstraint(SpringLayout.NORTH, btnSearch, -5, SpringLayout.NORTH, departureAirportLabel);
-		springLayout.putConstraint(SpringLayout.EAST, btnSearch, 0, SpringLayout.EAST, frame.getContentPane());
 		btnSearch.addMouseListener(new MouseAdapter() {
 			
 			/**
@@ -103,7 +102,7 @@ public class ViewFlights implements ListSelectionListener {
 		JSeparator separator = new JSeparator();
 		springLayout.putConstraint(SpringLayout.NORTH, separator, 13, SpringLayout.SOUTH, btnSearch);
 		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, btnSearch);
+		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(separator);
 		
 		// Configuration of layout for departure date filter label
@@ -114,7 +113,7 @@ public class ViewFlights implements ListSelectionListener {
 		
 		// Configuration of layout for calendar selection of departure date
 		JXDatePicker selectDepartureDate = new JXDatePicker();
-		springLayout.putConstraint(SpringLayout.WEST, btnSearch, 17, SpringLayout.EAST, selectDepartureDate);
+		springLayout.putConstraint(SpringLayout.WEST, btnSearch, 20, SpringLayout.EAST, selectDepartureDate);
 		springLayout.putConstraint(SpringLayout.NORTH, selectDepartureDate, -6, SpringLayout.NORTH, departureAirportLabel);
 		springLayout.putConstraint(SpringLayout.WEST, selectDepartureDate, 6, SpringLayout.EAST, departureDateLabel);
 		frame.getContentPane().add(selectDepartureDate);
@@ -129,6 +128,7 @@ public class ViewFlights implements ListSelectionListener {
 		
 		// Configuration of layout for the list of available flights
 		JList list = new JList();
+		springLayout.putConstraint(SpringLayout.EAST, btnSearch, 0, SpringLayout.EAST, list);
 		springLayout.putConstraint(SpringLayout.EAST, separator_1, -6, SpringLayout.WEST, list);
 		springLayout.putConstraint(SpringLayout.NORTH, list, 135, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, list, 257, SpringLayout.WEST, frame.getContentPane());
@@ -156,8 +156,8 @@ public class ViewFlights implements ListSelectionListener {
 		
 		// Configuration of layout for available flights label
 		JLabel availableFlightsLabel = new JLabel("Available Flights");
-		springLayout.putConstraint(SpringLayout.NORTH, availableFlightsLabel, 103, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, separator, -33, SpringLayout.NORTH, availableFlightsLabel);
+		springLayout.putConstraint(SpringLayout.NORTH, availableFlightsLabel, 103, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, availableFlightsLabel, -336, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(availableFlightsLabel);
 		

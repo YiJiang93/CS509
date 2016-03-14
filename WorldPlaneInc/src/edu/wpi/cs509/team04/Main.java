@@ -15,9 +15,19 @@ public class Main {
 		ServerInterface resSys = new ServerInterface();
 		String team = ConfigSingleton.getInstance().get("team");
 		
+	
+		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
 		System.out.println(xmlAirport);
+		
+		Airports ports = new Airports();
+		ports.addAll(xmlAirport);
+		
+		Airport airport1 = ports.get(0);
+		
+		
+		System.out.println("Lat: " +airport1.latitude() + " Long:" + airport1.longitude());
 
 		// Get a sample list of flights from server
 		String xmlFlights = resSys.getFlights(team, "BOS", "2016_05_10");
@@ -66,7 +76,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewFlights window = new ViewFlights();
+					GUI window = new GUI();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
