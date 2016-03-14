@@ -23,8 +23,6 @@ public class DateTransformer{
 		TimeZone arrivalTimeZone=TimeZone.getTimeZone("Asia/Singapore");
 		System.out.println(arrivalTimeZone);
 		System.out.println(DateTransformer.dataTransformBetweenTimeZone(date, formatter, departTimeZone, arrivalTimeZone));
-		
-		
 	}
 }
 
