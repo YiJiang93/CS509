@@ -30,25 +30,9 @@ import javax.swing.JList;
  */
 public class ViewFlights implements ListSelectionListener {
 	
-	private JFrame frame;
+	JFrame frame;
 	private JTextField departureAirportEntryBox;
 	private JTextField arrivalAirportEntryBox;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ViewFlights window = new ViewFlights();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.

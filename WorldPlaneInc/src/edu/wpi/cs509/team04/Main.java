@@ -1,5 +1,6 @@
 package edu.wpi.cs509.team04;
 
+import java.awt.EventQueue;
 
 /**
  * Project EntryPoint
@@ -61,5 +62,16 @@ public class Main {
 		} else {
 			System.out.println("Reservation Failed");
 		}		
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ViewFlights window = new ViewFlights();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }
