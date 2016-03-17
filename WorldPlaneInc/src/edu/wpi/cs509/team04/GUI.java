@@ -10,6 +10,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -195,7 +196,7 @@ public class GUI implements ListSelectionListener {
 		springLayout.putConstraint(SpringLayout.EAST, separator_2, -20, SpringLayout.WEST, list);
 		frame.getContentPane().add(separator_2);
 	}
-
+	
 	/**
 	 * This method responds when the user's selection of
 	 * a flight in the list of available flights has changed.
