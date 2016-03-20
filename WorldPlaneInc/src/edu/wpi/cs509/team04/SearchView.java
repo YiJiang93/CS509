@@ -69,6 +69,14 @@ public class SearchView {
 		return listModel;
 	}
 	
+	public void addFlight(String flight) {
+		listModel.addElement(flight);
+	}
+	
+	public void clearListModel() {
+		listModel.removeAllElements();
+	}
+	
 	public JList<String> getList() {
 		return list;
 	}

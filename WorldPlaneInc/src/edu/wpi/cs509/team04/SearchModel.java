@@ -1,6 +1,8 @@
 package edu.wpi.cs509.team04;
 
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.swing.event.SwingPropertyChangeSupport;
@@ -13,6 +15,7 @@ public class SearchModel {
 	private Date departureDate;
 	private String selectedFlight;
 	private String seatingType;
+	private Collection<String> availableFlights;
 	
 	/**
 	 * Constructor for the GuiModel class
@@ -23,6 +26,7 @@ public class SearchModel {
 		selectedFlight = "";
 		seatingType = "";
 		departureDate = new Date();
+		availableFlights = new ArrayList<String>();
 		propertyChangeSupport = new SwingPropertyChangeSupport(this);
 	}
 	
@@ -59,6 +63,22 @@ public class SearchModel {
 		seatingType = seating;
 	}
 	
+	public void setAvailableFlights(Collection<String> flights) {
+		Collection<String> oldValue = availableFlights;
+		availableFlights.clear();
+		int counter = 0;
+		for(String flight : flights) {
+			if (counter < 34) {
+				availableFlights.add(flight);
+			}
+			else {
+				break;
+			}
+		}
+		System.out.println("FLIGHTS AT MODEL = " + availableFlights.size());
+		propertyChangeSupport.firePropertyChange(SearchController.AVAILABLE_FLIGHTS, null, availableFlights);
+	}
+	
 	// Methods for acquiring the current information from the model
 	
 	public String getDepartureAirport() {
@@ -79,5 +99,9 @@ public class SearchModel {
 	
 	public String getSeatingType() {
 		return seatingType;
+	}
+	
+	public Collection<String> getAvailableFlights() {
+		return availableFlights;
 	}
 }

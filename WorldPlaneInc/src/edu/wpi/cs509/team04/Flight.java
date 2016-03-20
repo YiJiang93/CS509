@@ -57,6 +57,16 @@ public class Flight {
 		mSeatsCoach = seatsCoach;
 	}
 
+	public String flightInfoToString() {
+		String info = "";
+		info += mTimeDepart + " " + mCodeDepart + " -> " + mTimeArrival + " " + mCodeArrival;
+		//info += "First Class Price = " + mPriceFirstclass + "\n";
+		//info += "First Class Seats = " + mSeatsFirstclass + "\n";
+		//info += "Coach Price = " + mPriceCoach + "\n";
+		//info += "Coach Seats = " + mSeatsCoach + "\n";
+		return info;
+	}
+	
 	public boolean isValid() {
 		try {
 			if ((mAirplane == null) || (mAirplane.length() == 0)) {

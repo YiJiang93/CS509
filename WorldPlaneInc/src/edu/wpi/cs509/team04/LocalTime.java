@@ -43,13 +43,11 @@ public class LocalTime{
 		}
 		
 		return rdate;
-
-				
-		
 	}
 	
 	public static void main(String[] args){
-		ServerInterface resSys = new ServerInterface();
+		SearchModel model = new SearchModel();
+		ServerInterface resSys = new ServerInterface(model);
 		String team = ConfigSingleton.getInstance().get("team");
 		
 		String xmlAirport = resSys.getAirports(team);

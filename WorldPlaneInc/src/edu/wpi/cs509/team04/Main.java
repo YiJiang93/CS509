@@ -12,10 +12,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ServerInterface resSys = new ServerInterface();
+		SearchModel model = new SearchModel();
+		ServerInterface resSys = new ServerInterface(model);
 		String team = ConfigSingleton.getInstance().get("team");
-		
-	
 		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
@@ -78,7 +77,6 @@ public class Main {
 				try {
 					SearchView view = new SearchView();
 					ReservationView view2 = new ReservationView();
-					SearchModel model = new SearchModel();
 					new SearchController(view, view2, model);
 				} catch (Exception e) {
 					e.printStackTrace();
