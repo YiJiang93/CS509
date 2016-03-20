@@ -83,15 +83,16 @@ public class Main {
 		Flight flight = flights.get(0);
 		String flightNumber = flight.getmNumber();
 		int seatsReservedStart = flight.getmSeatsCoach();
-		
-		String xmlReservation = "<Flights>"
-				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
-				+ "</Flights>";
-		
-		
+
+//		
+//		String xmlReservation = "<Flights>"
+//				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
+//				+ "</Flights>";
+//		
+
 		// Try to lock the database, purchase ticket and unlock database
 		resSys.lock(team);
-		resSys.buyTickets(team, xmlReservation);
+		resSys.buyTickets(team, flightNumber);
 		resSys.unlock(team);
 		
 		// Verify the operation worked
