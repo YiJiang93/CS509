@@ -20,7 +20,8 @@ public class Main {
 		ServerInterface resSys = new ServerInterface();
 		String team = ConfigSingleton.getInstance().get("team");
 		
-	
+		//Uncomment this line for the Console Version of WorldPlaneInc.
+		//ConsoleInput.main(resSys, team);
 		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
