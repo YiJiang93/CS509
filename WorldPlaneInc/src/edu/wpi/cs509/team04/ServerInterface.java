@@ -246,7 +246,12 @@ public class ServerInterface {
 	 * @param flightNumber
 	 * @return true if SUCCESS code returned from server
 	 */
-	public boolean buyTickets(String team, String xmlReservation) {
+	public boolean buyTickets(String team, String flightNumber) {
+		
+		String xmlReservation = "<Flights>"
+				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
+				+ "</Flights>";
+		
 		URL url;
 		HttpURLConnection connection;
 
