@@ -85,17 +85,6 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 		});
 	}
 	
-	public void updateFlightList(Collection<String> list) {
-		view.getListModel().clear();
-		for (String element : list) {
-			view.getListModel().addElement(element);
-		}
-		if (!view.getListModel().isEmpty()) {
-			view.getList().setSelectedIndex(0);
-			model.setSelectedFlight(view.getListModel().getElementAt(0));
-		}
-	}
-	
 	/**
 	 * Provides a means for responding to the
 	 * event in which a new item has been selected
@@ -108,8 +97,14 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	public void valueChanged(ListSelectionEvent e) {
 		int selectedIndex = view.getList().getSelectedIndex();
 		if (selectedIndex >= 0) {
-			String selectedFlight = view.getListModel().getElementAt(selectedIndex);
-			model.setSelectedFlight(selectedFlight);
+			int counter = 0;
+			for (Flight flight : model.getAvailableFlights()) {
+				if (counter == selectedIndex) {
+					model.setSelectedFlight(flight);
+					break;
+				}
+				counter++;
+			}
 		}
 	}
 
@@ -123,16 +118,15 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		if (e.getPropertyName().equalsIgnoreCase(SearchController.AVAILABLE_FLIGHTS)) {
-			Collection<String> availableFlights = new ArrayList<String>();
-			for (String flight : (Collection<String>) e.getNewValue()) {
+			Collection<Flight> availableFlights = new ArrayList<Flight>();
+			for (Flight flight : (Collection<Flight>) e.getNewValue()) {
 				availableFlights.add(flight);
 			}
-			System.out.println("FLIGHTS AT CONTROLLER = " + availableFlights.size());
 			int counter = 0;
 			view.clearListModel();
-			for (String flight : availableFlights) {
+			for (Flight flight : availableFlights) {
 				if (counter < 34) {
-					view.addFlight(flight);
+					view.addFlight(flight.flightInfoToString());
 					counter++;
 				}
 				else {

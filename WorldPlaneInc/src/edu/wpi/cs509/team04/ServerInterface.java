@@ -158,14 +158,9 @@ public class ServerInterface {
 			e.printStackTrace();
 		}
 
-		Collection<String> availableFlights = new ArrayList<String>();
 		Flights flights = new Flights();
 		flights.addAll(result.toString());
-		for (Flight flight : flights) {
-			availableFlights.add(flight.flightInfoToString());
-		}
-		System.out.println("SIZE OF FLIGHTS RETURNED = " + availableFlights.size());
-		model.setAvailableFlights(availableFlights);
+		model.setAvailableFlights(flights);
 		return result.toString();
 	}
 	

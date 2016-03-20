@@ -13,9 +13,9 @@ public class SearchModel {
 	private String departureAirport;
 	private String arrivalAirport;
 	private Date departureDate;
-	private String selectedFlight;
+	private Flight selectedFlight;
 	private String seatingType;
-	private Collection<String> availableFlights;
+	private Collection<Flight> availableFlights;
 	
 	/**
 	 * Constructor for the GuiModel class
@@ -23,10 +23,10 @@ public class SearchModel {
 	public SearchModel() {
 		departureAirport = "";
 		arrivalAirport = "";
-		selectedFlight = "";
+		selectedFlight = new Flight("", "", "", "", "", "", "", "", 0, "", 0);
 		seatingType = "";
 		departureDate = new Date();
-		availableFlights = new ArrayList<String>();
+		availableFlights = new ArrayList<Flight>();
 		propertyChangeSupport = new SwingPropertyChangeSupport(this);
 	}
 	
@@ -55,7 +55,7 @@ public class SearchModel {
 		departureDate = date;
 	}
 	
-	public void setSelectedFlight(String flight) {
+	public void setSelectedFlight(Flight flight) {
 		selectedFlight = flight;
 	}
 	
@@ -63,11 +63,11 @@ public class SearchModel {
 		seatingType = seating;
 	}
 	
-	public void setAvailableFlights(Collection<String> flights) {
-		Collection<String> oldValue = availableFlights;
+	public void setAvailableFlights(Collection<Flight> flights) {
+		Collection<Flight> oldValue = availableFlights;
 		availableFlights.clear();
 		int counter = 0;
-		for(String flight : flights) {
+		for(Flight flight : flights) {
 			if (counter < 34) {
 				availableFlights.add(flight);
 			}
@@ -75,7 +75,6 @@ public class SearchModel {
 				break;
 			}
 		}
-		System.out.println("FLIGHTS AT MODEL = " + availableFlights.size());
 		propertyChangeSupport.firePropertyChange(SearchController.AVAILABLE_FLIGHTS, null, availableFlights);
 	}
 	
@@ -93,7 +92,7 @@ public class SearchModel {
 		return departureDate;
 	}
 	
-	public String getSelectedFlight() {
+	public Flight getSelectedFlight() {
 		return selectedFlight;
 	}
 	
@@ -101,7 +100,7 @@ public class SearchModel {
 		return seatingType;
 	}
 	
-	public Collection<String> getAvailableFlights() {
+	public Collection<Flight> getAvailableFlights() {
 		return availableFlights;
 	}
 }

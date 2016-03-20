@@ -1,11 +1,8 @@
 package edu.wpi.cs509.team04;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.AbstractAction;
 import javax.swing.event.ListSelectionEvent;
