@@ -16,16 +16,34 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
+/**
+ * This class provides an method for us to convert time between depart airport and arrival airport
+ * We use google map time-zone API to get the date and time 
+ * This API gives a json format.
+ */
 public class LocalTime{
-		
+
+	
+	/**
+	 * This class has 3 parameters:longtitude, latitude and a given time 
+	 * It will return a time and a date of the depart airport compared with arrival airport
+	 * @param longtitute 
+	 * @param latitute
+	 * @param time
+	 * @return
+	 */
 	public static Date convert(double longtitute, double latitute, Date time){
 		String key = ConfigSingleton.getInstance().get("google-api-key");
 		String base = ConfigSingleton.getInstance().get("google-api-base");
 		String currentLoc = ConfigSingleton.getInstance().get("current-location");
 		
+		// Connection with API and get the content in the url provided longtitute and latitute
 		String surl = base + "?location="+latitute+","+longtitute+"&timestamp="+time.getTime()/1000+"&key=" + key;
 		final String mysurl = base + "?location=" + currentLoc + "&timestamp="+time.getTime()/1000+"&key=" + key;
 		
+		/**
+		 * Instantiate an rdate and url and check whether they are validated 
+		 */
 		Date rdate = null;
 		URL url = null, myurl = null;
 		try {
@@ -35,6 +53,10 @@ public class LocalTime{
 			e.printStackTrace();
 			return null;
 		}
+		/**
+		 * Instantiate an request and myrequest and check whether they are validated 
+		 * If they are validated, build the connection to corresponding url
+		 */
 
 		HttpURLConnection request = null,  myrequest = null;
 		try {
@@ -75,6 +97,12 @@ public class LocalTime{
 	    JsonObject mydateobj = mydat.getAsJsonObject(); //May be an array, may be an object.
 	    long localTime;
 	    try{
+	    	/**
+			 * A formula to convert time between airports
+			 * The local time of a given location have fields:dstOffset,rawOffset,
+			 * status,timeZoneId and timeZoneName
+			 */
+	    	
 	    	localTime = time.getTime()-(mydateobj.get("rawOffset").getAsLong()-dateobj.get("rawOffset").getAsLong()+mydateobj.get("dstOffset").getAsLong()-dateobj.get("dstOffset").getAsLong())*1000;	
 	    }
 	    catch(Exception ex){
@@ -84,6 +112,11 @@ public class LocalTime{
 	    rdate = new Date(localTime);
 		return rdate;
 	}
+	
+
+	
+	
+	
 	
 	public static void main(String[] args){
 		ServerInterface resSys = new ServerInterface();
