@@ -1,24 +1,51 @@
 package edu.wpi.cs509.team04;
 
 import java.util.*;
-import java.text.*;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 public class LocalTime{
-	public static final String DATE_FORMAT="MM/dd/yyyy HH:mm:ss";
-	
-	public static String getTime(Date date,DateFormat formatter){
-		return formatter.format(date);
-	}
-	
-	public static String dataTransformBetweenTimeZone(Date sourceDate,DateFormat formatter,
-			TimeZone DepartTimeZone, TimeZone ArrivalTimeZone){
-		long ArrivalTime= sourceDate.getTime()-DepartTimeZone.getRawOffset()+ArrivalTimeZone.getRawOffset();	 
-		return LocalTime.getTime(new Date(ArrivalTime), formatter);
-	}
+
 	
 	public static Date convert(double longtitute, double latitute, Date time){
+		String surl = "https://maps.googleapis.com/maps/api/timezone/json?location="+latitute+","+longtitute+"&timestamp="+time.getTime()/1000+"&key=AIzaSyC-y99KjXBa0oaAdcubEiWp6jwEnwqPfo4";
+		final String mysurl = "https://maps.googleapis.com/maps/api/timezone/json?location=42.2740894,-71.8064854&timestamp="+time.getTime()/1000+"&key=AIzaSyC-y99KjXBa0oaAdcubEiWp6jwEnwqPfo4";
+		Date rdate = null;
+		try {
+			URL url = new URL(surl);
+			URL myurl = new URL(mysurl);
+			HttpURLConnection request =  (HttpURLConnection)url.openConnection();
+			HttpURLConnection myrequest = (HttpURLConnection)myurl.openConnection();
+		    request.connect();
+		    myrequest.connect();
+
+		    // Convert to a JSON object to print data
+		    JsonParser jp = new JsonParser();
+		    JsonElement dat = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+		    JsonElement mydat = jp.parse(new InputStreamReader((InputStream) myrequest.getContent())); //Convert the input stream to a json element
+
+		    JsonObject dateobj = dat.getAsJsonObject(); //May be an array, may be an object. 
+		    JsonObject mydateobj = mydat.getAsJsonObject(); //May be an array, may be an object.
+		    long LocalTime = time.getTime()-(mydateobj.get("rawOffset").getAsLong()-dateobj.get("rawOffset").getAsLong()+mydateobj.get("dstOffset").getAsLong()-dateobj.get("dstOffset").getAsLong())*1000;
+		    System.out.println(new Date(time.getTime()));
+		    rdate = new Date(LocalTime);
+		    
+		} catch (Exception e) {
+			System.out.println("error");
+		}
+		
+		return rdate;
+
 				
-		return null;
+		
 	}
 	
 	public static void main(String[] args){
