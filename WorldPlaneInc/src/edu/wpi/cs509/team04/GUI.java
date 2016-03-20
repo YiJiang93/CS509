@@ -10,6 +10,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -55,33 +56,34 @@ public class GUI implements ListSelectionListener {
 		// Configuration of layout for label indicating departure airport
 		JLabel departureAirportLabel = new JLabel("Departure Airport:");
 		springLayout.putConstraint(SpringLayout.NORTH, departureAirportLabel, 26, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, departureAirportLabel, 34, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, departureAirportLabel, 20, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(departureAirportLabel);
 		
 		// Configuration of layout for text box used for user entry of departure airport
 		departureAirportEntryBox = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, departureAirportEntryBox, -6, SpringLayout.NORTH, departureAirportLabel);
 		springLayout.putConstraint(SpringLayout.WEST, departureAirportEntryBox, 6, SpringLayout.EAST, departureAirportLabel);
-		springLayout.putConstraint(SpringLayout.EAST, departureAirportEntryBox, 262, SpringLayout.EAST, departureAirportLabel);
+		springLayout.putConstraint(SpringLayout.EAST, departureAirportEntryBox, -706, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(departureAirportEntryBox);
 		departureAirportEntryBox.setColumns(10);
 		
 		// Configuration of layout for label indicating arrival airport
 		JLabel arrivalAirportLabel = new JLabel("Arrival Airport:");
 		springLayout.putConstraint(SpringLayout.NORTH, arrivalAirportLabel, 0, SpringLayout.NORTH, departureAirportLabel);
-		springLayout.putConstraint(SpringLayout.WEST, arrivalAirportLabel, 38, SpringLayout.EAST, departureAirportEntryBox);
+		springLayout.putConstraint(SpringLayout.WEST, arrivalAirportLabel, 26, SpringLayout.EAST, departureAirportEntryBox);
 		frame.getContentPane().add(arrivalAirportLabel);
 		
 		// Configuration of layout for text box used for user entry of arrival airport
 		arrivalAirportEntryBox = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, arrivalAirportEntryBox, -6, SpringLayout.NORTH, departureAirportLabel);
 		springLayout.putConstraint(SpringLayout.WEST, arrivalAirportEntryBox, 6, SpringLayout.EAST, arrivalAirportLabel);
-		springLayout.putConstraint(SpringLayout.EAST, arrivalAirportEntryBox, -201, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, arrivalAirportEntryBox, -427, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(arrivalAirportEntryBox);
 		arrivalAirportEntryBox.setColumns(10);
 		
 		// Configuration of layout and on click activity for departure and arrival airport search button
 		JButton btnSearch = new JButton("Search");
+		springLayout.putConstraint(SpringLayout.NORTH, btnSearch, -5, SpringLayout.NORTH, departureAirportLabel);
 		btnSearch.addMouseListener(new MouseAdapter() {
 			
 			/**
@@ -95,67 +97,49 @@ public class GUI implements ListSelectionListener {
 				System.out.println("Search Button Clicked");
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnSearch, -5, SpringLayout.NORTH, departureAirportLabel);
-		springLayout.putConstraint(SpringLayout.WEST, btnSearch, 36, SpringLayout.EAST, arrivalAirportEntryBox);
-		springLayout.putConstraint(SpringLayout.EAST, btnSearch, -26, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnSearch);
 		
 		// Configuration of layout for horizontal line used for visually separating different components of the view
 		JSeparator separator = new JSeparator();
-		springLayout.putConstraint(SpringLayout.NORTH, separator, 16, SpringLayout.SOUTH, btnSearch);
+		springLayout.putConstraint(SpringLayout.NORTH, separator, 13, SpringLayout.SOUTH, btnSearch);
 		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, separator, 32, SpringLayout.SOUTH, btnSearch);
-		springLayout.putConstraint(SpringLayout.EAST, separator, 1000, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(separator);
 		
-		// Configuration of layout for arrival date filter label
-		JLabel arrivalDateLabel = new JLabel("Arrival Date:");
-		springLayout.putConstraint(SpringLayout.WEST, arrivalDateLabel, 0, SpringLayout.WEST, departureAirportLabel);
-		frame.getContentPane().add(arrivalDateLabel);
+		// Configuration of layout for departure date filter label
+		JLabel departureDateLabel = new JLabel("Departure Date:");
+		springLayout.putConstraint(SpringLayout.NORTH, departureDateLabel, 0, SpringLayout.NORTH, departureAirportLabel);
+		springLayout.putConstraint(SpringLayout.WEST, departureDateLabel, 25, SpringLayout.EAST, arrivalAirportEntryBox);
+		frame.getContentPane().add(departureDateLabel);
 		
-		// Configuration of layout for calendar selection of arrival date
-		JXDatePicker selectArrivalDate = new JXDatePicker();
-		springLayout.putConstraint(SpringLayout.NORTH, selectArrivalDate, 21, SpringLayout.SOUTH, arrivalDateLabel);
-		springLayout.putConstraint(SpringLayout.WEST, selectArrivalDate, 0, SpringLayout.WEST, departureAirportLabel);
-		frame.getContentPane().add(selectArrivalDate);
+		// Configuration of layout for calendar selection of departure date
+		JXDatePicker selectDepartureDate = new JXDatePicker();
+		springLayout.putConstraint(SpringLayout.WEST, btnSearch, 20, SpringLayout.EAST, selectDepartureDate);
+		springLayout.putConstraint(SpringLayout.NORTH, selectDepartureDate, -6, SpringLayout.NORTH, departureAirportLabel);
+		springLayout.putConstraint(SpringLayout.WEST, selectDepartureDate, 6, SpringLayout.EAST, departureDateLabel);
+		frame.getContentPane().add(selectDepartureDate);
 		
 		// Configuration of layout for vertical line used for visually separating different components of the view
 		JSeparator separator_1 = new JSeparator();
-		springLayout.putConstraint(SpringLayout.NORTH, separator_1, 23, SpringLayout.SOUTH, departureAirportEntryBox);
+		springLayout.putConstraint(SpringLayout.NORTH, separator_1, 20, SpringLayout.SOUTH, departureAirportEntryBox);
 		springLayout.putConstraint(SpringLayout.SOUTH, separator_1, 0, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, separator_1, 55, SpringLayout.EAST, selectArrivalDate);
 		separator_1.setForeground(new Color(212, 212, 212));
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		springLayout.putConstraint(SpringLayout.WEST, separator_1, 35, SpringLayout.EAST, selectArrivalDate);
 		frame.getContentPane().add(separator_1);
-		
-		// Configuration of layout and on click activity for apply filter button
-		JButton btnApplyArrivalDateFilter = new JButton("Apply Filter");
-		btnApplyArrivalDateFilter.addMouseListener(new MouseAdapter() {
-			
-			/**
-			 * This method defines the activity that will be executed
-			 * every time that the apply filter button for arrival date
-			 * is clicked by the mouse icon.
-			 * @param e An event in which the mouse clicks on the apply filter button for arrival date
-			 */
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("Apply Arrival Data Filter Button Clicked");
-			}
-		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnApplyArrivalDateFilter, 23, SpringLayout.SOUTH, selectArrivalDate);
-		springLayout.putConstraint(SpringLayout.WEST, btnApplyArrivalDateFilter, 0, SpringLayout.WEST, departureAirportLabel);
-		frame.getContentPane().add(btnApplyArrivalDateFilter);
 		
 		// Configuration of layout for the list of available flights
 		JList list = new JList();
-		springLayout.putConstraint(SpringLayout.WEST, list, 6, SpringLayout.EAST, separator_1);
-		springLayout.putConstraint(SpringLayout.EAST, list, 4, SpringLayout.EAST, btnSearch);
+		springLayout.putConstraint(SpringLayout.EAST, btnSearch, 0, SpringLayout.EAST, list);
+		springLayout.putConstraint(SpringLayout.EAST, separator_1, -6, SpringLayout.WEST, list);
+		springLayout.putConstraint(SpringLayout.NORTH, list, 135, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, list, 257, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, list, -22, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(list);
 		
 		// Configuration of layout for the button used for making flight reservations
 		JButton btnMakeReservation = new JButton("Make Reservation");
+		springLayout.putConstraint(SpringLayout.WEST, btnMakeReservation, 283, SpringLayout.EAST, separator_1);
+		springLayout.putConstraint(SpringLayout.SOUTH, list, -33, SpringLayout.NORTH, btnMakeReservation);
 		btnMakeReservation.addMouseListener(new MouseAdapter() {
 			
 			/**
@@ -168,27 +152,28 @@ public class GUI implements ListSelectionListener {
 				System.out.println("Make Reservation Button Clicked");
 			}
 		});
-		springLayout.putConstraint(SpringLayout.SOUTH, list, -33, SpringLayout.NORTH, btnMakeReservation);
-		springLayout.putConstraint(SpringLayout.WEST, btnMakeReservation, 283, SpringLayout.EAST, separator_1);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnMakeReservation, -30, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(btnMakeReservation);
 		
 		// Configuration of layout for available flights label
 		JLabel availableFlightsLabel = new JLabel("Available Flights");
-		springLayout.putConstraint(SpringLayout.NORTH, availableFlightsLabel, 2, SpringLayout.SOUTH, separator);
-		springLayout.putConstraint(SpringLayout.NORTH, arrivalDateLabel, 0, SpringLayout.NORTH, availableFlightsLabel);
-		springLayout.putConstraint(SpringLayout.NORTH, list, 14, SpringLayout.SOUTH, availableFlightsLabel);
-		springLayout.putConstraint(SpringLayout.WEST, availableFlightsLabel, 306, SpringLayout.EAST, separator_1);
+		springLayout.putConstraint(SpringLayout.SOUTH, separator, -33, SpringLayout.NORTH, availableFlightsLabel);
+		springLayout.putConstraint(SpringLayout.NORTH, availableFlightsLabel, 103, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, availableFlightsLabel, -336, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(availableFlightsLabel);
 		
 		// Configuration of layout for filter by price label
-		JLabel filterByPriceLabel = new JLabel("Filter Flights by Price:");
-		springLayout.putConstraint(SpringLayout.NORTH, filterByPriceLabel, 34, SpringLayout.SOUTH, btnApplyArrivalDateFilter);
-		springLayout.putConstraint(SpringLayout.WEST, filterByPriceLabel, 0, SpringLayout.WEST, departureAirportLabel);
-		frame.getContentPane().add(filterByPriceLabel);
+		JLabel sortByPriceLabel = new JLabel("Sort Flights by Price:");
+		springLayout.putConstraint(SpringLayout.NORTH, sortByPriceLabel, 0, SpringLayout.NORTH, availableFlightsLabel);
+		springLayout.putConstraint(SpringLayout.WEST, sortByPriceLabel, 0, SpringLayout.WEST, departureAirportLabel);
+		frame.getContentPane().add(sortByPriceLabel);
 		
 		// Configuration of layout and actions for apply filter for price button
-		JButton btnApplyPriceFilter = new JButton("Apply Filter");
+		JButton btnApplyPriceFilter = new JButton("Sort");
+		springLayout.putConstraint(SpringLayout.WEST, separator_1, 82, SpringLayout.EAST, btnApplyPriceFilter);
+		springLayout.putConstraint(SpringLayout.NORTH, btnApplyPriceFilter, 0, SpringLayout.NORTH, list);
+		springLayout.putConstraint(SpringLayout.WEST, btnApplyPriceFilter, 0, SpringLayout.WEST, departureAirportLabel);
+		springLayout.putConstraint(SpringLayout.EAST, btnApplyPriceFilter, 0, SpringLayout.EAST, sortByPriceLabel);
 		btnApplyPriceFilter.addMouseListener(new MouseAdapter() {
 			
 			/**
@@ -201,26 +186,17 @@ public class GUI implements ListSelectionListener {
 				System.out.println("Apply Price Filter Button Clicked");
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnApplyPriceFilter, 26, SpringLayout.SOUTH, filterByPriceLabel);
-		springLayout.putConstraint(SpringLayout.WEST, btnApplyPriceFilter, 0, SpringLayout.WEST, departureAirportLabel);
 		frame.getContentPane().add(btnApplyPriceFilter);
 		
 		// Configuration of layout for first horizontal separator in filter column of view
 		JSeparator separator_2 = new JSeparator();
-		springLayout.putConstraint(SpringLayout.NORTH, separator_2, 6, SpringLayout.SOUTH, btnApplyArrivalDateFilter);
-		springLayout.putConstraint(SpringLayout.WEST, separator_2, 0, SpringLayout.WEST, separator);
-		springLayout.putConstraint(SpringLayout.SOUTH, separator_2, -87, SpringLayout.SOUTH, btnApplyPriceFilter);
-		springLayout.putConstraint(SpringLayout.EAST, separator_2, 6, SpringLayout.WEST, separator_1);
+		springLayout.putConstraint(SpringLayout.NORTH, separator_2, 28, SpringLayout.SOUTH, btnApplyPriceFilter);
+		springLayout.putConstraint(SpringLayout.WEST, separator_2, 0, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, separator_2, -524, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, separator_2, -20, SpringLayout.WEST, list);
 		frame.getContentPane().add(separator_2);
-		
-		// Configuration of layout for second horizontal separator in filter column of view
-		JSeparator separator_3 = new JSeparator();
-		springLayout.putConstraint(SpringLayout.NORTH, separator_3, 6, SpringLayout.SOUTH, btnApplyPriceFilter);
-		springLayout.putConstraint(SpringLayout.WEST, separator_3, 0, SpringLayout.WEST, separator);
-		springLayout.putConstraint(SpringLayout.EAST, separator_3, 6, SpringLayout.WEST, separator_1);
-		frame.getContentPane().add(separator_3);
 	}
-
+	
 	/**
 	 * This method responds when the user's selection of
 	 * a flight in the list of available flights has changed.
