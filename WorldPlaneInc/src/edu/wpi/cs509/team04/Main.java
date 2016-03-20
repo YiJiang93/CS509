@@ -119,10 +119,15 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SearchView view = new SearchView();
-					ReservationView view2 = new ReservationView();
-					SearchModel model = new SearchModel();
-					new SearchController(view, view2, model);
+					SearchView searchView = new SearchView();
+					ReservationView reserveView = new ReservationView();
+					
+					SearchModel sModel = new SearchModel();
+					new SearchController(searchView, reserveView, sModel);					
+					
+					ReservationModel rModel = new ReservationModel();
+					new ReservationController(searchView, reserveView, rModel);					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
