@@ -46,12 +46,26 @@ public class ReservationController implements PropertyChangeListener, ListSelect
 				
 		rView.getBtnCancelReserve().setAction(new AbstractAction("Cancel Reservation") {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				System.out.println(e.getActionCommand());
+			public void actionPerformed(ActionEvent e) {	
+				rView.getWindow().setVisible(false);
 			}
 		});
 		
+		rView.getRdbtnCoach().setAction(new AbstractAction("Select Coach Type"){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				rView.getRdbtnCoach().setSelected(true);
+				rView.getRdbtnEconomy().setSelected(false);				
+			}
+		});
+		
+		rView.getRdbtnEconomy().setAction(new AbstractAction("Select Economy Type"){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				rView.getRdbtnCoach().setSelected(false);
+				rView.getRdbtnEconomy().setSelected(true);
+			}
+		});	
 	}
 
 	@Override
