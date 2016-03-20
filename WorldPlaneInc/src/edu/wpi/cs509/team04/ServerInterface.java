@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This class provides an interface to the CS509 server. It provides sample methods to perform
@@ -18,7 +20,13 @@ import java.net.URL;
  *
  */
 public class ServerInterface {
+	
+	public ServerInterface(SearchModel model) {
+		this.model = model;
+	}
+	
 	private final String mUrlBase = ConfigSingleton.getInstance().get("url");
+	private SearchModel model;
 
 	/**
 	 * Return an XML list of all the airports
@@ -150,6 +158,14 @@ public class ServerInterface {
 			e.printStackTrace();
 		}
 
+		Collection<String> availableFlights = new ArrayList<String>();
+		Flights flights = new Flights();
+		flights.addAll(result.toString());
+		for (Flight flight : flights) {
+			availableFlights.add(flight.flightInfoToString());
+		}
+		System.out.println("SIZE OF FLIGHTS RETURNED = " + availableFlights.size());
+		model.setAvailableFlights(availableFlights);
 		return result.toString();
 	}
 	
@@ -246,7 +262,12 @@ public class ServerInterface {
 	 * @param flightNumber
 	 * @return true if SUCCESS code returned from server
 	 */
-	public boolean buyTickets(String team, String xmlReservation) {
+	public boolean buyTickets(String team, String flightNumber, String seating) {
+		
+		String xmlReservation = "<Flights>"
+				+ "<Flight number=\"" + flightNumber + "\" seating=\""+ seating + "\"/>"
+				+ "</Flights>";
+		
 		URL url;
 		HttpURLConnection connection;
 

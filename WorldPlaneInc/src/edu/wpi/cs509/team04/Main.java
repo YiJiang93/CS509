@@ -17,10 +17,13 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ServerInterface resSys = new ServerInterface();
+		SearchModel model = new SearchModel();
+		ServerInterface resSys = new ServerInterface(model);
 		String team = ConfigSingleton.getInstance().get("team");
 		
-	
+
+		//Uncomment this line for the Console Version of WorldPlaneInc.
+		//ConsoleInput.main(resSys, team);
 		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
@@ -62,13 +65,6 @@ public class Main {
 		//Debug
 		Airplane airplane1 = planes.get(0);
 		
-		
-		
-		
-		
-		
-		
-		
 		System.out.println("Lat: " +airport1.latitude() + " Long:" + airport1.longitude());
 
 		// Get a sample list of flights from server
@@ -83,15 +79,16 @@ public class Main {
 		Flight flight = flights.get(0);
 		String flightNumber = flight.getmNumber();
 		int seatsReservedStart = flight.getmSeatsCoach();
-		
-		String xmlReservation = "<Flights>"
-				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
-				+ "</Flights>";
-		
-		
+
+//		
+//		String xmlReservation = "<Flights>"
+//				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
+//				+ "</Flights>";
+//		
+
 		// Try to lock the database, purchase ticket and unlock database
 		resSys.lock(team);
-		resSys.buyTickets(team, xmlReservation);
+		resSys.buyTickets(team, flightNumber, "Coach");
 		resSys.unlock(team);
 		
 		// Verify the operation worked
@@ -118,10 +115,15 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SearchView view = new SearchView();
-					ReservationView view2 = new ReservationView();
-					SearchModel model = new SearchModel();
-					new SearchController(view, view2, model);
+					SearchView searchView = new SearchView();
+					ReservationView reserveView = new ReservationView();
+					
+					SearchModel sModel = new SearchModel();
+					new SearchController(searchView, reserveView, sModel);					
+					
+					ReservationModel rModel = new ReservationModel();
+					new ReservationController(searchView, reserveView, rModel);					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

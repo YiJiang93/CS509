@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,7 +18,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	private SearchView view;
 	private ReservationView view2;
 	private SearchModel model;
-	// insert object that finds lists
+	
+	public static final String AVAILABLE_FLIGHTS = "AVAILABLE FLIGHTS";
 	
 	/**
 	 * Constructor for the GuiController class
@@ -40,15 +43,14 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 					model.setDepartureAirport(view.getDepartureAirport().getText());
 					model.setArrivalAirport(view.getArrivalAirport().getText());
 					model.setDepartureDate(view.getDepartureDate());
+					ConfigSingleton config = ConfigSingleton.getInstance();
+					String team = config.get("team");
+					DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
 					
-					Collection<String> flights = new ArrayList<String>();
-					for (int i = 0; i < 100; i++) {
-						flights.add("Flight " + i);
-					}
-					updateFlightList(flights);
-					
-					// call method to search for matching flights
-					// call updateList(list of strings of flight info);
+					String date = dateFormat.format(model.getDepartureDate());
+					String departureAirport = model.getDepartureAirport();
+					FlightRetrievalThread retrievalThread = new FlightRetrievalThread(model, team, departureAirport, date);
+					retrievalThread.getAvailableFlights();
 				}
 				else {
 					Toolkit.getDefaultToolkit().beep();
@@ -74,6 +76,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 					Toolkit.getDefaultToolkit().beep();
 				}
 				else {
+					
 					// open up new GUI window for making a reservation
 					// indicate state of user selections
 					view2.getWindow().setVisible(true);
@@ -119,7 +122,23 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
-		// actions to be performed when the model has
-		// changed. Essentially this is an update of the view
+		if (e.getPropertyName().equalsIgnoreCase(SearchController.AVAILABLE_FLIGHTS)) {
+			Collection<String> availableFlights = new ArrayList<String>();
+			for (String flight : (Collection<String>) e.getNewValue()) {
+				availableFlights.add(flight);
+			}
+			System.out.println("FLIGHTS AT CONTROLLER = " + availableFlights.size());
+			int counter = 0;
+			view.clearListModel();
+			for (String flight : availableFlights) {
+				if (counter < 34) {
+					view.addFlight(flight);
+					counter++;
+				}
+				else {
+					break;
+				}
+			}
+		}
 	}
 }
