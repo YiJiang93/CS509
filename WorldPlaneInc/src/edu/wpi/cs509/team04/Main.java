@@ -76,8 +76,10 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI window = new GUI();
-					window.frame.setVisible(true);
+					SearchView view = new SearchView();
+					ReservationView view2 = new ReservationView();
+					SearchModel model = new SearchModel();
+					new SearchController(view, view2, model);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
