@@ -92,7 +92,7 @@ public class Main {
 
 		// Try to lock the database, purchase ticket and unlock database
 		resSys.lock(team);
-		resSys.buyTickets(team, flightNumber);
+		resSys.buyTickets(team, flightNumber, "Coach");
 		resSys.unlock(team);
 		
 		// Verify the operation worked
