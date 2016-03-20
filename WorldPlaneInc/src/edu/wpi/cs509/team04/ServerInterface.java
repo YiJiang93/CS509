@@ -53,7 +53,7 @@ public class ServerInterface {
 			if ((responseCode >= 200) && (responseCode <= 299)) {
 				InputStream inputStream = connection.getInputStream();
 				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "URF-8" : encoding);
+				encoding = (encoding == null ? "UTF-8" : encoding);
 
 				reader = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = reader.readLine()) != null) {
@@ -95,7 +95,7 @@ public class ServerInterface {
 			if ((responseCode >= 200) && (responseCode <= 299)) {
 				InputStream inputStream = connection.getInputStream();
 				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "URF-8" : encoding);
+				encoding = (encoding == null ? "UTF-8" : encoding);
 
 				reader = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = reader.readLine()) != null) {
