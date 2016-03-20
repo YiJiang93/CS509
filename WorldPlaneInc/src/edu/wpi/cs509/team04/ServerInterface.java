@@ -159,8 +159,18 @@ public class ServerInterface {
 		}
 
 		Flights flights = new Flights();
+		Flights refinedFlights = new Flights();
 		flights.addAll(result.toString());
-		model.setAvailableFlights(flights);
+		
+		// sort the flights according to the selected arrival airport
+		for (int i = 0; i < flights.size(); i++) {
+			String arrivalAirport = model.getArrivalAirport();
+			if (flights.get(i).getmCodeArrival().equalsIgnoreCase(arrivalAirport)) {
+				refinedFlights.add(flights.get(i));
+			}
+		}
+		model.setAvailableFlights(refinedFlights);
+		
 		return result.toString();
 	}
 	
