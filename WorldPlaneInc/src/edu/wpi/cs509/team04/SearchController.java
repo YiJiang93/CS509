@@ -76,6 +76,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 					Toolkit.getDefaultToolkit().beep();
 				}
 				else {
+					
 					// open up new GUI window for making a reservation
 					// indicate state of user selections
 					view2.getWindow().setVisible(true);

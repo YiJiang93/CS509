@@ -9,11 +9,47 @@ import javax.swing.SpringLayout;
 public class ReservationView {
 	
 	private JFrame frame;
-
+	private JButton btnCancelReserve;
+	private JButton btnConfirmReserve;
+	private JRadioButton rdbtnEconomy;
+	private JRadioButton rdbtnCoach;
+	
 	public JFrame getWindow() {
 		return frame;
 	}
 	
+	public JButton getBtnCancelReserve() {
+		return btnCancelReserve;
+	}
+
+	public void setBtnCancelReserve(JButton btnCancelReserve) {
+		this.btnCancelReserve = btnCancelReserve;
+	}
+
+	public JButton getBtnConfirmReserve() {
+		return btnConfirmReserve;
+	}
+
+	public void setBtnConfirmReserve(JButton btnConfirmReserve) {
+		this.btnConfirmReserve = btnConfirmReserve;
+	}
+
+	public JRadioButton getRdbtnEconomy() {
+		return rdbtnEconomy;
+	}
+
+	public void setRdbtnEconomy(JRadioButton rdbtnEconomy) {
+		this.rdbtnEconomy = rdbtnEconomy;
+	}
+
+	public JRadioButton getRdbtnCoach() {
+		return rdbtnCoach;
+	}
+
+	public void setRdbtnCoach(JRadioButton rdbtnCoach) {
+		this.rdbtnCoach = rdbtnCoach;
+	}
+
 	/**
 	 * Create the application.
 	 */
@@ -31,30 +67,30 @@ public class ReservationView {
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		
-		JButton btnNewButton = new JButton("Confirm");
-		frame.getContentPane().add(btnNewButton);
+		btnConfirmReserve = new JButton("Confirm");
+		frame.getContentPane().add(btnConfirmReserve);
 		
-		JButton btnNewButton_1 = new JButton("Cancel");
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 227, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -23, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 0, SpringLayout.NORTH, btnNewButton_1);
-		springLayout.putConstraint(SpringLayout.EAST, btnNewButton, -6, SpringLayout.WEST, btnNewButton_1);
-		frame.getContentPane().add(btnNewButton_1);
+		btnCancelReserve = new JButton("Cancel");
+		springLayout.putConstraint(SpringLayout.WEST, btnCancelReserve, 227, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnCancelReserve, -23, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnConfirmReserve, 0, SpringLayout.NORTH, btnCancelReserve);
+		springLayout.putConstraint(SpringLayout.EAST, btnConfirmReserve, -6, SpringLayout.WEST, btnCancelReserve);
+		frame.getContentPane().add(btnCancelReserve);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Economy");
-		rdbtnNewRadioButton.setSelected(true);
-		springLayout.putConstraint(SpringLayout.WEST, rdbtnNewRadioButton, 143, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(rdbtnNewRadioButton);
+		rdbtnEconomy = new JRadioButton("Economy");
+		rdbtnEconomy.setSelected(true);
+		springLayout.putConstraint(SpringLayout.WEST, rdbtnEconomy, 143, SpringLayout.WEST, frame.getContentPane());
+		frame.getContentPane().add(rdbtnEconomy);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Coach");
-		springLayout.putConstraint(SpringLayout.NORTH, rdbtnNewRadioButton_1, 10, SpringLayout.SOUTH, rdbtnNewRadioButton);
-		springLayout.putConstraint(SpringLayout.WEST, rdbtnNewRadioButton_1, 0, SpringLayout.WEST, rdbtnNewRadioButton);
-		frame.getContentPane().add(rdbtnNewRadioButton_1);
+		rdbtnCoach = new JRadioButton("Coach");
+		springLayout.putConstraint(SpringLayout.NORTH, rdbtnCoach, 10, SpringLayout.SOUTH, rdbtnEconomy);
+		springLayout.putConstraint(SpringLayout.WEST, rdbtnCoach, 0, SpringLayout.WEST, rdbtnEconomy);
+		frame.getContentPane().add(rdbtnCoach);
 		
 		JLabel lblSeatingType = new JLabel("Seating Type");
 		springLayout.putConstraint(SpringLayout.WEST, lblSeatingType, 143, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, lblSeatingType, -195, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, rdbtnNewRadioButton, 16, SpringLayout.SOUTH, lblSeatingType);
+		springLayout.putConstraint(SpringLayout.NORTH, rdbtnEconomy, 16, SpringLayout.SOUTH, lblSeatingType);
 		frame.getContentPane().add(lblSeatingType);
 	}
 	

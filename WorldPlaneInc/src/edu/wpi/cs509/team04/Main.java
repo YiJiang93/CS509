@@ -1,6 +1,10 @@
 package edu.wpi.cs509.team04;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Project EntryPoint
@@ -8,6 +12,7 @@ import java.awt.EventQueue;
  * @author Daniel
  *
  */
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -16,6 +21,10 @@ public class Main {
 		ServerInterface resSys = new ServerInterface(model);
 		String team = ConfigSingleton.getInstance().get("team");
 		
+
+		//Uncomment this line for the Console Version of WorldPlaneInc.
+		//ConsoleInput.main(resSys, team);
+		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
 		System.out.println(xmlAirport);
@@ -23,8 +32,38 @@ public class Main {
 		Airports ports = new Airports();
 		ports.addAll(xmlAirport);
 		
+		//Debug
 		Airport airport1 = ports.get(0);
 		
+		//Build array of airport codes
+		ArrayList<String> codes = new ArrayList<String>();
+		
+		for(int i=0; i< ports.size(); i++){
+			Airport airport = ports.get(i);
+			codes.add(airport.code());
+		}
+		
+		//System.out.println(codes);
+		Collections.sort(codes);
+		//System.out.println(codes);
+		
+		//Test Array
+		for(String s : codes){
+			if (s.equals("BOS")){
+				System.out.println("Found");
+				break;
+			}	
+		}
+		//System.out.println("Report Error");
+		
+		String xmlAirplanes = resSys.getAirplanes(team);
+		System.out.println(xmlAirplanes);
+		
+		Airplanes planes = new Airplanes();
+		planes.addAll(xmlAirplanes);
+		
+		//Debug
+		Airplane airplane1 = planes.get(0);
 		
 		System.out.println("Lat: " +airport1.latitude() + " Long:" + airport1.longitude());
 
@@ -40,15 +79,16 @@ public class Main {
 		Flight flight = flights.get(0);
 		String flightNumber = flight.getmNumber();
 		int seatsReservedStart = flight.getmSeatsCoach();
-		
-		String xmlReservation = "<Flights>"
-				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
-				+ "</Flights>";
-		
-		
+
+//		
+//		String xmlReservation = "<Flights>"
+//				+ "<Flight number=\"" + flightNumber + "\" seating=\"Coach\"/>"
+//				+ "</Flights>";
+//		
+
 		// Try to lock the database, purchase ticket and unlock database
 		resSys.lock(team);
-		resSys.buyTickets(team, xmlReservation);
+		resSys.buyTickets(team, flightNumber, "Coach");
 		resSys.unlock(team);
 		
 		// Verify the operation worked
@@ -75,9 +115,15 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SearchView view = new SearchView();
-					ReservationView view2 = new ReservationView();
-					new SearchController(view, view2, model);
+					SearchView searchView = new SearchView();
+					ReservationView reserveView = new ReservationView();
+					
+					SearchModel sModel = new SearchModel();
+					new SearchController(searchView, reserveView, sModel);					
+					
+					ReservationModel rModel = new ReservationModel();
+					new ReservationController(searchView, reserveView, rModel);					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
