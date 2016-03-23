@@ -32,7 +32,10 @@ public class ConsoleInput {
 		}
 		
 		boolean trip = false;
+		Flights flights = new Flights();
 		ArrayList<String> foundFN = new ArrayList<String>();
+		Flights foundFlights = new Flights();
+		Flight selectedFlight = null;
 		
 		while(!trip){
 			boolean dCode = false;
@@ -102,7 +105,7 @@ public class ConsoleInput {
 			String xmlFlights = resSys.getFlights(team, departCode, departDate);
 			
 			// Create the aggregate flights
-			Flights flights = new Flights();
+			flights = new Flights();
 			flights.addAll(xmlFlights);
 			
 			for(int i=0; i< flights.size(); i++){
@@ -110,6 +113,7 @@ public class ConsoleInput {
 				if(flight.getmCodeArrival().equals(arrivalCode)) {
 					trip = true; //Found a flight from the departure airport to arrival airport
 					foundFN.add(flight.getmNumber());
+					foundFlights.add(flight);
 					System.out.println("========================================================");
 					System.out.println("Flight Number: " + flight.getmNumber());
 					System.out.println("Departure Location: " + flight.getmCodeDepart());
@@ -142,33 +146,72 @@ public class ConsoleInput {
 			
 			if (flightNumber.equals("EXIT")) System.exit(0);
 			
+			for(int i=0; i< foundFlights.size(); i++){
+				selectedFlight = foundFlights.get(i);
+				if(selectedFlight.getmNumber().equals(flightNumber)) {
+					fn = true;
+					break;
+				}
+			}
+			/*
 			for(String s : foundFN){
 				if (s.equals(flightNumber)){
 					fn = true;
 					break;	
 				}
 			}
-			
+			*/
 			if(!fn) System.out.println(flightNumber + " was not in the search results.");
 		}
 		
+		//Get airplane data
+		String xmlAirplanes = resSys.getAirplanes(team);
+		
+		// Create the aggregate flights
+		Airplanes planes = new Airplanes();
+		planes.addAll(xmlAirplanes);
+		
+		int maxFirstClass = 0;
+		int bookedFirstClass = selectedFlight.getmSeatsFirstclass();
+		int maxCoach = 0;
+		int bookedCoach = selectedFlight.getmSeatsCoach();
+		
+		for(int i=0; i< planes.size(); i++){
+			Airplane plane = planes.get(i);
+			if(plane.model().equals(selectedFlight.getmAirplane())) {
+				maxFirstClass = plane.firstclass();
+				maxCoach = plane.coach();
+				break;
+			}
+		}
+		
+		//Get available seats
+		
+		
 		while(!seat){
+			System.out.println("First Class (" + bookedFirstClass + "/" + maxFirstClass + ")  Coach (" + bookedCoach + "/" + maxCoach+ ")");
 			System.out.print("First Class Seat or Coach Seat? (FC|C):");
 			
 			seatType = scanner.next();
 			
 			if (seatType.equals("EXIT")) System.exit(0);
 
-			if (seatType.equals("FC")){
-				seatType = "Coach";
-				seat = true;
-			}
-			if (seatType.equals("C")){
+			if (seatType.equals("FC") & maxFirstClass - bookedFirstClass > 0){
 				seatType = "FirstClass";
 				seat = true;
 			}
-			
-			if(!seat) System.out.println("Invalid entry for seating.");
+			if (seatType.equals("C") & maxCoach - bookedCoach > 0){
+				seatType = "Coach";
+				seat = true;
+			}
+
+			if(!seat & maxFirstClass - bookedFirstClass <= 0){
+				System.out.println("No more First Class Seats available.");
+			} else if(!seat & maxCoach - bookedCoach <= 0) { 
+				System.out.println("No more First Class Seats available.");
+			} else if(!seat) {
+				System.out.println("Invalid entry for seating.");
+			}
 		}
 		
 		System.out.println("Confirming Flight");
