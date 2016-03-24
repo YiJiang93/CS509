@@ -1,6 +1,8 @@
 package edu.wpi.cs509.team04;
 
 import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.util.Date;
 
 import javax.swing.DefaultListModel;
@@ -89,6 +91,7 @@ public class SearchView {
 		// Preliminary configuration of the graphical user interface (GUI)
 		frame = new JFrame();
 		frame.setBounds(200, 200, 1000, 750);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);	
 		frame.setTitle("World Plane Inc. Travel System");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
