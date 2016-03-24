@@ -91,7 +91,7 @@ public class SearchView {
 		// Preliminary configuration of the graphical user interface (GUI)
 		frame = new JFrame();
 		frame.setBounds(200, 200, 1000, 750);
-		frame.setExtendedState(Frame.MAXIMIZED_BOTH);	
+		//frame.setExtendedState(Frame.MAXIMIZED_BOTH);	
 		frame.setTitle("World Plane Inc. Travel System");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
