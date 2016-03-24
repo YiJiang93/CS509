@@ -8,13 +8,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 /**
  * This class provides an method for us to convert time between depart airport and arrival airport
@@ -23,6 +27,86 @@ import java.net.URL;
  */
 public class LocalTime{
 
+	public static void init(){
+			
+		String team = ConfigSingleton.getInstance().get("team");
+		ServerInterface resSys = new ServerInterface();
+		String xmlAirport = resSys.getAirports(team);
+			
+		Airports ports = new Airports();
+		ports.addAll(xmlAirport);
+
+		String currentLoc = ConfigSingleton.getInstance().get("current-location");
+		String[] tmp = currentLoc.split(",");
+		double lat = Double.parseDouble(tmp[0]);
+		double lng = Double.parseDouble(tmp[1]);
+
+		Airport here = new Airport("here", "here", lat, lng);
+		ports.add(here);
+				
+		for(int i =0; i < ports.size(); i++){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Airport airport1 = ports.get(i);
+			Date now = new Date();
+			String result = queryGoogle(airport1.latitude(), airport1.longitude());			
+			Path p = Paths.get("tmp\\" + airport1.latitude() + ","+ airport1.longitude() + ".xml");
+			try {
+				Files.write(p, result.getBytes(), StandardOpenOption.CREATE_NEW);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		
+	}
+	
+	public static String queryGoogle(double latitute, double longtitute){
+		String key = ConfigSingleton.getInstance().get("google-api-key");
+		String base = ConfigSingleton.getInstance().get("google-api-base");
+		
+		String surl = base + "?location="+latitute+","+longtitute+"&timestamp=0&key=" + key;
+		
+		Date rdate = null;
+		URL url = null, myurl = null;
+		try {
+			url = new URL(surl);
+		} catch (MalformedURLException e) {			
+			e.printStackTrace();
+		}
+		
+		HttpURLConnection request = null,  myrequest = null;
+		try {
+			request = (HttpURLConnection)url.openConnection();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+	    try {
+			request.connect();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		    
+
+	    try {
+	    	String line;
+	    	StringBuffer result = new StringBuffer();
+	    	BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+			while ((line = reader.readLine()) != null) {
+				result.append(line);
+			}
+			return result.toString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	/**
 	 * This class has 3 parameters:longtitude, latitude and a given time 
@@ -112,37 +196,9 @@ public class LocalTime{
 	    rdate = new Date(localTime);
 		return rdate;
 	}
-	
-
-	
-	
-	
-	
-	public static void main(String[] args){
-		SearchModel model = new SearchModel();
-		ServerInterface resSys = new ServerInterface(model);
-		String team = ConfigSingleton.getInstance().get("team");
 		
-		String xmlAirport = resSys.getAirports(team);
-				
-		Airports ports = new Airports();
-		ports.addAll(xmlAirport);
-
-		for(int i =0; i < 50; i++){
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Airport airport1 = ports.get(i);
-			System.out.println(i + " " + airport1.name());			
-			Date now = new Date();
-			System.out.println(now);
-			Date convertedTime = convert(airport1.longitude(), airport1.latitude(), now);			
-			System.out.println(convertedTime);	
-			System.out.println("------------------------------------------");
-		}		
+	public static void main(String[] args){
+		init();
 	}
 }
 
