@@ -19,6 +19,10 @@ import java.net.URL;
  */
 public class ServerInterface {
 	
+	public ServerInterface(){
+		this.model = null;
+	}
+	
 	public ServerInterface(SearchModel model) {
 		this.model = model;
 	}
@@ -160,14 +164,17 @@ public class ServerInterface {
 		Flights refinedFlights = new Flights();
 		flights.addAll(result.toString());
 		
-		// sort the flights according to the selected arrival airport
-		for (int i = 0; i < flights.size(); i++) {
-			String arrivalAirport = model.getArrivalAirport();
-			if (flights.get(i).getmCodeArrival().equalsIgnoreCase(arrivalAirport)) {
-				refinedFlights.add(flights.get(i));
+		
+		if(model != null){
+			// sort the flights according to the selected arrival airport
+			for (int i = 0; i < flights.size(); i++) {
+				String arrivalAirport = model.getArrivalAirport();
+				if (flights.get(i).getmCodeArrival().equalsIgnoreCase(arrivalAirport)) {
+					refinedFlights.add(flights.get(i));
+				}
 			}
-		}
-		model.setAvailableFlights(refinedFlights);
+			model.setAvailableFlights(refinedFlights);
+		}		
 		
 		return result.toString();
 	}
