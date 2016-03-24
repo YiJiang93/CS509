@@ -120,7 +120,7 @@ public class Main {
 					new SearchController(searchView, reserveView, sModel);					
 					
 					ReservationModel rModel = new ReservationModel();
-					new ReservationController(searchView, reserveView, rModel);					
+					new ReservationController(searchView, reserveView, rModel, sModel);					
 					
 				} catch (Exception e) {
 					e.printStackTrace();

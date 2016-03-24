@@ -112,7 +112,7 @@ public class Airplane {
 	/**
 	 * Set the number of first class seats for the airplane
 	 * 
-	 * @param firstclass The maximum number of first class seats on the airplane 
+	 * @param firstclass Set the maximum number of first class seats on the airplane 
 	 */
 	public void firstclass (int firstclass) {
 		mFirstClassSeats = firstclass;
@@ -123,14 +123,14 @@ public class Airplane {
 	 * 
 	 * @return The maximum number of first class seats on the airplane 
 	 */
-	public double firstclass () {
+	public int firstclass () {
 		return mFirstClassSeats;
 	}
 	
 	/**
 	 * Set the number of coach seats for the airplane
 	 * 
-	 * @param coach The maximum number of coach seats on the airplane
+	 * @param coach Set the maximum number of coach seats on the airplane
 	 */
 	public void coach (int coach) {
 		mCoachSeats = coach;
@@ -139,9 +139,9 @@ public class Airplane {
 	/**
 	 * get the number of coach seats for the airplane
 	 * 
-	 * @return The maximum number of coach seats on the airplane
+	 * @return Get the maximum number of coach seats on the airplane
 	 */
-	public double coach () {
+	public int coach () {
 		return mCoachSeats;
 	}
 
