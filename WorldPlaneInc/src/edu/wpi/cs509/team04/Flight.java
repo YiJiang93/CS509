@@ -60,10 +60,11 @@ public class Flight {
 	public String flightInfoToString() {
 		String info = "";
 		info += mTimeDepart + " " + mCodeDepart + " -> " + mTimeArrival + " " + mCodeArrival;
-		//info += "First Class Price = " + mPriceFirstclass + "\n";
-		//info += "First Class Seats = " + mSeatsFirstclass + "\n";
-		//info += "Coach Price = " + mPriceCoach + "\n";
-		//info += "Coach Seats = " + mSeatsCoach + "\n";
+		info += "First Class Price = " + mPriceFirstclass + "\n";
+		info += "First Class Seats = " + mSeatsFirstclass + "\n";
+		info += "Coach Price = " + mPriceCoach + "\n";
+		info += "Coach Seats = " + mSeatsCoach + "\n";
+		info += "AIRPLANE = " + mAirplane + "\n";
 		return info;
 	}
 	

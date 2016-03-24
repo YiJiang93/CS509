@@ -2,9 +2,7 @@ package edu.wpi.cs509.team04;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Project EntryPoint
@@ -63,7 +61,7 @@ public class Main {
 		planes.addAll(xmlAirplanes);
 		
 		//Debug
-		Airplane airplane1 = planes.get(0);
+		//Airplane airplane1 = planes.get(0);
 		
 		System.out.println("Lat: " +airport1.latitude() + " Long:" + airport1.longitude());
 
