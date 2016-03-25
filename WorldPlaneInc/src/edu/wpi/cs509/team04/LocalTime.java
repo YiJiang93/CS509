@@ -56,7 +56,7 @@ public class LocalTime{
 			String result = queryGoogle(airport1.latitude(), airport1.longitude());			
 			Path p = Paths.get("tmp\\" + airport1.latitude() + ","+ airport1.longitude() + ".xml");
 			try {
-				Files.write(p, result.getBytes(), StandardOpenOption.CREATE_NEW);
+				Files.write(p, result.getBytes(), StandardOpenOption.CREATE);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -196,9 +196,6 @@ public class LocalTime{
 	    rdate = new Date(localTime);
 		return rdate;
 	}
-		
-	public static void main(String[] args){
-		init();
-	}
+	
 }
 
