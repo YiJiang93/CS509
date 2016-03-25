@@ -15,6 +15,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		new Thread(new Runnable() {
+			public void run() {
+				LocalTime.init();
+			}
+		}).start();
+				
 		SearchModel model = new SearchModel();
 		ServerInterface resSys = new ServerInterface(model);
 		String team = ConfigSingleton.getInstance().get("team");
