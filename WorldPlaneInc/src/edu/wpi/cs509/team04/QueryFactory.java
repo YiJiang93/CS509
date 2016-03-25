@@ -45,6 +45,15 @@ public class QueryFactory {
 		return query;
 	}
 	
+	public static String getFlightsArriving(String team, String airportCode, String day) {
+		String query = "?team=" + team;
+		query = query + "&action=list";
+		query = query + "&list_type=arriving";
+		query = query + "&airport=" + airportCode;
+		query = query + "&day=" + day;
+		return query;
+	}
+	
 	/**
 	 * Create a query to lock the database 
 	 * 
