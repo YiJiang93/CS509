@@ -11,10 +11,12 @@ import edu.wpi.cs509.team04.ServerInterface;
 public class ServerInterfaceTest {
 
 	@Test
-	public void testgetAirports () {
-		ServerInterface servInter = new ServerInterface();
-		servInter.getAirports(ConfigSingleton.getInstance().get("team"));
-		assertEquals(result.toString(), servInter.getAirports(ConfigSingleton.getInstance().get("team")));
+	public void testGetAirports () {
+		ServerInterface resSys = new ServerInterface();
+		String team = ConfigSingleton.getInstance().get("team");
+		
+		String xmlAirport = resSys.getAirports(team);
+		assertTrue(xmlAirport.length() > 6000);
 	}
 
 

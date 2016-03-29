@@ -16,16 +16,17 @@ public class Main {
 	public static void main(String[] args) {
 		
 		SearchModel model = new SearchModel();
-		ServerInterface resSys = new ServerInterface(model);
+		ServerInterface resSys = new ServerInterface();
 		String team = ConfigSingleton.getInstance().get("team");
 		
 
 		//Uncomment this line for the Console Version of WorldPlaneInc.
-		//ConsoleInput.main(resSys, team);
+		//ConsoleInput.main(resSys, tea=m);
 		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
-		System.out.println(xmlAirport);
+		System.out.println("xxxxxxxxxx"+xmlAirport);
+		System.out.println(xmlAirport.length());
 		
 		Airports ports = new Airports();
 		ports.addAll(xmlAirport);
