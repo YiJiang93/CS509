@@ -3,8 +3,6 @@ package edu.wpi.cs509.team04;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.event.ListSelectionEvent;
@@ -46,8 +44,15 @@ public class ReservationController implements PropertyChangeListener, ListSelect
 					model.setSeatingType("Economy");
 				}
 				
-				//TODO: Add instruction to reserve the flight			
-				System.out.println(e.getActionCommand());
+				String flightNumber = sModel.getSelectedFlight().getmNumber();
+				ServerInterface serverInterface = new ServerInterface(sModel);
+				String team = ConfigSingleton.getInstance().get("team");
+				serverInterface.lock(team);
+				boolean bought = serverInterface.buyTickets(team, flightNumber, model.getSeatingType());
+				serverInterface.unlock(team);
+				if (bought) {
+					rView.getWindow().setVisible(false);
+				}
 			}
 		});
 				

@@ -2,6 +2,7 @@ package edu.wpi.cs509.team04;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Dictionary;
 import java.util.Scanner;
 
 public class ConsoleInput {
@@ -164,6 +165,8 @@ public class ConsoleInput {
 			if(!fn) System.out.println(flightNumber + " was not in the search results.");
 		}
 		
+		Dictionary<String, Integer> seats = Helper.getAvailableSeats(selectedFlight, resSys, team);
+		/*
 		//Get airplane data
 		String xmlAirplanes = resSys.getAirplanes(team);
 		
@@ -184,19 +187,20 @@ public class ConsoleInput {
 				break;
 			}
 		}
-		
+		*/
 		//Get available seats
 		
 		
 		while(!seat){
-			System.out.println("First Class (" + bookedFirstClass + "/" + maxFirstClass + ")  Coach (" + bookedCoach + "/" + maxCoach+ ")");
+			//System.out.println("First Class (" + bookedFirstClass + "/" + maxFirstClass + ")  Coach (" + bookedCoach + "/" + maxCoach+ ")");
+			System.out.println("First Class Seats Available: " + seats.get("FirstClassSeats") + ", Coach Seats Available: " + seats.get("CoachSeats"));
 			System.out.print("First Class Seat or Coach Seat? (FC|C):");
 			
 			seatType = scanner.next();
 			
 			if (seatType.equals("EXIT")) System.exit(0);
 
-			if (seatType.equals("FC") & maxFirstClass - bookedFirstClass > 0){
+/*			if (seatType.equals("FC") & maxFirstClass - bookedFirstClass > 0){
 				seatType = "FirstClass";
 				seat = true;
 			}
@@ -212,6 +216,8 @@ public class ConsoleInput {
 			} else if(!seat) {
 				System.out.println("Invalid entry for seating.");
 			}
+			*/
+			
 		}
 		
 		System.out.println("Confirming Flight");
