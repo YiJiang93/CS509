@@ -21,7 +21,6 @@ public class HelperTest {
 	@Test
 	public void testGetAvailableSeats() {
 
-		//SearchModel model = new SearchModel();
 		ServerInterface resSys = new ServerInterface();
 		String team = ConfigSingleton.getInstance().get("team");
 		
