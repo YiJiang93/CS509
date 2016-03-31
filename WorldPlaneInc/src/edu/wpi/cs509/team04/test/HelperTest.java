@@ -24,8 +24,7 @@ public class HelperTest {
 		ServerInterface resSys = new ServerInterface();
 		String team = ConfigSingleton.getInstance().get("team");
 		
-
-		//Create a sample Flight with now seats booked on a 737 (100 First Class seats and 28 Coach seats) 
+		//Create a sample Flight with no seats booked on a 737 (100 First Class seats and 28 Coach seats) 
 		Flights flights = new Flights();
 		String xmlFlights = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><Flights><Flight Airplane=\"737\" FlightTime=\"25\" Number=\"2807\"><Departure><Code>BOS</Code><Time>2016 May 10 00:05 GMT</Time></Departure><Arrival><Code>LGA</Code><Time>2016 May 10 00:30 GMT</Time></Arrival><Seating><FirstClass Price=\"$67.11\">0</FirstClass><Coach Price=\"$18.79\">0</Coach></Seating></Flight></Flights>";
 		flights.addAll(xmlFlights);
