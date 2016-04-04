@@ -3,6 +3,7 @@ package edu.wpi.cs509.team04;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleInput {
@@ -37,6 +38,48 @@ public class ConsoleInput {
 		ArrayList<String> foundFN = new ArrayList<String>();
 		Flights foundFlights = new Flights();
 		Flight selectedFlight = null;
+		
+		List<Dictionary<String, Flight>> test;
+		test = Helper.testing(resSys, team);
+		Dictionary<String, Flight> temp = test.get(0);
+		
+		System.out.println("========================================================");
+		System.out.println("Flight Number: " + temp.get("First").getmNumber());
+		System.out.println("Departure Location: " + temp.get("First").getmCodeDepart());
+		System.out.println("Departure Time: " + temp.get("First").getmTimeDepart());
+		System.out.println("Arrival Location: " + temp.get("First").getmCodeArrival());
+		System.out.println("Arrival Time: " + temp.get("First").getmTimeArrival());
+		System.out.println("Airplane: " + temp.get("First").getmAirplane());
+		System.out.println("Total Travel Time: " + temp.get("First").getmFlightTime());
+		System.out.println("First Class Seats: " + temp.get("First").getmSeatsFirstclass());
+		System.out.println("First Class Price: " + temp.get("First").getmPriceFirstclass());
+		System.out.println("Coach Seats: " + temp.get("First").getmSeatsCoach());
+		System.out.println("Coach Price: " + temp.get("First").getmPriceCoach());
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Flight Number: " + temp.get("Second").getmNumber());
+		System.out.println("Departure Location: " + temp.get("Second").getmCodeDepart());
+		System.out.println("Departure Time: " + temp.get("Second").getmTimeDepart());
+		System.out.println("Arrival Location: " + temp.get("Second").getmCodeArrival());
+		System.out.println("Arrival Time: " + temp.get("Second").getmTimeArrival());
+		System.out.println("Airplane: " + temp.get("Second").getmAirplane());
+		System.out.println("Total Travel Time: " + temp.get("Second").getmFlightTime());
+		System.out.println("First Class Seats: " + temp.get("Second").getmSeatsFirstclass());
+		System.out.println("First Class Price: " + temp.get("Second").getmPriceFirstclass());
+		System.out.println("Coach Seats: " + temp.get("Second").getmSeatsCoach());
+		System.out.println("Coach Price: " + temp.get("Second").getmPriceCoach());
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Flight Number: " + temp.get("Third").getmNumber());
+		System.out.println("Departure Location: " + temp.get("Third").getmCodeDepart());
+		System.out.println("Departure Time: " + temp.get("Third").getmTimeDepart());
+		System.out.println("Arrival Location: " + temp.get("Third").getmCodeArrival());
+		System.out.println("Arrival Time: " + temp.get("Third").getmTimeArrival());
+		System.out.println("Airplane: " + temp.get("Third").getmAirplane());
+		System.out.println("Total Travel Time: " + temp.get("Third").getmFlightTime());
+		System.out.println("First Class Seats: " + temp.get("Third").getmSeatsFirstclass());
+		System.out.println("First Class Price: " + temp.get("Third").getmPriceFirstclass());
+		System.out.println("Coach Seats: " + temp.get("Third").getmSeatsCoach());
+		System.out.println("Coach Price: " + temp.get("Third").getmPriceCoach());
+
 		
 		while(!trip){
 			boolean dCode = false;
