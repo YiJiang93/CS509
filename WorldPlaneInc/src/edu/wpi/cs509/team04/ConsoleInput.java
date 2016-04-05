@@ -1,5 +1,6 @@
 package edu.wpi.cs509.team04;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
@@ -39,8 +40,18 @@ public class ConsoleInput {
 		Flights foundFlights = new Flights();
 		Flight selectedFlight = null;
 		
-		List<Dictionary<String, Flight>> test;
-		test = Helper.testing(resSys, team);
+	/* getFlightList() Debugging/Testing	
+	 * String departCode = "BOS";
+	 * String arriveCode = "ATL";
+	 * String departDate = "2016_05_10";
+	 * 
+		List<Dictionary<String, Flight>> test = null;
+		try {
+			test = Helper.getFlightList(resSys, team, departCode, arriveCode, departDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Dictionary<String, Flight> temp = test.get(0);
 		
 		System.out.println("========================================================");
@@ -79,7 +90,7 @@ public class ConsoleInput {
 		System.out.println("First Class Price: " + temp.get("Third").getmPriceFirstclass());
 		System.out.println("Coach Seats: " + temp.get("Third").getmSeatsCoach());
 		System.out.println("Coach Price: " + temp.get("Third").getmPriceCoach());
-
+*/
 		
 		while(!trip){
 			boolean dCode = false;
