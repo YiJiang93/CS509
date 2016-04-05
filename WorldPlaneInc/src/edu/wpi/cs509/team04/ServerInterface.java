@@ -119,6 +119,7 @@ public class ServerInterface {
 		}
 
 		return result.toString();
+
 	}
 	
 	public String getFlights (String team, String airportCode, String day) {
@@ -285,7 +286,6 @@ public class ServerInterface {
 			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-
 			String params = QueryFactory.reserve(team, xmlReservation);
 
 			System.out.println("\nSending 'POST' to ReserveFlights");
@@ -314,6 +314,7 @@ public class ServerInterface {
 				in.close();
 
 				System.out.println(response.toString());
+				
 				return true;
 			} else {
 				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));

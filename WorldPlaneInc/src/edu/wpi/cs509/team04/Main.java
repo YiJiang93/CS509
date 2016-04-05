@@ -64,9 +64,12 @@ public class Main {
 		String xmlAirplanes = resSys.getAirplanes(team);
 		System.out.println(xmlAirplanes);
 		
-		Airplanes planes = new Airplanes();
-		planes.addAll(xmlAirplanes);
 		
+		Airplanes planes = new Airplanes();
+
+		planes.addAll(xmlAirplanes);
+		System.out.println(planes.addAll(xmlAirplanes));
+
 		//Debug
 		//Airplane airplane1 = planes.get(0);
 		
@@ -81,7 +84,7 @@ public class Main {
 		flights.addAll(xmlFlights);
 		
 		//try to reserve a coach seat on one of the flights
-		Flight flight = flights.get(0);
+		Flight flight = flights.get(11);
 		String flightNumber = flight.getmNumber();
 		int seatsReservedStart = flight.getmSeatsCoach();
 
@@ -94,6 +97,8 @@ public class Main {
 		// Try to lock the database, purchase ticket and unlock database
 		resSys.lock(team);
 		resSys.buyTickets(team, flightNumber, "Coach");
+
+
 		resSys.unlock(team);
 		
 		// Verify the operation worked
