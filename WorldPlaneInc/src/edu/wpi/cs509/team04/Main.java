@@ -27,7 +27,7 @@ public class Main {
 		
 
 		//Uncomment this line for the Console Version of WorldPlaneInc.
-		//ConsoleInput.main(resSys, tea=m);
+		//ConsoleInput.main(resSys, team);
 		
 		// Try to get a list of airports
 		String xmlAirport = resSys.getAirports(team);
