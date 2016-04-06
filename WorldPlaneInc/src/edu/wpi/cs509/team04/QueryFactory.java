@@ -89,5 +89,4 @@ public class QueryFactory {
 		query = query + "&flightData=" + xmlFlights;
 		return query;
 	}
-
 }
