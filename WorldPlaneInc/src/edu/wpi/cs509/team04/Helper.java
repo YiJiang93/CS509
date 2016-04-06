@@ -144,8 +144,8 @@ public class Helper {
 							flightStruct.put("Third", nullFlight);
 							flightArray.add(flightStruct);
 						} else {
-							String departCode3 = flight.getmCodeArrival();
-							String arriveTime3 = flight.getmTimeArrival();
+							String departCode3 = flight2.getmCodeArrival();
+							String arriveTime3 = flight2.getmTimeArrival();
 							Date departTime3min = f.parse(adjustTime(arriveTime3, 1));
 							Date departTime3max = f.parse(adjustTime(arriveTime3, 3));
 							String xmlFlights3 = resSys.getFlights(team, departCode3, departDate);
