@@ -1,10 +1,7 @@
 package edu.wpi.cs509.team04;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Dictionary;
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleInput {
@@ -280,7 +277,7 @@ public class ConsoleInput {
 		resSys.buyTickets(team, flightNumber, seatType);
 		resSys.unlock(team);
 
-		
+		scanner.close();
 		System.exit(0);
 	}
 }
