@@ -7,14 +7,13 @@ import org.junit.Test;
 import edu.wpi.cs509.team04.ConfigSingleton;
 import edu.wpi.cs509.team04.Flight;
 import edu.wpi.cs509.team04.Flights;
-import edu.wpi.cs509.team04.QueryFactory;
 import edu.wpi.cs509.team04.ServerInterface;
 
 public class ServerInterfaceTest {
 
 	@Test
 	public void testGetAirports () {
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 		
 		String xmlAirport = resSys.getAirports(team);
@@ -23,7 +22,7 @@ public class ServerInterfaceTest {
 	
 	@Test
 	public void testgetAirplanes(){
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 		
 		String xmlAirplanes = resSys.getAirplanes(team);
@@ -33,7 +32,7 @@ public class ServerInterfaceTest {
 
 	@Test
 	public void testgetFlights(){
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 		
 		String xmlFlights = resSys.getFlights(team, "BOS", "2016_05_10");
@@ -42,7 +41,7 @@ public class ServerInterfaceTest {
 
 	@Test
 	public void testlock(){
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 			
 		boolean locksuccess = resSys.lock(team);
@@ -51,7 +50,7 @@ public class ServerInterfaceTest {
 	
 	@Test
 	public void testbuyTickets(){
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 		Flights flights = new Flights();
 		Flight flight = flights.get(11);

@@ -1,3 +1,12 @@
+/**
+ * File: ServerInterface.java
+ * 
+ * The Java source code contained within this file was produced
+ * by the software development team, "Team04", as a component of
+ * a software-based flight reservation system produced for
+ * World Plane Inc. (WPI)
+ */
+
 package edu.wpi.cs509.team04;
 
 import java.io.BufferedReader;
@@ -9,181 +18,192 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * This class provides an interface to the CS509 server. It provides sample methods to perform
- * HTTP GET and HTTP POSTS
- *   
- * @author blake
- * @version 1.1
- * @since 2016-02-24
- *
+ * The ServerInterface class provides an interface for
+ * communicating with the CS 509 server. More specifically,
+ * the ServerInterface class provides sample methods for
+ * performing HTTP GET requests and HTTP POST requests
+ * 
+ * @author Blake Nelson (benelson at wpi.edu)
+ * @version April 3, 2016
  */
 public class ServerInterface {
 	
-	public ServerInterface(){
-		this.model = null;
-	}
-	
-	public ServerInterface(SearchModel model) {
-		this.model = model;
-	}
-	
-	private final String mUrlBase = ConfigSingleton.getInstance().get("url");
-	private SearchModel model;
-
 	/**
-	 * Return an XML list of all the airports
-	 * 
-	 * Retrieve the list of airports available to the specified ticketAgency via HTTPGet of the server
-	 * 
-	 * @param team identifies the ticket agency requesting the information
-	 * @return xml string listing all airports
+	 * The singleton instance of the ServerInterface
 	 */
-	public String getAirports (String team) {
-
+	private static ServerInterface instance = null;
+	
+	/**
+	 * The URL used for connecting to the CS 509 server
+	 */
+	private final String mUrlBase = ConfigSingleton.getInstance().get("url");
+	
+	
+	/**
+	 * This method acquires the singleton instance
+	 * @return The singleton instance
+	 */
+	public static ServerInterface getInstance() {
+		if (instance == null) {
+			instance = new ServerInterface();
+		}
+		return instance;
+	}
+	
+	
+	/**
+	 * Constructor for the instance
+	 */
+	private ServerInterface() {
+		
+	}
+	
+	
+	/**
+	 * This method returns an XML list of all of the airports by
+	 * retrieving the list of airports available to the specified
+	 * ticket agency through an HTTP GET request issued to the
+	 * CS 509 server
+	 * 
+	 * @param team Identifies the ticket agency requesting the information
+	 * @return An XML string listing all of the airports
+	 */
+	public String getAirports(String team) {
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
-
+		
 		try {
-			/**
-			 * Create an HTTP connection to the server for a GET 
-			 */
+			// Create an HTTP connection to the server for a GET request
 			url = new URL(mUrlBase + QueryFactory.getAirports(team));
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("User-Agent", team);
-
-			/**
-			 * If response code of SUCCESS read the XML string returned
-			 * line by line to build the full return string
-			 */
+			
+			// If response code of SUCCESS is received read the XML string
+			// returned line by line to build the full return string
 			int responseCode = connection.getResponseCode();
 			if ((responseCode >= 200) && (responseCode <= 299)) {
 				InputStream inputStream = connection.getInputStream();
 				String encoding = connection.getContentEncoding();
 				encoding = (encoding == null ? "UTF-8" : encoding);
-
+				
 				reader = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = reader.readLine()) != null) {
 					result.append(line);
 				}
 				reader.close();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return result.toString();
 	}
 	
-	public String getAirplanes (String team) {
-
+	
+	/**
+	 * This method returns an XML list of all of the airplanes by
+	 * retrieving the list of airplanes available to the specified
+	 * ticket agency through an HTTP GET request issued to the
+	 * CS 509 server
+	 * 
+	 * @param team Identifies the ticket agency requesting the information
+	 * @return An XML string listing all of the airplanes
+	 */
+	public String getAirplanes(String team) {
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
-
+		
 		try {
-			/**
-			 * Create an HTTP connection to the server for a GET 
-			 */
+			// Create an HTTP connection to the server for a GET request
 			url = new URL(mUrlBase + QueryFactory.getAirplanes(team));
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-
-			/**
-			 * If response code of SUCCESS read the XML string returned
-			 * line by line to build the full return string
-			 */
+			
+			// If response code of SUCCESS is received read the XML string
+			// returned line by line to build the full return string
 			int responseCode = connection.getResponseCode();
 			if ((responseCode >= 200) && (responseCode <= 299)) {
 				InputStream inputStream = connection.getInputStream();
 				String encoding = connection.getContentEncoding();
 				encoding = (encoding == null ? "URF-8" : encoding);
-
+				
 				reader = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = reader.readLine()) != null) {
 					result.append(line);
 				}
 				reader.close();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return result.toString();
-
 	}
 	
-	public String getFlights (String team, String airportCode, String day) {
-		
+	
+	/**
+	 * This method returns an XML list of all flights by
+	 * retrieving the list of flights available for the
+	 * specified team, departure airport, and day
+	 * 
+	 * @param team Identifies the ticket agency requesting the information
+	 * @param airportCode Identifies the departure airport
+	 * @param day Identifies the departure date
+	 * @return An XML string listing flights available for the specified criteria
+	 */
+	public String getFlights(String team, String airportCode, String day) {
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
-
+		
 		try {
-			/**
-			 * Create an HTTP connection to the server for a GET 
-			 */
+			// Create an HTTP connection to the server for a GET request
 			url = new URL(mUrlBase + QueryFactory.getFlightsDeparting(team, airportCode, day));
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("User-Agent", team);
-
-			/**
-			 * If response code of SUCCESS read the XML string returned
-			 * line by line to build the full return string
-			 */
+			
+			// If response code of SUCCESS is received read the XML string
+			// returned line by line to build the full return string
 			int responseCode = connection.getResponseCode();
 			if ((responseCode >= 200) && (responseCode <= 299)) {
 				InputStream inputStream = connection.getInputStream();
 				String encoding = connection.getContentEncoding();
 				encoding = (encoding == null ? "UTF-8" : encoding);
-
+				
 				reader = new BufferedReader(new InputStreamReader(inputStream));
 				while ((line = reader.readLine()) != null) {
 					result.append(line);
 				}
 				reader.close();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		Flights flights = new Flights();
-		Flights refinedFlights = new Flights();
-		flights.addAll(result.toString());
-		
-		
-		if(model != null){
-			// sort the flights according to the selected arrival airport
-			for (int i = 0; i < flights.size(); i++) {
-				String arrivalAirport = model.getArrivalAirport();
-				if (flights.get(i).getmCodeArrival().equalsIgnoreCase(arrivalAirport)) {
-					refinedFlights.add(flights.get(i));
-				}
-			}
-			model.setAvailableFlights(refinedFlights);
-		}		
-		
 		return result.toString();
 	}
 	
-	public boolean lock (String team) {
+	
+	/**
+	 * This method is used to lock the database
+	 * 
+	 * @param team The ticket agency requesting the lock
+	 * @return true if database is successfully locked; false otherwise
+	 */
+	public boolean lock(String team) {
 		URL url;
 		HttpURLConnection connection;
-
+		
 		try {
 			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
@@ -214,13 +234,20 @@ public class ServerInterface {
 			
 			System.out.println(response.toString());
 		}
-		catch (Exception ex) {
-			ex.printStackTrace();
+		catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-
+	
+	
+	/**
+	 * This method is used to unlock the database
+	 * 
+	 * @param team The ticket agency requesting the unlock
+	 * @return true if database is successfully unlocked; false otherwise
+	 */
 	public boolean unlock (String team) {
 		URL url;
 		HttpURLConnection connection;
@@ -257,21 +284,22 @@ public class ServerInterface {
 				System.out.println(response.toString());
 			}
 		}
-		catch (IOException ex) {
-			ex.printStackTrace();
-			return false;
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-
+	
+	
 	/**
+	 * This method is used to reserve a flight by posting a
+	 * flight reservation to the database for an update
 	 * 
-	 * @param flightNumber
-	 * @return true if SUCCESS code returned from server
+	 * @param team The ticket agency requesting the reservation
+	 * @param flightNumber The number of the flight being reserved
+	 * @param seating The type of seating requested in the reservation
+	 * @return true if the reservation is successfully made; false otherwise
 	 */
 	public boolean buyTickets(String team, String flightNumber, String seating) {
 		
@@ -286,6 +314,7 @@ public class ServerInterface {
 			url = new URL(mUrlBase);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
+
 			String params = QueryFactory.reserve(team, xmlReservation);
 
 			System.out.println("\nSending 'POST' to ReserveFlights");
@@ -314,7 +343,6 @@ public class ServerInterface {
 				in.close();
 
 				System.out.println(response.toString());
-				
 				return true;
 			} else {
 				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -330,12 +358,8 @@ public class ServerInterface {
 				return false;
 			}
 		}
-		catch (IOException ex) {
-			ex.printStackTrace();
-			return false;
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
+		catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

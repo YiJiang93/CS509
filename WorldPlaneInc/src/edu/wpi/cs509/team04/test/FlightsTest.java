@@ -12,7 +12,7 @@ public class FlightsTest {
 
 	@Test
 	public void testaddAll() {
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 		String xmlFlights = resSys.getFlights(team, "BOS", "2016_05_10");
 		

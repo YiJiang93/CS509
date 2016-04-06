@@ -1,5 +1,5 @@
 /**
- * File: SeatingType.java
+ * File: TravelType.java
  * 
  * The Java source code contained within this file was produced
  * by the software development team, "Team04", as a component of
@@ -7,16 +7,16 @@
  * World Plane Inc. (WPI)
  */
 
-package inProgressGUI.common;
+package edu.wpi.cs509.team04;
 
 /**
- * The SeatingType enumeration is used for indicating
- * which type of seating has been selected by a user
+ * The TravelType enumeration is used for indicating
+ * which mode of travel has been selected by a user
  * 
  * @author Alexander W. Witt (awitt at wpi.edu)
  * @version April 2, 2016
  */
-public enum SeatingType {
-	COACH,
-	FIRST_CLASS,
+public enum TravelType {
+	ONE_WAY,
+	ROUND_TRIP,
 }

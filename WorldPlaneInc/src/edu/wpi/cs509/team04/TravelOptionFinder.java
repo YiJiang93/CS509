@@ -7,13 +7,9 @@
  * World Plane Inc. (WPI)
  */
 
-package inProgressGUI.threads;
+package edu.wpi.cs509.team04;
 
 import java.text.ParseException;
-
-import inProgressGUI.common.FlightType;
-import inProgressGUI.resources.ConfigSingleton;
-import inProgressGUI.server.ServerInterface;
 
 /**
  * The TravelOptionFinder class provides a means for

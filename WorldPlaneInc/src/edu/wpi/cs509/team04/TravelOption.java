@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package inProgressGUI.common;
+package edu.wpi.cs509.team04;
 
 /**
  * The TravelOption class provides a means for storing an initial

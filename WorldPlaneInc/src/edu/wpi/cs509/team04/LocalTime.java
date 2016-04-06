@@ -30,7 +30,7 @@ public class LocalTime{
 	public static void init(){
 			
 		String team = ConfigSingleton.getInstance().get("team");
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String xmlAirport = resSys.getAirports(team);
 			
 		Airports ports = new Airports();
@@ -52,7 +52,6 @@ public class LocalTime{
 				e.printStackTrace();
 			}
 			Airport airport1 = ports.get(i);
-			Date now = new Date();
 			String result = queryGoogle(airport1.latitude(), airport1.longitude());			
 			Path p = Paths.get("tmp\\" + airport1.latitude() + ","+ airport1.longitude() + ".xml");
 			try {
@@ -72,15 +71,14 @@ public class LocalTime{
 		
 		String surl = base + "?location="+latitute+","+longtitute+"&timestamp=0&key=" + key;
 		
-		Date rdate = null;
-		URL url = null, myurl = null;
+		URL url = null;
 		try {
 			url = new URL(surl);
 		} catch (MalformedURLException e) {			
 			e.printStackTrace();
 		}
 		
-		HttpURLConnection request = null,  myrequest = null;
+		HttpURLConnection request = null;
 		try {
 			request = (HttpURLConnection)url.openConnection();
 		} catch (IOException e1) {

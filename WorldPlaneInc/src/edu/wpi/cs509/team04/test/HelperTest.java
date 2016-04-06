@@ -7,13 +7,10 @@ import java.util.Hashtable;
 
 import org.junit.Test;
 
-import edu.wpi.cs509.team04.Airplane;
-import edu.wpi.cs509.team04.Airplanes;
 import edu.wpi.cs509.team04.ConfigSingleton;
 import edu.wpi.cs509.team04.Flight;
 import edu.wpi.cs509.team04.Flights;
 import edu.wpi.cs509.team04.Helper;
-import edu.wpi.cs509.team04.SearchModel;
 import edu.wpi.cs509.team04.ServerInterface;
 
 public class HelperTest {
@@ -21,7 +18,7 @@ public class HelperTest {
 	@Test
 	public void testGetAvailableSeats() {
 
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
 		
 		//Create a sample Flight with no seats booked on a 737 (100 First Class seats and 28 Coach seats) 

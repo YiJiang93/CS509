@@ -1,17 +1,28 @@
+/**
+ * File: QueryFactory.java
+ * 
+ * The Java source code contained within this file was produced
+ * by the software development team, "Team04", as a component of
+ * a software-based flight reservation system produced for
+ * World Plane Inc. (WPI)
+ */
+
 package edu.wpi.cs509.team04;
 
 /**
- * QueryFactory Class 
- * 
- * Helper functions to create proper query for different operations 
+ * The QueryFactory class provides a means for constructing
+ * queries that can be understood by the CS 509 database
+ * @version April 4, 2016
  */
 public class QueryFactory {
-
+	
+	
 	/**
-	 * create query to get list of all airports 
+	 * This method constructs a query in order to
+	 * acquire a list of airports from the database 
 	 * 
-	 * @param ticketAgency
-	 * @return
+	 * @param ticketAgency The ticket agency making the query
+	 * @return The query string for acquiring the list of airports
 	 */
 	public static String getAirports(String ticketAgency) {
 		return "?team=" + ticketAgency + "&action=list&list_type=airports";
@@ -19,22 +30,26 @@ public class QueryFactory {
 	
 	
 	/**
-	 * Create query to get list of all airplanes  
+	 * This method constructs a query in order to
+	 * acquire a list of airplanes from the database
 	 * 
-	 * @param ticketAgency
-	 * @return
+	 * @param ticketAgency The ticket agency making the query
+	 * @return The query string for acquiring the list of airplanes
 	 */
 	public static String getAirplanes(String ticketAgency) {
 		return "?team=" + ticketAgency + "&action=list&list_type=airplanes";
 	}
 	
+	
 	/**
-	 * Create query to get list of departing flights from a airport on particular day
+	 * This method constructs a query for getting a
+	 * list of departing flights from an airport on
+	 * a particular day
 	 * 
-	 * @param team
-	 * @param airportCode
-	 * @param day
-	 * @return
+	 * @param team The ticket agency making the query
+	 * @param airportCode The 3-letter departure airport code
+	 * @param day The day of departure
+	 * @return The query string for acquiring the list of departing flights
 	 */
 	public static String getFlightsDeparting(String team, String airportCode, String day) {
 		String query = "?team=" + team;
@@ -45,6 +60,17 @@ public class QueryFactory {
 		return query;
 	}
 	
+	
+	/**
+	 * This method constructs a query for getting a
+	 * list of arriving flights from an airport on
+	 * a particular day
+	 * 
+	 * @param team The ticket agency making the query
+	 * @param airportCode The 3-letter arrival airport code
+	 * @param day The day of departure
+	 * @return The query string for acquiring the list of arriving flights
+	 */
 	public static String getFlightsArriving(String team, String airportCode, String day) {
 		String query = "?team=" + team;
 		query = query + "&action=list";
@@ -55,35 +81,32 @@ public class QueryFactory {
 	}
 	
 	/**
-	 * Create a query to lock the database 
-	 * 
-	 * @param ticketAgency
-	 * @return
+	 * This method constructs a query for locking the database
+	 * @param ticketAgency The ticket agency making the query
+	 * @return The query string for locking the database
 	 */
-	public static String lock (String ticketAgency) {
+	public static String lock(String ticketAgency) {
 		return "team=" + ticketAgency + "&action=lockDB";
 	}
 	
 	
 	/**
-	 * Create a query to unlock the database
-	 * 
-	 * @param ticketAgency
-	 * @return
+	 * This method constructs a query for unlocking the database
+	 * @param ticketAgency The ticket agency making the query
+	 * @return The query string for unlocking the database
 	 */
-	public static String unlock (String ticketAgency) {
+	public static String unlock(String ticketAgency) {
 		return "team=" + ticketAgency + "&action=unlockDB";
 	}
 	
 	
 	/**
-	 * Create a query to reserve a flight
-	 * 
-	 * @param ticketAgency
-	 * @param xmlFlights
-	 * @return
+	 * This method constructs a query for reserving a flight
+	 * @param ticketAgency The ticket agency making the query
+	 * @param xmlFlights The XML string of flights to reserve
+	 * @return The query string for reserving a flight
 	 */
-	public static String reserve (String ticketAgency, String xmlFlights) {
+	public static String reserve(String ticketAgency, String xmlFlights) {
 		String query = "team=" + ticketAgency;
 		query = query + "&action=buyTickets";
 		query = query + "&flightData=" + xmlFlights;

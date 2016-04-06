@@ -1,3 +1,12 @@
+/**
+ * File: ConfigSingleton.java
+ * 
+ * The Java source code contained within this file was produced
+ * by the software development team, "Team04", as a component of
+ * a software-based flight reservation system produced for
+ * World Plane Inc. (WPI)
+ */
+
 package edu.wpi.cs509.team04;
 
 import java.io.FileInputStream;
@@ -6,50 +15,58 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
+ * The ConfigSingleton class is used for acquiring
+ * configuration values stored in a configuration file
  * 
- * Global Configuration Singleton * 
- *
+ * @author Daniel (amoghimi @ wpi.edu)
+ * @version April 3, 2016
  */
-
 public class ConfigSingleton {
+
+	/**
+	 * The singleton instance of the ConfigSingleton
+	 */
 	private static ConfigSingleton instance = null;
-	private Properties props = new Properties();
 	
 	/**
-	 * Private default constructor which load the "config.properties" file into the memory
-	 * and initialize props object. 
-	 * 
+	 * Persistent set of properties that can be loaded from a stream
 	 */
-	private ConfigSingleton(){
+	private Properties properties = new Properties();
+	
+	
+	/**
+	 * Constructor for the instance
+	 */
+	private ConfigSingleton() {
 		InputStream iStream;
 		try {
-			iStream = new FileInputStream("config.properties");			
-			props.load(iStream);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			iStream = new FileInputStream("config.properties");
+			properties.load(iStream);
+		}
+		catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 	
 	
 	/**
-	 * Get a String config value by providing a key 
+	 * This method provides a means for acquiring a String-type
+	 * configuration value when providing a String-type key as input
 	 * 
-	 * @param key
-	 * @return
+	 * @param key The key for a configuration value
+	 * @return A configuration value corresponding to the key
 	 */
-	public String get(String key){
-		return props.getProperty(key);
+	public String get(String key) {
+		return properties.getProperty(key);
 	}
 	
+	
 	/**
-	 * Return an instance of the singleton
-	 * 
-	 * @return
+	 * This method acquires the singleton instance
+	 * @return The singleton instance
 	 */
-	public static ConfigSingleton getInstance(){
-		if(instance == null){
+	public static ConfigSingleton getInstance() {
+		if (instance == null) {
 			instance = new ConfigSingleton();
 		}
 		return instance;
