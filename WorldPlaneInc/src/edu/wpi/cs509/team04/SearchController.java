@@ -16,8 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -369,15 +367,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 								model.setArrivalAirport(view.getArrivalAirport().getText());
 								
 								// Fire off a call to the thread for acquiring flights
-								DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
-								String date = dateFormat.format(model.getFirstDepartureDate());
-								
-								TravelOptionFinder finder = new TravelOptionFinder(
-										model.getDepartureAirport(), 
-										model.getArrivalAirport(),
-										date,
-										FlightType.TO_DESTINATION);
-								
+								TravelOptionFinder finder = new TravelOptionFinder();
 								finder.getFlights();
 							}
 							else {
@@ -414,26 +404,11 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 								model.setArrivalAirport(view.getArrivalAirport().getText());
 								
 								// Fire off a call to the thread for acquiring flights
-								DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
-								String date = dateFormat.format(model.getFirstDepartureDate());
-								
-								TravelOptionFinder finder = new TravelOptionFinder(
-										model.getDepartureAirport(), 
-										model.getArrivalAirport(),
-										date,
-										FlightType.TO_DESTINATION);
-								
+								TravelOptionFinder finder = new TravelOptionFinder();
 								finder.getFlights();
 								
 								// Fire off a call to the thread for acquiring flights
-								String date2 = dateFormat.format(model.getSecondDepartureDate());
-								
-								TravelOptionFinder finder2 = new TravelOptionFinder(
-										model.getArrivalAirport(), 
-										model.getDepartureAirport(),
-										date2,
-										FlightType.FROM_DESTINATION);
-								
+								TravelOptionFinder finder2 = new TravelOptionFinder();
 								finder2.getFlights();
 							}
 							else {

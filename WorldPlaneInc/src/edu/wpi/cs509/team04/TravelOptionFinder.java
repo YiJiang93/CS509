@@ -9,7 +9,13 @@
 
 package edu.wpi.cs509.team04;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.List;
 
 /**
  * The TravelOptionFinder class provides a means for
@@ -33,28 +39,32 @@ public class TravelOptionFinder implements Runnable {
 	private String arrivalCode;
 	
 	/**
-	 * The date during which the retrieved flights should be occurring
+	 * The type of travel
 	 */
-	private String day;
+	private TravelType type;
 	
 	/**
-	 * The type of flight (i.e., from or to destination)
+	 * 
 	 */
-	private FlightType type;
+	private String toDay;
+	
+	/**
+	 * 
+	 */
+	private String fromDay;
 	
 	
 	/**
-	 * Constructor for the FlightRetrievalThread class
-	 * @param departureCode The 3-letter code for the departure airport
-	 * @param arrivalCode The 3-letter code for the arrival airport
-	 * @param day The date during which the retrieved flights should be occurring
-	 * @param type The type of flight (i.e., from or to destination)
+	 * Constructor for the TravelOptionFinder class
 	 */
-	public TravelOptionFinder(String departureCode, String arrivalCode, String day, FlightType type) {
-		this.departureCode = departureCode;
-		this.arrivalCode = arrivalCode;
-		this.day = day;
-		this.type = type;
+	public TravelOptionFinder() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
+		SearchModel searchModel = SearchModel.getInstance();
+		this.departureCode = searchModel.getDepartureAirport();
+		this.arrivalCode = searchModel.getArrivalAirport();
+		this.toDay = dateFormat.format(searchModel.getFirstDepartureDate());
+		this.fromDay = dateFormat.format(searchModel.getSecondDepartureDate());
+		this.type = searchModel.getTravelType();
 	}
 	
 	
@@ -65,9 +75,39 @@ public class TravelOptionFinder implements Runnable {
 	@Override
 	public void run() {
 		String team = ConfigSingleton.getInstance().get("team");
-		ServerInterface resSys = ServerInterface.getInstance();
 		try {
-			Helper.getFlightList(resSys, team, departureCode, arrivalCode, day, type);
+			SearchModel searchModel = SearchModel.getInstance();
+			if (type == TravelType.ROUND_TRIP) {
+				List<Dictionary<String, Flight>> to = Helper.getFlightList(team, departureCode, arrivalCode, toDay);
+				List<Dictionary<String, Flight>> from = Helper.getFlightList(team, arrivalCode, departureCode, fromDay);
+				Collection<TravelOption> toOptions = new ArrayList<TravelOption>();
+				Collection<TravelOption> fromOptions = new ArrayList<TravelOption>();
+				for (Dictionary<String, Flight> option : to) {
+					Flight initial = option.get("First");
+					Flight firstLayover = option.get("Second");
+					Flight secondLayover = option.get("Third");
+					toOptions.add(new TravelOption(initial, firstLayover, secondLayover));
+				}
+				for (Dictionary<String, Flight> option : from) {
+					Flight initial = option.get("First");
+					Flight firstLayover = option.get("Second");
+					Flight secondLayover = option.get("Third");
+					fromOptions.add(new TravelOption(initial, firstLayover, secondLayover));
+				}
+				searchModel.setToDestinationTravelOptions(toOptions);
+				searchModel.setFromDestinationTravelOptions(fromOptions);
+			}
+			if (type == TravelType.ONE_WAY) {
+				List<Dictionary<String, Flight>> to = Helper.getFlightList(team, departureCode, arrivalCode, toDay);
+				Collection<TravelOption> options = new ArrayList<TravelOption>();
+				for (Dictionary<String, Flight> option : to) {
+					Flight initial = option.get("First");
+					Flight firstLayover = option.get("Second");
+					Flight secondLayover = option.get("Third");
+					options.add(new TravelOption(initial, firstLayover, secondLayover));
+				}
+				searchModel.setToDestinationTravelOptions(options);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -78,7 +118,7 @@ public class TravelOptionFinder implements Runnable {
 	 * This method launches the new thread for the FlightRetrievalThread
 	 */
 	public void getFlights() {
-		TravelOptionFinder retriever = new TravelOptionFinder(departureCode, arrivalCode, day, type);
+		TravelOptionFinder retriever = new TravelOptionFinder();
 		Thread retrieverThread = new Thread(null, retriever, "flight retrieval thread");
 		retrieverThread.start();
 	}

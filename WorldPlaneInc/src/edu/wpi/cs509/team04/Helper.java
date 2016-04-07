@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -92,16 +91,15 @@ public class Helper {
 	 *  At least one hour after first flight lands before the next flight leaves, and no more than three hours.
 	 *  If the flight does not have two or three legs, null objects are returned.
 	 * 
-	 * @param resSys identifies the Server Interface.
 	 * @param team identifies the team instance on the database to connect.
 	 * @param departCode identifies the Departure Airport Code.
 	 * @param arriveCode identifies the final Arrival Airport Code.
 	 * @param departDate identifies the Departure Date as YYYY_MM_DD.
-	 * @param type The type of flight (i.e., from destination or to destination)
 	 * @return List<Dictionary<String, Flight>> with list of flights.
 	 */
-	public static List<Dictionary<String, Flight>> getFlightList(ServerInterface resSys, String team, String departCode, String arriveCode, String departDate, FlightType type) throws ParseException {
+	public static List<Dictionary<String, Flight>> getFlightList(String team, String departCode, String arriveCode, String departDate) throws ParseException {
 		
+		ServerInterface resSys = ServerInterface.getInstance();
 		String xmlFlights = resSys.getFlights(team, departCode, departDate);
 		Flights flights = new Flights();
 		Flight nullFlight = new Flight("", "", "", "", "", "", "", "", 0, "", 0);
@@ -170,26 +168,6 @@ public class Helper {
 					}
 				}
 			}
-		}
-		if (type == FlightType.FROM_DESTINATION) {
-			Collection<TravelOption> options = new ArrayList<TravelOption>();
-			for (Dictionary<String, Flight> option : flightArray) {
-				Flight initial = option.get("First");
-				Flight firstLayover = option.get("Second");
-				Flight secondLayover = option.get("Third");
-				options.add(new TravelOption(initial, firstLayover, secondLayover));
-			}
-			SearchModel.getInstance().setFromDestinationTravelOptions(options);
-		}
-		if (type == FlightType.TO_DESTINATION) {
-			Collection<TravelOption> options = new ArrayList<TravelOption>();
-			for (Dictionary<String, Flight> option : flightArray) {
-				Flight initial = option.get("First");
-				Flight firstLayover = option.get("Second");
-				Flight secondLayover = option.get("Third");
-				options.add(new TravelOption(initial, firstLayover, secondLayover));
-			}
-			SearchModel.getInstance().setToDestinationTravelOptions(options);
 		}
 		return flightArray;
 	}
