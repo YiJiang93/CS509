@@ -82,7 +82,7 @@ public class TravelOption {
 	public String toHtmlString() {
 		Flight nullFlight = new Flight("", "", "", "", "", "", "", "", 0, "", 0);
 		String infoString = "";
-		infoString += "<html>";
+		infoString += "<html><hr>";
 		if (!initialFlight.equals(nullFlight)) {
 			infoString += "Depart";
 			infoString += "<hr>";
