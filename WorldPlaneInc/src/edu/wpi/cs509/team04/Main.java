@@ -1,6 +1,7 @@
 package edu.wpi.cs509.team04;
 
 import java.awt.EventQueue;
+import java.util.Date;
 
 /**
  * Project EntryPoint
@@ -12,6 +13,20 @@ import java.awt.EventQueue;
 public class Main {
 
 	public static void main(String[] args) {
+		
+		String team = ConfigSingleton.getInstance().get("team");
+		ServerInterface resSys = ServerInterface.getInstance();
+		String xmlAirport = resSys.getAirports(team);
+			
+		Airports ports = new Airports();
+		ports.addAll(xmlAirport);
+		
+		for(int i =0; i < ports.size(); i++){
+
+				LocalTime t = new LocalTime();
+				System.out.println(t.Convert(ports.get(i), new Date()));
+			}
+		
 		
 		new Thread(new Runnable() {
 			public void run() {
