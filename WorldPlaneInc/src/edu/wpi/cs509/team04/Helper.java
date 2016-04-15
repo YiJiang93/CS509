@@ -1,6 +1,9 @@
 package edu.wpi.cs509.team04;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +11,7 @@ import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 
 public class Helper {
 	
@@ -77,6 +81,9 @@ public class Helper {
 		
 		//Adjust the time
 		hm[0] = Integer.toString(Integer.parseInt(hm[0]) + offset);
+		//TODO Need Midnight adjust
+		//  Because Date is taking in HH:MM, 12:03 is read as 00:03.  Need to look into adjusting this for
+		//  the full Date string.
 		
 		//Return HH:MM
 		return String.join(":", hm);
@@ -102,7 +109,7 @@ public class Helper {
 		ServerInterface resSys = ServerInterface.getInstance();
 		String xmlFlights = resSys.getFlights(team, departCode, departDate);
 		Flights flights = new Flights();
-		Flight nullFlight = new Flight("", "", "", "", "", "", "", "", 0, "", 0);
+		Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
 
 		// Create the aggregate flights
 		flights = new Flights();
@@ -142,6 +149,9 @@ public class Helper {
 							flightStruct.put("Third", nullFlight);
 							flightArray.add(flightStruct);
 						} else {
+							if (j==11){
+								j=11;
+							}
 							String departCode3 = flight2.getmCodeArrival();
 							String arriveTime3 = flight2.getmTimeArrival();
 							Date departTime3min = f.parse(adjustTime(arriveTime3, 1));
@@ -154,6 +164,9 @@ public class Helper {
 								System.out.println("FlightList 3, Flight " + k);
 								Flight flight3 = flights3.get(k);
 								Date departTime3 = f.parse(adjustTime(flight3.getmTimeDepart(), 0));
+								if (k==10 && flight.getmCodeArrival().equals(arriveCode)){
+									k=10;
+								}
 								if(departTime3min.getTime() <= departTime3.getTime() && departTime3.getTime() <= departTime3max.getTime()){
 									if(flight3.getmCodeArrival().equals(arriveCode)) {
 										Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
@@ -169,6 +182,83 @@ public class Helper {
 				}
 			}
 		}
+		
+		getSortedFlightList(flightArray, "priceF");
 		return flightArray;
+	}
+	
+	
+	public static List<Dictionary<String, Flight>> getSortedFlightList(List<Dictionary<String, Flight>> flightList, String type) throws ParseException {
+		
+		List<Dictionary<String, Flight>> sortedFlightList = new ArrayList<Dictionary<String, Flight>>();
+		int[] sortHelper  = new int[flightList.size()];  //Array of Integers that represent the Index of the Flight Dictionary in the flightList.
+		int minFT = -1;
+		BigDecimal minPC = new BigDecimal("0");
+		BigDecimal minPF = new BigDecimal("0");
+		
+		//i is the order number
+		//k is the index of the flight
+		for (int i = 0; i < flightList.size(); i++){
+			int ft = 0;
+			BigDecimal pc = new BigDecimal("0");
+			BigDecimal pf = new BigDecimal("0");
+			for (int k = 0; k < flightList.size(); k++) {
+				Dictionary<String, Flight> trip;
+				trip = flightList.get(k);
+				if(type == "time"){
+					int newFT = Integer.parseInt(trip.get("First").getmFlightTime()) + 
+							    Integer.parseInt(trip.get("Second").getmFlightTime()) +
+							    Integer.parseInt(trip.get("Third").getmFlightTime());
+					System.out.println(newFT);
+					if (ft == 0 && newFT > minFT){
+						ft = newFT;
+						sortHelper[i] = k;
+					} else if (newFT < ft && newFT > minFT) {
+						ft = newFT;
+						sortHelper[i] = k;						
+					}
+				} else if (type == "priceC") {
+					BigDecimal newPC = new BigDecimal("0.0");
+					BigDecimal firstPC = new BigDecimal(trip.get("First").getmPriceCoach().replaceAll("[^\\d.]+", ""));
+					BigDecimal secondPC = new BigDecimal(trip.get("Second").getmPriceCoach().replaceAll("[^\\d.]+", ""));
+					BigDecimal thirdPC = new BigDecimal(trip.get("Third").getmPriceCoach().replaceAll("[^\\d.]+", ""));
+					newPC = newPC.add(firstPC);
+					newPC = newPC.add(secondPC);
+					newPC = newPC.add(thirdPC);
+					System.out.println(NumberFormat.getCurrencyInstance().format(newPC));
+					System.out.println(pc.compareTo(newPC));
+					System.out.println(pc.compareTo(BigDecimal.ZERO));
+					if (pc.compareTo(BigDecimal.ZERO) == 0 && newPC.compareTo(minPC) == 1){
+						pc = newPC;
+						sortHelper[i] = k;
+					} else if (pc.compareTo(newPC) == 1 && newPC.compareTo(minPC) == 1) {
+						pc = newPC;
+						sortHelper[i] = k;						
+					}
+				} else if (type == "priceF") {
+					BigDecimal newPF = new BigDecimal("0.0");
+					BigDecimal firstPF = new BigDecimal(trip.get("First").getmPriceFirstclass().replaceAll("[^\\d.]+", ""));
+					BigDecimal secondPF = new BigDecimal(trip.get("Second").getmPriceFirstclass().replaceAll("[^\\d.]+", ""));
+					BigDecimal thirdPF = new BigDecimal(trip.get("Third").getmPriceFirstclass().replaceAll("[^\\d.]+", ""));
+					newPF = newPF.add(firstPF);
+					newPF = newPF.add(secondPF);
+					newPF = newPF.add(thirdPF);
+					if (pf.compareTo(BigDecimal.ZERO) == 0 && newPF.compareTo(minPF) == 1){
+						pf = newPF;
+						sortHelper[i] = k;
+					} else if (pf.compareTo(newPF) == 1 && newPF.compareTo(minPF) == 1) {
+						pf = newPF;
+						sortHelper[i] = k;						
+					}
+				}
+			}
+			minFT = ft;
+			minPC = pc;
+			minPF = pf;
+			sortedFlightList.add(flightList.get(sortHelper[i]));
+		}
+		//System.out.println(NumberFormat.getCurrencyInstance().format(test));
+		
+		return sortedFlightList;
 	}
 }
