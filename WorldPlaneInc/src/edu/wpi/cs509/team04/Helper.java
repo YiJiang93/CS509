@@ -7,6 +7,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -71,22 +72,34 @@ public class Helper {
 	 * @param offset identifies the number of hours to modify the time.
 	 * @return String in format HH:MM
 	 */
-	private static String adjustTime(String time, int offset){
+	private static Date adjustTime(String time, int offset){
+		
+		Dictionary<String, Integer> month = new Hashtable<String, Integer>();
+		month.put("Jan", 1);
+		month.put("Feb", 2);
+		month.put("Mar", 3);
+		month.put("Apr", 4);
+		month.put("May", 5);
+		month.put("Jun", 6);
+		month.put("Jul", 7);
+		month.put("Aug", 8);
+		month.put("Sep", 9);
+		month.put("Oct", 10);
+		month.put("Nov", 11);
+		month.put("Dec", 12);
 		
 		//Break String into Array
 		String[] timeArray = time.split(" ");
-		
+				
 		//Get just the hours and minutes
 		String[] hm = timeArray[3].split(":");
-		
-		//Adjust the time
-		hm[0] = Integer.toString(Integer.parseInt(hm[0]) + offset);
-		//TODO Need Midnight adjust
-		//  Because Date is taking in HH:MM, 12:03 is read as 00:03.  Need to look into adjusting this for
-		//  the full Date string.
-		
-		//Return HH:MM
-		return String.join(":", hm);
+				
+	    Calendar cal = Calendar.getInstance(); // creates calendar
+	    cal.set(Integer.parseInt(timeArray[0]), month.get(timeArray[1]), Integer.parseInt(timeArray[2]), 
+				Integer.parseInt(hm[0]), Integer.parseInt(hm[1]), 0);
+	    cal.add(Calendar.HOUR_OF_DAY, offset); // adds one hour
+	    
+	    return cal.getTime(); // returns new date object, adjusting for offset		
 	}
 	
 	/**
@@ -130,8 +143,8 @@ public class Helper {
 			} else {
 				String departCode2 = flight.getmCodeArrival();
 				String arriveTime2 = flight.getmTimeArrival();
-				Date departTime2min = f.parse(adjustTime(arriveTime2, 1));
-				Date departTime2max = f.parse(adjustTime(arriveTime2, 3));
+				Date departTime2min = adjustTime(arriveTime2, 1);
+				Date departTime2max = adjustTime(arriveTime2, 3);
 				String xmlFlights2 = resSys.getFlights(team, departCode2, departDate);
 				Flights flights2 = new Flights();
 				flights2 = new Flights();
@@ -139,7 +152,7 @@ public class Helper {
 				for(int j=0; j<flights2.size() - 1; j++) {
 					System.out.println("FlightList 2, Flight " + j);
 					Flight flight2 = flights2.get(j);
-					Date departTime2 = f.parse(adjustTime(flight2.getmTimeDepart(), 0));
+					Date departTime2 = adjustTime(flight2.getmTimeDepart(), 0);
 					if(departTime2min.getTime() <= departTime2.getTime() && departTime2.getTime() <= departTime2max.getTime()){
 						//if(flight2.getmArrivalCode().equals(departCode)) IGNORE
 						if(flight2.getmCodeArrival().equals(arriveCode)) {
@@ -154,8 +167,8 @@ public class Helper {
 							}
 							String departCode3 = flight2.getmCodeArrival();
 							String arriveTime3 = flight2.getmTimeArrival();
-							Date departTime3min = f.parse(adjustTime(arriveTime3, 1));
-							Date departTime3max = f.parse(adjustTime(arriveTime3, 3));
+							Date departTime3min = adjustTime(arriveTime3, 1);
+							Date departTime3max = adjustTime(arriveTime3, 3);
 							String xmlFlights3 = resSys.getFlights(team, departCode3, departDate);
 							Flights flights3 = new Flights();
 							flights3 = new Flights();
@@ -163,7 +176,7 @@ public class Helper {
 							for(int k=0; k < flights3.size() - 1; k++) {
 								System.out.println("FlightList 3, Flight " + k);
 								Flight flight3 = flights3.get(k);
-								Date departTime3 = f.parse(adjustTime(flight3.getmTimeDepart(), 0));
+								Date departTime3 = adjustTime(flight3.getmTimeDepart(), 0);
 								if (k==10 && flight.getmCodeArrival().equals(arriveCode)){
 									k=10;
 								}
