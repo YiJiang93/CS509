@@ -16,6 +16,7 @@ import java.util.Locale;
 
 public class Helper {
 	
+	static String departDate;
 	/**
 	 * Return Dictionary<String, Integer> pair with:
 	 *    keys: "FirstClassSeats, CoachSeats"
@@ -63,16 +64,16 @@ public class Helper {
 	}
 	
 	/**
-	 * Return String in format HH:MM
+	 * Return Calendar Object with time adjusted
 	 * 
 	 * Given a DepartTime or ArrivalTime from a Flight and an Integer of number of hours to adjust the time,
-	 *  split the Strings and add the offset.  Return the String in format HH:MM.
+	 *  split the Strings, create a Calendar object and add the offset.  Return the Calendar Object with time adjustment.
 	 * 
 	 * @param time identifies the time from a flight object.
 	 * @param offset identifies the number of hours to modify the time.
-	 * @return String in format HH:MM
+	 * @return Calendar Object
 	 */
-	private static Date adjustTime(String time, int offset){
+	private static Calendar adjustTime(String time, int offset){
 		
 		Dictionary<String, Integer> month = new Hashtable<String, Integer>();
 		month.put("Jan", 1);
@@ -97,9 +98,10 @@ public class Helper {
 	    Calendar cal = Calendar.getInstance(); // creates calendar
 	    cal.set(Integer.parseInt(timeArray[0]), month.get(timeArray[1]), Integer.parseInt(timeArray[2]), 
 				Integer.parseInt(hm[0]), Integer.parseInt(hm[1]), 0);
+	    int day = cal.get(Calendar.DAY_OF_YEAR);
 	    cal.add(Calendar.HOUR_OF_DAY, offset); // adds one hour
 	    
-	    return cal.getTime(); // returns new date object, adjusting for offset		
+	    return cal; // returns new Calendar object, adjusting for offset		
 	}
 	
 	/**
@@ -117,9 +119,10 @@ public class Helper {
 	 * @param departDate identifies the Departure Date as YYYY_MM_DD.
 	 * @return List<Dictionary<String, Flight>> with list of flights.
 	 */
-	public static List<Dictionary<String, Flight>> getFlightList(String team, String departCode, String arriveCode, String departDate) throws ParseException {
+	public static List<Dictionary<String, Flight>> getFlightList(String team, String departCode, String arriveCode, String departureDate) throws ParseException {
 		
 		ServerInterface resSys = ServerInterface.getInstance();
+		departDate = departureDate;
 		String xmlFlights = resSys.getFlights(team, departCode, departDate);
 		Flights flights = new Flights();
 		Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
@@ -143,17 +146,27 @@ public class Helper {
 			} else {
 				String departCode2 = flight.getmCodeArrival();
 				String arriveTime2 = flight.getmTimeArrival();
-				Date departTime2min = adjustTime(arriveTime2, 1);
-				Date departTime2max = adjustTime(arriveTime2, 3);
-				String xmlFlights2 = resSys.getFlights(team, departCode2, departDate);
+				Calendar departTime2min = adjustTime(arriveTime2, 1);
+				Calendar departTime2max = adjustTime(arriveTime2, 3);
 				Flights flights2 = new Flights();
 				flights2 = new Flights();
-				flights2.addAll(xmlFlights2);
+				if (departTime2min.get(Calendar.DAY_OF_YEAR) == departTime2max.get(Calendar.DAY_OF_YEAR)){
+					String departDate2 = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
+					String xmlFlights2 = resSys.getFlights(team, departCode2, departDate2);
+					flights2.addAll(xmlFlights2);
+				} else {
+					String departDate2min = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
+					String departDate2max = String.format("%d_%02d_%02d", departTime2max.get(Calendar.YEAR), departTime2max.get(Calendar.MONTH), departTime2max.get(Calendar.DAY_OF_MONTH));
+					String xmlFlights2min = resSys.getFlights(team, departCode2, departDate2min);
+					String xmlFlights2max = resSys.getFlights(team, departCode2, departDate2max);
+					flights2.addAll(xmlFlights2min);
+					flights2.addAll(xmlFlights2max);
+				}
 				for(int j=0; j<flights2.size() - 1; j++) {
 					System.out.println("FlightList 2, Flight " + j);
 					Flight flight2 = flights2.get(j);
-					Date departTime2 = adjustTime(flight2.getmTimeDepart(), 0);
-					if(departTime2min.getTime() <= departTime2.getTime() && departTime2.getTime() <= departTime2max.getTime()){
+					Calendar departTime2 = adjustTime(flight2.getmTimeDepart(), 0);
+					if(departTime2min.before(departTime2) && departTime2max.after(departTime2)){	
 						//if(flight2.getmArrivalCode().equals(departCode)) IGNORE
 						if(flight2.getmCodeArrival().equals(arriveCode)) {
 							Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
@@ -162,25 +175,32 @@ public class Helper {
 							flightStruct.put("Third", nullFlight);
 							flightArray.add(flightStruct);
 						} else {
-							if (j==11){
-								j=11;
-							}
 							String departCode3 = flight2.getmCodeArrival();
 							String arriveTime3 = flight2.getmTimeArrival();
-							Date departTime3min = adjustTime(arriveTime3, 1);
-							Date departTime3max = adjustTime(arriveTime3, 3);
-							String xmlFlights3 = resSys.getFlights(team, departCode3, departDate);
+							Calendar departTime3min = adjustTime(arriveTime3, 1);
+							Calendar departTime3max = adjustTime(arriveTime3, 3);
 							Flights flights3 = new Flights();
 							flights3 = new Flights();
-							flights3.addAll(xmlFlights3);
+							if (departTime3min.get(Calendar.DAY_OF_YEAR) == departTime3max.get(Calendar.DAY_OF_YEAR)){
+								String departDate3 = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
+								String xmlFlights3 = resSys.getFlights(team, departCode3, departDate3);
+								flights3.addAll(xmlFlights3);
+							} else {
+								String departDate3min = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
+								String departDate3max = String.format("%d_%02d_%02d", departTime3max.get(Calendar.YEAR), departTime3max.get(Calendar.MONTH), departTime3max.get(Calendar.DAY_OF_MONTH));
+								String xmlFlights3min = resSys.getFlights(team, departCode3, departDate3min);
+								String xmlFlights3max = resSys.getFlights(team, departCode3, departDate3max);
+								flights3.addAll(xmlFlights3min);
+								flights3.addAll(xmlFlights3max);
+							}
 							for(int k=0; k < flights3.size() - 1; k++) {
 								System.out.println("FlightList 3, Flight " + k);
 								Flight flight3 = flights3.get(k);
-								Date departTime3 = adjustTime(flight3.getmTimeDepart(), 0);
+								Calendar departTime3 = adjustTime(flight3.getmTimeDepart(), 0);
 								if (k==10 && flight.getmCodeArrival().equals(arriveCode)){
 									k=10;
 								}
-								if(departTime3min.getTime() <= departTime3.getTime() && departTime3.getTime() <= departTime3max.getTime()){
+								if(departTime3min.before(departTime3) && departTime3max.after(departTime3)){
 									if(flight3.getmCodeArrival().equals(arriveCode)) {
 										Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
 										flightStruct.put("First", flight);
