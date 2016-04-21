@@ -109,7 +109,8 @@ public class TravelOption {
 			infoString += "(" + firstLayover.getmCodeDepart() + ") - (";
 			infoString += firstLayover.getmCodeArrival() + ")";
 			infoString += "<br>";
-			infoString += "Flight # " + firstLayover.getmAirplane() + "<br>";
+			infoString += "Flight # " + firstLayover.getmNumber() + " , ";
+			infoString += firstLayover.getmAirplane() + "<br>";
 			infoString += "First class = " + firstLayover.getmPriceFirstclass();
 			infoString += " , Coach = " + firstLayover.getmPriceCoach();
 			infoString += "<hr>";
@@ -124,7 +125,8 @@ public class TravelOption {
 			infoString += "(" + secondLayover.getmCodeDepart() + ") - (";
 			infoString += secondLayover.getmCodeArrival() + ")";
 			infoString += "<br>";
-			infoString += "Flight # " + secondLayover.getmAirplane() + "<br>";
+			infoString += "Flight # " + secondLayover.getmNumber() + " , ";
+			infoString += secondLayover.getmAirplane() + "<br>";
 			infoString += "First class = " + secondLayover.getmPriceFirstclass();
 			infoString += " , Coach = " + secondLayover.getmPriceCoach();
 			infoString += "<hr>";
