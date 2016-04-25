@@ -6,7 +6,7 @@
  * flight reservation system produced for World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.common;
 
 /**
  * This class holds values pertaining to a single from one airport to another.

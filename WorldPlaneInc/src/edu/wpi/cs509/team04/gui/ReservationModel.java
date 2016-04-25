@@ -7,7 +7,9 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.gui;
+
+import edu.wpi.cs509.team04.enums.SeatingType;
 
 /**
  * The ReservationModel class provides a means for maintaining

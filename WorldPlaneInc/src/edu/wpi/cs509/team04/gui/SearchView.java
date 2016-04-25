@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -26,6 +26,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import org.jdesktop.swingx.JXDatePicker;
+
+import edu.wpi.cs509.team04.common.TravelOption;
 
 /**
  * The SearchView class provides a graphic user interface with

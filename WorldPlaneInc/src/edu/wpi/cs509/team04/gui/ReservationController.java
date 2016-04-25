@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.gui;
 
 /**
  * The ReservationController class provides a means for coordinating changes

@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.server;
 
 /**
  * The QueryFactory class provides a means for constructing

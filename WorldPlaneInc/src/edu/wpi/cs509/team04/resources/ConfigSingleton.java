@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.resources;
 
 import java.io.FileInputStream;
 import java.io.IOException;

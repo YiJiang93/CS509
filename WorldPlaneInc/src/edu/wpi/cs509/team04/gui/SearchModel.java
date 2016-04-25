@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.gui;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -15,6 +15,11 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.swing.event.SwingPropertyChangeSupport;
+
+import edu.wpi.cs509.team04.common.TravelOption;
+import edu.wpi.cs509.team04.enums.LayoverType;
+import edu.wpi.cs509.team04.enums.SeatingType;
+import edu.wpi.cs509.team04.enums.TravelType;
 
 /**
  * The SearchModel class provides a means for maintaining

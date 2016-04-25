@@ -1,18 +1,19 @@
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.threads;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Locale;
+
+import edu.wpi.cs509.team04.common.Airplane;
+import edu.wpi.cs509.team04.common.Airplanes;
+import edu.wpi.cs509.team04.common.Flight;
+import edu.wpi.cs509.team04.common.Flights;
+import edu.wpi.cs509.team04.server.ServerInterface;
 
 public class Helper {
 	
@@ -98,7 +99,6 @@ public class Helper {
 	    Calendar cal = Calendar.getInstance(); // creates calendar
 	    cal.set(Integer.parseInt(timeArray[0]), month.get(timeArray[1]), Integer.parseInt(timeArray[2]), 
 				Integer.parseInt(hm[0]), Integer.parseInt(hm[1]), 0);
-	    int day = cal.get(Calendar.DAY_OF_YEAR);
 	    cal.add(Calendar.HOUR_OF_DAY, offset); // adds one hour
 	    
 	    return cal; // returns new Calendar object, adjusting for offset		
@@ -133,7 +133,6 @@ public class Helper {
 
 		List<Dictionary<String, Flight>> flightArray = new ArrayList<Dictionary<String, Flight>>();
 
-		DateFormat f = new SimpleDateFormat("hh:mm");
 		for(int i=0; i<flights.size() - 1; i++) {
 			System.out.println("FlightList 1, Flight " + i);
 			Flight flight = flights.get(i);

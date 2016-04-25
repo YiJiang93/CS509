@@ -1,4 +1,4 @@
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.common;
 
 /**
  * This class holds values pertaining to a single Airport. Class member attributes

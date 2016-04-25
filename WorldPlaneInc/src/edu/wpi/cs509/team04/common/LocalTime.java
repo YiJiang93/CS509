@@ -1,4 +1,4 @@
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.common;
 
 import java.util.*;
 
@@ -11,15 +11,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import edu.wpi.cs509.team04.resources.ConfigSingleton;
+import edu.wpi.cs509.team04.server.ServerInterface;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -157,7 +158,7 @@ public class LocalTime{
 		return null;
 	}
 	
-	public static Date Convert(Airport airport, Date time){
+	public Date Convert(Airport airport, Date time){
     	//Date localTime = time.getTime()-(mydateobj.get("rawOffset").getAsLong()-dateobj.get("rawOffset").getAsLong()+mydateobj.get("dstOffset").getAsLong()-dateobj.get("dstOffset").getAsLong())*1000;
 		
 		Document dateObj = getTimeDoc(airport.latitude(), airport.longitude());

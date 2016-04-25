@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
+import edu.wpi.cs509.team04.enums.LayoverType;
+import edu.wpi.cs509.team04.enums.SeatingType;
 
 /**
  * The ReservationView class provides a graphic user interface
@@ -168,6 +171,9 @@ public class ReservationView {
 	 */
 	private static void initialize() {
 		
+		// Acquire the SearchModel for reference
+		SearchModel searchModel = SearchModel.getInstance();
+		
 		// Configure the frame used in the background
 		frame = new JFrame();
 		frame.setBounds(100, 100, 945, 800);
@@ -220,6 +226,12 @@ public class ReservationView {
 		rdbtnToInitialFlightCoach.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnToInitialFlightCoach.setForeground(Color.WHITE);
 		rdbtnToInitialFlightCoach.setBounds(16, 46, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnToInitialFlightCoach.setSelected(true);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnToInitialFlightCoach.setSelected(false);
+		}
 		radioToButtonPanel.add(rdbtnToInitialFlightCoach);
 		
 		// Configure the radio button for initial flight first class seating
@@ -227,6 +239,12 @@ public class ReservationView {
 		rdbtnToInitialFlightFirstClass.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnToInitialFlightFirstClass.setForeground(Color.WHITE);
 		rdbtnToInitialFlightFirstClass.setBounds(16, 69, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnToInitialFlightFirstClass.setSelected(false);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnToInitialFlightFirstClass.setSelected(true);
+		}
 		radioToButtonPanel.add(rdbtnToInitialFlightFirstClass);
 		
 		// Configure the label for the first lay-over radio buttons
@@ -241,6 +259,12 @@ public class ReservationView {
 		rdbtnToFirstLayoverCoach.setForeground(Color.WHITE);
 		rdbtnToFirstLayoverCoach.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnToFirstLayoverCoach.setBounds(16, 175, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnToFirstLayoverCoach.setSelected(true);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnToFirstLayoverCoach.setSelected(false);
+		}
 		radioToButtonPanel.add(rdbtnToFirstLayoverCoach);
 		
 		// Configure the first lay-over first class seating radio button
@@ -248,6 +272,12 @@ public class ReservationView {
 		rdbtnToFirstLayoverFirstClass.setForeground(Color.WHITE);
 		rdbtnToFirstLayoverFirstClass.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnToFirstLayoverFirstClass.setBounds(16, 199, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnToFirstLayoverFirstClass.setSelected(false);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnToFirstLayoverFirstClass.setSelected(true);
+		}
 		radioToButtonPanel.add(rdbtnToFirstLayoverFirstClass);
 		
 		// Configure the label for the second lay-over radio buttons
@@ -262,6 +292,12 @@ public class ReservationView {
 		rdbtnToSecondLayoverCoach.setForeground(Color.WHITE);
 		rdbtnToSecondLayoverCoach.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnToSecondLayoverCoach.setBounds(16, 296, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnToSecondLayoverCoach.setSelected(true);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnToSecondLayoverCoach.setSelected(false);
+		}
 		radioToButtonPanel.add(rdbtnToSecondLayoverCoach);
 		
 		// Configure the second lay-over first class seating radio button
@@ -269,6 +305,12 @@ public class ReservationView {
 		rdbtnToSecondLayoverFirstClass.setForeground(Color.WHITE);
 		rdbtnToSecondLayoverFirstClass.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnToSecondLayoverFirstClass.setBounds(16, 320, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnToSecondLayoverFirstClass.setSelected(false);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnToSecondLayoverFirstClass.setSelected(true);
+		}
 		radioToButtonPanel.add(rdbtnToSecondLayoverFirstClass);
 		
 		// Configure the to-destination flight option header panel
@@ -398,6 +440,12 @@ public class ReservationView {
 		rdbtnFromInitialCoach.setForeground(Color.WHITE);
 		rdbtnFromInitialCoach.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnFromInitialCoach.setBounds(295, 165, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnFromInitialCoach.setSelected(true);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnFromInitialCoach.setSelected(false);
+		}
 		bodyPanel.add(rdbtnFromInitialCoach);
 		
 		// Configure radio button for initial from-destination first class seating
@@ -405,6 +453,12 @@ public class ReservationView {
 		rdbtnFromInitialFirstClass.setForeground(Color.WHITE);
 		rdbtnFromInitialFirstClass.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnFromInitialFirstClass.setBounds(295, 188, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnFromInitialFirstClass.setSelected(false);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnFromInitialFirstClass.setSelected(true);
+		}
 		bodyPanel.add(rdbtnFromInitialFirstClass);
 		
 		// Configure the label for from-destination first lay-over flight seating
@@ -419,6 +473,12 @@ public class ReservationView {
 		rdbtnFromFirstLayoverCoach.setForeground(Color.WHITE);
 		rdbtnFromFirstLayoverCoach.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnFromFirstLayoverCoach.setBounds(295, 289, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnFromFirstLayoverCoach.setSelected(true);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnFromFirstLayoverCoach.setSelected(false);
+		}
 		bodyPanel.add(rdbtnFromFirstLayoverCoach);
 		
 		// Configure radio button for first lay-over from-destination first class seating
@@ -426,6 +486,12 @@ public class ReservationView {
 		rdbtnFromFirstLayoverFirstClass.setForeground(Color.WHITE);
 		rdbtnFromFirstLayoverFirstClass.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnFromFirstLayoverFirstClass.setBounds(295, 314, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnFromFirstLayoverFirstClass.setSelected(false);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnFromFirstLayoverFirstClass.setSelected(true);
+		}
 		bodyPanel.add(rdbtnFromFirstLayoverFirstClass);
 		
 		// Configure the label for from-destination second lay-over flight seating
@@ -440,6 +506,12 @@ public class ReservationView {
 		rdbtnFromSecondLayoverCoach.setForeground(Color.WHITE);
 		rdbtnFromSecondLayoverCoach.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnFromSecondLayoverCoach.setBounds(295, 412, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnFromSecondLayoverCoach.setSelected(true);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnFromSecondLayoverCoach.setSelected(false);
+		}
 		bodyPanel.add(rdbtnFromSecondLayoverCoach);
 		
 		// Configure radio button for second lay-over from-destination first class seating
@@ -447,6 +519,12 @@ public class ReservationView {
 		rdbtnFromSecondLayoverFirstClass.setForeground(Color.WHITE);
 		rdbtnFromSecondLayoverFirstClass.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		rdbtnFromSecondLayoverFirstClass.setBounds(295, 438, 141, 23);
+		if (searchModel.getSeatingType() == SeatingType.COACH) {
+			rdbtnFromSecondLayoverFirstClass.setSelected(false);
+		}
+		if (searchModel.getSeatingType() == SeatingType.FIRST_CLASS) {
+			rdbtnFromSecondLayoverFirstClass.setSelected(true);
+		}
 		bodyPanel.add(rdbtnFromSecondLayoverFirstClass);
 		
 		// Configure the header panel containing the title
@@ -649,5 +727,41 @@ public class ReservationView {
 			fromDestModel.addElement(option);
 			fromDestList.setSelectedIndex(0);
 		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void setOneWayView() {
+		SearchModel searchModel = SearchModel.getInstance();
+		fromDestList.setVisible(false);
+		
+		if (searchModel.getLayoverType() == LayoverType.NO_LAYOVERS) {
+			rdbtnToFirstLayoverCoach.setVisible(false);
+			rdbtnToFirstLayoverFirstClass.setVisible(false);
+			rdbtnToSecondLayoverCoach.setVisible(false);
+			rdbtnToSecondLayoverFirstClass.setVisible(false);
+		}
+		if (searchModel.getLayoverType() == LayoverType.ONE_LAYOVER) {
+			rdbtnToFirstLayoverCoach.setVisible(true);
+			rdbtnToFirstLayoverFirstClass.setVisible(true);
+			rdbtnToSecondLayoverCoach.setVisible(false);
+			rdbtnToSecondLayoverFirstClass.setVisible(false);
+		}
+		if (searchModel.getLayoverType() == LayoverType.TWO_LAYOVERS) {
+			rdbtnToFirstLayoverCoach.setVisible(true);
+			rdbtnToFirstLayoverFirstClass.setVisible(true);
+			rdbtnToSecondLayoverCoach.setVisible(true);
+			rdbtnToSecondLayoverFirstClass.setVisible(true);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void setRoundTripView() {
+		
 	}
 }

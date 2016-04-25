@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.threads;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Dictionary;
 import java.util.List;
+
+import edu.wpi.cs509.team04.common.Flight;
+import edu.wpi.cs509.team04.common.TravelOption;
+import edu.wpi.cs509.team04.enums.TravelType;
+import edu.wpi.cs509.team04.gui.SearchModel;
+import edu.wpi.cs509.team04.resources.ConfigSingleton;
 
 /**
  * The TravelOptionFinder class provides a means for

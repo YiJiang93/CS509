@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Scanner;
 
+import edu.wpi.cs509.team04.common.Airport;
+import edu.wpi.cs509.team04.common.Airports;
+import edu.wpi.cs509.team04.common.Flight;
+import edu.wpi.cs509.team04.common.Flights;
+import edu.wpi.cs509.team04.server.ServerInterface;
+import edu.wpi.cs509.team04.threads.Helper;
+
 public class ConsoleInput {
 	
 	public static void main(ServerInterface resSys, String team){

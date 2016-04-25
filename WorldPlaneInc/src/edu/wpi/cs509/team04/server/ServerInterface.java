@@ -7,7 +7,7 @@
  * World Plane Inc. (WPI)
  */
 
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import edu.wpi.cs509.team04.resources.ConfigSingleton;
 
 /**
  * The ServerInterface class provides an interface for

@@ -1,4 +1,4 @@
-package edu.wpi.cs509.team04;
+package edu.wpi.cs509.team04.common;
 
 import java.io.IOException;
 import java.io.StringReader;
