@@ -475,36 +475,12 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
 						ReservationView reservationView = ReservationView.getInstance();
 						if (model.getSeatingType() == SeatingType.COACH) {
-							reservationView.getToInitialCoachRadioButton().setSelected(true);
-							reservationView.getToInitialFirstClassRadioButton().setSelected(false);
-							reservationView.getToFirstLayoverCoachRadioButton().setSelected(true);
-							reservationView.getToFirstLayoverFirstClassRadioButton().setSelected(false);
-							reservationView.getToSecondLayoverCoachRadioButton().setSelected(true);
-							reservationView.getToSecondLayoverFirstClassRadioButton().setSelected(false);
-							reservationView.getFromInitialCoachRadioButton().setSelected(true);
-							reservationView.getFromInitialFirstClassRadioButton().setSelected(false);
-							reservationView.getFromFirstLayoverCoachRadioButton().setSelected(true);
-							reservationView.getFromFirstLayoverFirstClassRadioButton().setSelected(false);
-							reservationView.getFromSecondLayoverCoachRadioButton().setSelected(true);
-							reservationView.getFromSecondLayoverFirstClassRadioButton().setSelected(false);
+							
 						}
 						if (model.getSeatingType() == SeatingType.FIRST_CLASS) {
-							reservationView.getToInitialCoachRadioButton().setSelected(false);
-							reservationView.getToInitialFirstClassRadioButton().setSelected(true);
-							reservationView.getToFirstLayoverCoachRadioButton().setSelected(false);
-							reservationView.getToFirstLayoverFirstClassRadioButton().setSelected(true);
-							reservationView.getToSecondLayoverCoachRadioButton().setSelected(false);
-							reservationView.getToSecondLayoverFirstClassRadioButton().setSelected(true);
-							reservationView.getFromInitialCoachRadioButton().setSelected(false);
-							reservationView.getFromInitialFirstClassRadioButton().setSelected(true);
-							reservationView.getFromFirstLayoverCoachRadioButton().setSelected(false);
-							reservationView.getFromFirstLayoverFirstClassRadioButton().setSelected(true);
-							reservationView.getFromSecondLayoverCoachRadioButton().setSelected(false);
-							reservationView.getFromSecondLayoverFirstClassRadioButton().setSelected(true);
+							
 						}
-						reservationView.setOneWayView();
 						reservationView.setVisible(true);
-						reservationView.addToDestinationModel(model.getSelectedToDestOption().toHtmlString());
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -515,36 +491,12 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							&& !model.getFromDestinationTravelOptions().isEmpty()) {
 						ReservationView reservationView = ReservationView.getInstance();
 						if (model.getSeatingType() == SeatingType.COACH) {
-							reservationView.getToInitialCoachRadioButton().setSelected(true);
-							reservationView.getToInitialFirstClassRadioButton().setSelected(false);
-							reservationView.getToFirstLayoverCoachRadioButton().setSelected(true);
-							reservationView.getToFirstLayoverFirstClassRadioButton().setSelected(false);
-							reservationView.getToSecondLayoverCoachRadioButton().setSelected(true);
-							reservationView.getToSecondLayoverFirstClassRadioButton().setSelected(false);
-							reservationView.getFromInitialCoachRadioButton().setSelected(true);
-							reservationView.getFromInitialFirstClassRadioButton().setSelected(false);
-							reservationView.getFromFirstLayoverCoachRadioButton().setSelected(true);
-							reservationView.getFromFirstLayoverFirstClassRadioButton().setSelected(false);
-							reservationView.getFromSecondLayoverCoachRadioButton().setSelected(true);
-							reservationView.getFromSecondLayoverFirstClassRadioButton().setSelected(false);
+							
 						}
 						if (model.getSeatingType() == SeatingType.FIRST_CLASS) {
-							reservationView.getToInitialCoachRadioButton().setSelected(false);
-							reservationView.getToInitialFirstClassRadioButton().setSelected(true);
-							reservationView.getToFirstLayoverCoachRadioButton().setSelected(false);
-							reservationView.getToFirstLayoverFirstClassRadioButton().setSelected(true);
-							reservationView.getToSecondLayoverCoachRadioButton().setSelected(false);
-							reservationView.getToSecondLayoverFirstClassRadioButton().setSelected(true);
-							reservationView.getFromInitialCoachRadioButton().setSelected(false);
-							reservationView.getFromInitialFirstClassRadioButton().setSelected(true);
-							reservationView.getFromFirstLayoverCoachRadioButton().setSelected(false);
-							reservationView.getFromFirstLayoverFirstClassRadioButton().setSelected(true);
-							reservationView.getFromSecondLayoverCoachRadioButton().setSelected(false);
-							reservationView.getFromSecondLayoverFirstClassRadioButton().setSelected(true);
+							
 						}
 						reservationView.setVisible(true);
-						reservationView.addToDestinationModel(model.getSelectedToDestOption().toHtmlString());
-						reservationView.addFromDestinationModel(model.getSelectedFromDestOption().toHtmlString());
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
