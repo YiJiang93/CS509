@@ -1,25 +1,24 @@
-package edu.wpi.cs509.team04.test;
+package edu.wpi.cs509.team04.common;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import edu.wpi.cs509.team04.common.Airplanes;
+import edu.wpi.cs509.team04.common.Flights;
 import edu.wpi.cs509.team04.resources.ConfigSingleton;
 import edu.wpi.cs509.team04.server.ServerInterface;
 
-public class AirplanesTest {
+public class FlightsTest {
 
 	@Test
 	public void testaddAll() {
 		ServerInterface resSys = ServerInterface.getInstance();
 		String team = ConfigSingleton.getInstance().get("team");
-		String xmlAirplanes = resSys.getAirplanes(team);
-		Airplanes planes = new Airplanes();
-		boolean AddSuccess=planes.addAll(xmlAirplanes);		
+		String xmlFlights = resSys.getFlights(team, "BOS", "2016_05_10");
+		
+		Flights flights = new Flights();
+		boolean AddSuccess=flights.addAll(xmlFlights);
 		assertTrue(AddSuccess);
 	}
-	
-	
 
 }

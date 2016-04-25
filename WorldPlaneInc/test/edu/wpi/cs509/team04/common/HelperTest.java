@@ -1,4 +1,4 @@
-package edu.wpi.cs509.team04.test;
+package edu.wpi.cs509.team04.common;
 
 import static org.junit.Assert.*;
 
