@@ -190,12 +190,14 @@ public class ReservationView {
 		
 		// Configure the radio button for selecting coach seating
 		rdbtnCoach = new JRadioButton("Coach");
+		rdbtnCoach.setSelected(true);
 		rdbtnCoach.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		rdbtnCoach.setBounds(45, 241, 235, 36);
 		background.add(rdbtnCoach);
 		
 		// Configure the radio button for selected first class seating
 		rdbtnFirstClass = new JRadioButton("First Class");
+		rdbtnFirstClass.setSelected(false);
 		rdbtnFirstClass.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		rdbtnFirstClass.setBounds(45, 297, 235, 36);
 		background.add(rdbtnFirstClass);
@@ -259,7 +261,7 @@ public class ReservationView {
 	 * 
 	 * @return The radio button for coach seating
 	 */
-	public JRadioButton getCoachSelection() {
+	public JRadioButton getCoachRadioButton() {
 		return rdbtnCoach;
 	}
 	
@@ -270,7 +272,7 @@ public class ReservationView {
 	 * 
 	 * @return The radio button for first class seating
 	 */
-	public JRadioButton getFirstClassSelection() {
+	public JRadioButton getFirstClassRadioButton() {
 		return rdbtnFirstClass;
 	}
 	
