@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JRadioButton;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 /**
@@ -43,6 +44,56 @@ public class ReservationView {
 	 * The background frame for the ReservationView
 	 */
 	private static JFrame frame;
+	
+	/**
+	 * The model for the to-destination list of travel options
+	 */
+	private static DefaultListModel<TravelOption> modelToDest;
+	
+	/**
+	 * The visual list for the to-destination list of travel options
+	 */
+	private static JList<TravelOption> listToDest;
+	
+	/**
+	 * The model for the from-destination list of travel options
+	 */
+	private static DefaultListModel<TravelOption> modelFromDest;
+	
+	/**
+	 * The visual list for the from-destination list of travel options
+	 */
+	private static JList<TravelOption> listFromDest;
+	
+	/**
+	 * The radio button for selecting coach seating
+	 */
+	private static JRadioButton rdbtnCoach;
+	
+	/**
+	 * The radio button for selecting first class seating
+	 */
+	private static JRadioButton rdbtnFirstClass;
+	
+	/**
+	 * The button for canceling the reservation
+	 */
+	private static JButton btnCancel;
+	
+	/**
+	 * The button for confirming the reservation
+	 */
+	private static JButton btnConfirm;
+	
+	/**
+	 * The label for the from-destination travel option
+	 */
+	private static JLabel lblFromDest;
+	
+	/**
+	 * The panel for the from-destination travel option
+	 */
+	private static JPanel panelFromDest;
 	
 	
 	/**
@@ -98,19 +149,25 @@ public class ReservationView {
 		panelToDest.setBounds(313, 150, 439, 248);
 		background.add(panelToDest);
 		
+		// Configure the model for the to-destination list
+		modelToDest = new DefaultListModel<TravelOption>();
+		
 		// Configure the list for the selected to-destination option
-		JList<TravelOption> listToDest = new JList<TravelOption>();
+		listToDest = new JList<TravelOption>(modelToDest);
 		panelToDest.add(listToDest);
 		
 		// Configure the panel used for the selected from-destination option
-		JPanel panelFromDest = new JPanel();
+		panelFromDest = new JPanel();
 		panelFromDest.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		panelFromDest.setBackground(Color.WHITE);
 		panelFromDest.setBounds(313, 451, 439, 248);
 		background.add(panelFromDest);
 		
+		// Configure the model for the from-destination list
+		modelFromDest = new DefaultListModel<TravelOption>();
+		
 		// Configure the list for the selected from-destination option
-		JList<TravelOption> listFromDest = new JList<TravelOption>();
+		listFromDest = new JList<TravelOption>(modelFromDest);
 		panelFromDest.add(listFromDest);
 		
 		// Configure the label for the selected to-destination option
@@ -120,7 +177,7 @@ public class ReservationView {
 		background.add(lblToDest);
 		
 		// Configure the label for the selected from-destination option
-		JLabel lblFromDest = new JLabel("From Destination:");
+		lblFromDest = new JLabel("From Destination:");
 		lblFromDest.setFont(new Font("Lucida Grande", Font.BOLD, 25));
 		lblFromDest.setBounds(313, 410, 278, 29);
 		background.add(lblFromDest);
@@ -132,25 +189,25 @@ public class ReservationView {
 		background.add(lblSelectedSeating);
 		
 		// Configure the radio button for selecting coach seating
-		JRadioButton rdbtnCoach = new JRadioButton("Coach");
+		rdbtnCoach = new JRadioButton("Coach");
 		rdbtnCoach.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		rdbtnCoach.setBounds(45, 241, 235, 36);
 		background.add(rdbtnCoach);
 		
 		// Configure the radio button for selected first class seating
-		JRadioButton rdbtnFirstClass = new JRadioButton("First Class");
+		rdbtnFirstClass = new JRadioButton("First Class");
 		rdbtnFirstClass.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		rdbtnFirstClass.setBounds(45, 297, 235, 36);
 		background.add(rdbtnFirstClass);
 		
 		// Configure the button for canceling the reservation
-		JButton btnCancel = new JButton("Cancel");
+		btnCancel = new JButton("Cancel");
 		btnCancel.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		btnCancel.setBounds(25, 588, 245, 61);
 		background.add(btnCancel);
 		
 		// Configure the button for confirming the reservation
-		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm = new JButton("Confirm");
 		btnConfirm.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		btnConfirm.setBounds(25, 501, 245, 61);
 		background.add(btnConfirm);
@@ -173,5 +230,99 @@ public class ReservationView {
 	 */
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
+	}
+	
+	
+	/**
+	 * This method configures the view so that it corresponds
+	 * to a reservation being made for a one-way travel option
+	 */
+	public void setOneWay() {
+		lblFromDest.setVisible(false);
+		panelFromDest.setVisible(false);
+	}
+	
+	
+	/**
+	 * This method configures the view so that it corresponds
+	 * to a reservation being made for a round-trip travel option
+	 */
+	public void setRoundTrip() {
+		lblFromDest.setVisible(true);
+		panelFromDest.setVisible(true);
+	}
+	
+	
+	/**
+	 * This method returns the radio button used for
+	 * selecting coach seating in the view
+	 * 
+	 * @return The radio button for coach seating
+	 */
+	public JRadioButton getCoachSelection() {
+		return rdbtnCoach;
+	}
+	
+	
+	/**
+	 * This method returns the radio button used for
+	 * selecting first class seating in the view
+	 * 
+	 * @return The radio button for first class seating
+	 */
+	public JRadioButton getFirstClassSelection() {
+		return rdbtnFirstClass;
+	}
+	
+	
+	/**
+	 * This method returns the button used for selecting
+	 * to cancel the reservation displayed in the view
+	 * 
+	 * @return The button used for canceling the reservation
+	 */
+	public JButton getCancelButton() {
+		return btnCancel;
+	}
+	
+	
+	/**
+	 * This method returns the button used for selecting
+	 * to confirm the reservation displayed in the view
+	 * 
+	 * @return The button used for confirming the reservation
+	 */
+	public JButton getConfirmButton() {
+		return btnConfirm;
+	}
+	
+	
+	/**
+	 * This method updates the selected to-destination
+	 * travel option in the view
+	 * 
+	 * @param option The new selected travel option
+	 */
+	public void updateToDestOption(TravelOption option) {
+		modelToDest.clear();
+		modelToDest.addElement(option);
+		if (modelToDest.size() == 1) {
+			listToDest.setSelectedIndex(0);
+		}
+	}
+	
+	
+	/**
+	 * This method updates the selected from-destination
+	 * travel option in the view
+	 *
+	 *@param option The new selected travel option
+	 */
+	public void updateFromDestOption(TravelOption option) {
+		modelFromDest.clear();
+		modelFromDest.addElement(option);
+		if (modelFromDest.size() == 1) {
+			listFromDest.setSelectedIndex(0);
+		}
 	}
 }
