@@ -327,4 +327,12 @@ public class ReservationView {
 			listFromDest.setSelectedIndex(0);
 		}
 	}
+	
+	
+	/**
+	 * This method closes the view
+	 */
+	public void closeView() {
+		frame.setVisible(false);
+	}
 }

@@ -10,8 +10,15 @@
 package edu.wpi.cs509.team04.gui;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.AbstractAction;
+
+import edu.wpi.cs509.team04.common.TravelOption;
+import edu.wpi.cs509.team04.enums.TravelType;
+import edu.wpi.cs509.team04.resources.ConfigSingleton;
+import edu.wpi.cs509.team04.server.ServerInterface;
 
 /**
  * The ReservationController class provides a means for coordinating changes
@@ -32,6 +39,11 @@ public class ReservationController {
 	 */
 	private ReservationView view;
 	
+	/**
+	 * The model for the SearchView
+	 */
+	private SearchModel sModel;
+	
 	
 	/**
 	 * This method acquires the singleton instance
@@ -50,6 +62,7 @@ public class ReservationController {
 	 */
 	private ReservationController() {
 		view = ReservationView.getInstance();
+		sModel = SearchModel.getInstance();
 		setupViewEvents();
 	}
 	
@@ -120,7 +133,7 @@ public class ReservationController {
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// perform the action when the cancel button is clicked
+				view.closeView();
 			}
 		});
 		
@@ -141,7 +154,45 @@ public class ReservationController {
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// perform the action when the confirm button is clicked
+				ServerInterface serverInterface = ServerInterface.getInstance();
+				ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+				String team = configSingleton.get("team");
+				String seating = "Coach";
+				Collection<String> flightNumbers = new ArrayList<String>();
+				
+				TravelOption firstLeg = sModel.getSelectedToDestOption();
+				
+				if (firstLeg.getInitialFlight() != null) {
+					flightNumbers.add(firstLeg.getInitialFlight().getmNumber());
+				}
+				if (firstLeg.getFirstLayover() != null) {
+					flightNumbers.add(firstLeg.getFirstLayover().getmNumber());
+				}
+				if (firstLeg.getSecondLayover() != null) {
+					flightNumbers.add(firstLeg.getSecondLayover().getmNumber());
+				}
+				
+				if (sModel.getTravelType() == TravelType.ROUND_TRIP) {
+					TravelOption secondLeg = sModel.getSelectedFromDestOption();
+					
+					if (secondLeg.getInitialFlight() != null) {
+						flightNumbers.add(secondLeg.getInitialFlight().getmNumber());
+					}
+					if (secondLeg.getFirstLayover() != null) {
+						flightNumbers.add(secondLeg.getFirstLayover().getmNumber());
+					}
+					if (secondLeg.getSecondLayover() != null) {
+						flightNumbers.add(secondLeg.getSecondLayover().getmNumber());
+					}
+				}
+				
+				if (view.getFirstClassRadioButton().isSelected()) {
+					seating = "First Class";
+				}
+				
+				for (String flightNumber : flightNumbers) {
+					serverInterface.buyTickets(team, flightNumber, seating);
+				}
 			}
 		});
 	}
