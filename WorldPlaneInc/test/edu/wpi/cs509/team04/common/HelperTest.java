@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import edu.wpi.cs509.team04.common.Flight;
 import edu.wpi.cs509.team04.common.Flights;
-import edu.wpi.cs509.team04.resources.ConfigSingleton;
 import edu.wpi.cs509.team04.server.ServerInterface;
 import edu.wpi.cs509.team04.threads.Helper;
 
@@ -19,7 +18,6 @@ public class HelperTest {
 	public void testGetAvailableSeats() {
 
 		ServerInterface resSys = ServerInterface.getInstance();
-		String team = ConfigSingleton.getInstance().get("team");
 		
 		//Create a sample Flight with no seats booked on a 737 (100 First Class seats and 28 Coach seats) 
 		Flights flights = new Flights();
@@ -37,7 +35,7 @@ public class HelperTest {
 		seats.put("CoachSeats", maxCoach);
 
 		//Validate the seats construct is equal to the return of the method.
-		assertEquals(seats, Helper.getAvailableSeats(flight, resSys, team));
+		assertEquals(seats, Helper.getAvailableSeats(flight, resSys));
 	}
 
 }
