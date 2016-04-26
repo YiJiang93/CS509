@@ -24,7 +24,7 @@ public class ConsoleInput {
 		System.out.println();
 		
 		// Try to get a list of airports
-		String xmlAirport = resSys.getAirports(team);
+		String xmlAirport = resSys.getAirports();
 		
 		// Parse XML into Airports Structure
 		Airports ports = new Airports();
@@ -51,7 +51,7 @@ public class ConsoleInput {
 	 * 
 		List<Dictionary<String, Flight>> test = null;
 		try {
-			test = Helper.getFlightList(resSys, team, departCode, arriveCode, departDate);
+			test = Helper.getFlightList(resSys, departCode, arriveCode, departDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -161,7 +161,7 @@ public class ConsoleInput {
 		
 			System.out.println("Retreiving flight information...");
 			
-			String xmlFlights = resSys.getFlights(team, departCode, departDate);
+			String xmlFlights = resSys.getFlights(departCode, departDate);
 			
 			// Create the aggregate flights
 			flights = new Flights();
@@ -223,10 +223,10 @@ public class ConsoleInput {
 			if(!fn) System.out.println(flightNumber + " was not in the search results.");
 		}
 		
-		Dictionary<String, Integer> seats = Helper.getAvailableSeats(selectedFlight, resSys, team);
+		Dictionary<String, Integer> seats = Helper.getAvailableSeats(selectedFlight, resSys);
 		/*
 		//Get airplane data
-		String xmlAirplanes = resSys.getAirplanes(team);
+		String xmlAirplanes = resSys.getAirplanes();
 		
 		// Create the aggregate flights
 		Airplanes planes = new Airplanes();
@@ -280,9 +280,9 @@ public class ConsoleInput {
 		
 		System.out.println("Confirming Flight");
 		
-		resSys.lock(team);
-		resSys.buyTickets(team, flightNumber, seatType);
-		resSys.unlock(team);
+		resSys.lock();
+		resSys.buyTickets(flightNumber, seatType);
+		resSys.unlock();
 
 		scanner.close();
 		System.exit(0);
