@@ -21,7 +21,6 @@ import edu.wpi.cs509.team04.common.Flight;
 import edu.wpi.cs509.team04.common.TravelOption;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.gui.SearchModel;
-import edu.wpi.cs509.team04.resources.ConfigSingleton;
 
 /**
  * The TravelOptionFinder class provides a means for
@@ -80,12 +79,11 @@ public class TravelOptionFinder implements Runnable {
 	 */
 	@Override
 	public void run() {
-		String team = ConfigSingleton.getInstance().get("team");
 		try {
 			SearchModel searchModel = SearchModel.getInstance();
 			if (type == TravelType.ROUND_TRIP) {
-				List<Dictionary<String, Flight>> to = Helper.getFlightList(team, departureCode, arrivalCode, toDay);
-				List<Dictionary<String, Flight>> from = Helper.getFlightList(team, arrivalCode, departureCode, fromDay);
+				List<Dictionary<String, Flight>> to = Helper.getFlightList(departureCode, arrivalCode, toDay);
+				List<Dictionary<String, Flight>> from = Helper.getFlightList(arrivalCode, departureCode, fromDay);
 				Collection<TravelOption> toOptions = new ArrayList<TravelOption>();
 				Collection<TravelOption> fromOptions = new ArrayList<TravelOption>();
 				for (Dictionary<String, Flight> option : to) {
@@ -104,7 +102,7 @@ public class TravelOptionFinder implements Runnable {
 				searchModel.setFromDestinationTravelOptions(fromOptions);
 			}
 			if (type == TravelType.ONE_WAY) {
-				List<Dictionary<String, Flight>> to = Helper.getFlightList(team, departureCode, arrivalCode, toDay);
+				List<Dictionary<String, Flight>> to = Helper.getFlightList(departureCode, arrivalCode, toDay);
 				Collection<TravelOption> options = new ArrayList<TravelOption>();
 				for (Dictionary<String, Flight> option : to) {
 					Flight initial = option.get("First");
