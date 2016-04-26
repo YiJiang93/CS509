@@ -52,7 +52,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	/**
 	 * The graphical view associated with this controller
 	 */
-	private SearchView view;
+	private SearchView searchView;
 	
 	/**
 	 * The model associated with this controller
@@ -88,11 +88,11 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	 * Constructor for the instance
 	 */
 	private SearchController() {
-		view = SearchView.getInstance();
+		searchView = SearchView.getInstance();
 		model = SearchModel.getInstance();
 		model.addListener(this);
-		view.getToDestList().addListSelectionListener(this);
-		view.getFromDestList().addListSelectionListener(this);
+		searchView.getToDestList().addListSelectionListener(this);
+		searchView.getFromDestList().addListSelectionListener(this);
 		setupViewEvents();
 	}
 	
@@ -104,7 +104,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	 */
 	private void setupViewEvents() {
 		
-		view.getOneWayRadioButton().setAction(new AbstractAction("One Way") {
+		searchView.getOneWayRadioButton().setAction(new AbstractAction("One Way") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -120,18 +120,19 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getOneWayRadioButton().setSelected(true);
-				view.getRoundTripRadioButton().setSelected(false);
+				searchView.getOneWayRadioButton().setSelected(true);
+				searchView.getRoundTripRadioButton().setSelected(false);
 				model.setTravelType(TravelType.ONE_WAY);
-				view.getSecondDepartureDateSelector().setVisible(false);
-				view.getSecondDepartureDateSelector().getEditor().setText("");
+				searchView.getSecondDepartureDateSelector().setVisible(false);
+				searchView.getSecondDepartureDateSelector().getEditor().setText("");
 				model.setToDestinationTravelOptions(new ArrayList<TravelOption>());
 				model.setFromDestinationTravelOptions(new ArrayList<TravelOption>());
 				SearchView.setupOneWayView();
+				ReservationView.setupOneWayView();
 			}
 		});
 		
-		view.getRoundTripRadioButton().setAction(new AbstractAction("Round Trip") {
+		searchView.getRoundTripRadioButton().setAction(new AbstractAction("Round Trip") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -147,17 +148,18 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getOneWayRadioButton().setSelected(false);
-				view.getRoundTripRadioButton().setSelected(true);
+				searchView.getOneWayRadioButton().setSelected(false);
+				searchView.getRoundTripRadioButton().setSelected(true);
 				model.setTravelType(TravelType.ROUND_TRIP);
-				view.getSecondDepartureDateSelector().setVisible(true);
+				searchView.getSecondDepartureDateSelector().setVisible(true);
 				model.setToDestinationTravelOptions(new ArrayList<TravelOption>());
 				model.setFromDestinationTravelOptions(new ArrayList<TravelOption>());
 				SearchView.setupRoundTripView();
+				ReservationView.setupRoundTripView();
 			}
 		});
 		
-		view.getCoachRadioButton().setAction(new AbstractAction("Coach") {
+		searchView.getCoachRadioButton().setAction(new AbstractAction("Coach") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -173,13 +175,13 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getCoachRadioButton().setSelected(true);
-				view.getFirstClassRadioButton().setSelected(false);
+				searchView.getCoachRadioButton().setSelected(true);
+				searchView.getFirstClassRadioButton().setSelected(false);
 				model.setSeatingType(SeatingType.COACH);
 			}
 		});
 		
-		view.getFirstClassRadioButton().setAction(new AbstractAction("First Class") {
+		searchView.getFirstClassRadioButton().setAction(new AbstractAction("First Class") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -195,13 +197,13 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getCoachRadioButton().setSelected(false);
-				view.getFirstClassRadioButton().setSelected(true);
+				searchView.getCoachRadioButton().setSelected(false);
+				searchView.getFirstClassRadioButton().setSelected(true);
 				model.setSeatingType(SeatingType.FIRST_CLASS);
 			}
 		});
 		
-		view.getNoLayoversRadioButton().setAction(new AbstractAction("No Layovers") {
+		searchView.getNoLayoversRadioButton().setAction(new AbstractAction("No Layovers") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -217,14 +219,14 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getNoLayoversRadioButton().setSelected(true);
-				view.getOneLayoverRadioButton().setSelected(false);
-				view.getTwoLayoversRadioButton().setSelected(false);
+				searchView.getNoLayoversRadioButton().setSelected(true);
+				searchView.getOneLayoverRadioButton().setSelected(false);
+				searchView.getTwoLayoversRadioButton().setSelected(false);
 				model.setLayoverType(LayoverType.NO_LAYOVERS);
 			}
 		});
 		
-		view.getOneLayoverRadioButton().setAction(new AbstractAction("One Layover") {
+		searchView.getOneLayoverRadioButton().setAction(new AbstractAction("One Layover") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -240,14 +242,14 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getNoLayoversRadioButton().setSelected(false);
-				view.getOneLayoverRadioButton().setSelected(true);
-				view.getTwoLayoversRadioButton().setSelected(false);
+				searchView.getNoLayoversRadioButton().setSelected(false);
+				searchView.getOneLayoverRadioButton().setSelected(true);
+				searchView.getTwoLayoversRadioButton().setSelected(false);
 				model.setLayoverType(LayoverType.ONE_LAYOVER);
 			}
 		});
 		
-		view.getTwoLayoversRadioButton().setAction(new AbstractAction("Two Layovers") {
+		searchView.getTwoLayoversRadioButton().setAction(new AbstractAction("Two Layovers") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -263,14 +265,14 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getNoLayoversRadioButton().setSelected(false);
-				view.getOneLayoverRadioButton().setSelected(false);
-				view.getTwoLayoversRadioButton().setSelected(true);
+				searchView.getNoLayoversRadioButton().setSelected(false);
+				searchView.getOneLayoverRadioButton().setSelected(false);
+				searchView.getTwoLayoversRadioButton().setSelected(true);
 				model.setLayoverType(LayoverType.TWO_LAYOVERS);
 			}
 		});
 		
-		view.getArrivalAirport().addMouseListener(new MouseListener() {
+		searchView.getArrivalAirport().addMouseListener(new MouseListener() {
 
 			/**
 			 * This method responds to the case in which the user has
@@ -281,9 +283,9 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (view.getArrivalAirport().getText().equals("Enter Airport Code...")) {
-					view.getArrivalAirport().setText("");
-					view.getArrivalAirport().setForeground(Color.BLACK);
+				if (searchView.getArrivalAirport().getText().equals("Enter Airport Code...")) {
+					searchView.getArrivalAirport().setText("");
+					searchView.getArrivalAirport().setForeground(Color.BLACK);
 				}
 			}
 
@@ -308,7 +310,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			}
 		});
 		
-		view.getDepartureAirport().addMouseListener(new MouseListener() {
+		searchView.getDepartureAirport().addMouseListener(new MouseListener() {
 
 			/**
 			 * This method responds to the case in which the user has
@@ -319,9 +321,9 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (view.getDepartureAirport().getText().equals("Enter Airport Code...")) {
-					view.getDepartureAirport().setText("");
-					view.getDepartureAirport().setForeground(Color.BLACK);
+				if (searchView.getDepartureAirport().getText().equals("Enter Airport Code...")) {
+					searchView.getDepartureAirport().setText("");
+					searchView.getDepartureAirport().setForeground(Color.BLACK);
 				}
 			}
 
@@ -346,7 +348,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			}
 		});
 		
-		view.getSearchButton().setAction(new AbstractAction("Search") {
+		searchView.getSearchButton().setAction(new AbstractAction("Search") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -362,15 +364,15 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (view.getOneWayRadioButton().isSelected()) {
-					if (view.getDepartureAirport().getText().length() == 3
-							&& view.getArrivalAirport().getText().length() == 3) {
-						Date first = view.getFirstDepartureDateSelector().getDate();
+				if (searchView.getOneWayRadioButton().isSelected()) {
+					if (searchView.getDepartureAirport().getText().length() == 3
+							&& searchView.getArrivalAirport().getText().length() == 3) {
+						Date first = searchView.getFirstDepartureDateSelector().getDate();
 						if (first != null) {
 							if (first.after(new Date()) || first.equals(new Date())) {
 								model.setFirstDepartureDate(first);
-								model.setDepartureAirport(view.getDepartureAirport().getText());
-								model.setArrivalAirport(view.getArrivalAirport().getText());
+								model.setDepartureAirport(searchView.getDepartureAirport().getText());
+								model.setArrivalAirport(searchView.getArrivalAirport().getText());
 								
 								// Fire off a call to the thread for acquiring flights
 								TravelOptionFinder finder = new TravelOptionFinder();
@@ -378,7 +380,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							}
 							else {
 								Toolkit.getDefaultToolkit().beep();
-								view.getFirstDepartureDateSelector().getEditor().setText("");
+								searchView.getFirstDepartureDateSelector().getEditor().setText("");
 							}
 						}
 						else {
@@ -387,27 +389,27 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
-						if (view.getDepartureAirport().getText().length() != 3) {
-							view.getDepartureAirport().setForeground(Color.GRAY);
-							view.getDepartureAirport().setText("Enter Airport Code...");
+						if (searchView.getDepartureAirport().getText().length() != 3) {
+							searchView.getDepartureAirport().setForeground(Color.GRAY);
+							searchView.getDepartureAirport().setText("Enter Airport Code...");
 						}
-						if (view.getArrivalAirport().getText().length() != 3) {
-							view.getArrivalAirport().setForeground(Color.GRAY);
-							view.getArrivalAirport().setText("Enter Airport Code...");
+						if (searchView.getArrivalAirport().getText().length() != 3) {
+							searchView.getArrivalAirport().setForeground(Color.GRAY);
+							searchView.getArrivalAirport().setText("Enter Airport Code...");
 						}
 					}
 				}
-				if (view.getRoundTripRadioButton().isSelected()) {
-					if (view.getDepartureAirport().getText().length() == 3
-							&& view.getArrivalAirport().getText().length() == 3) {
-						Date first = view.getFirstDepartureDateSelector().getDate();
-						Date second = view.getSecondDepartureDateSelector().getDate();
+				if (searchView.getRoundTripRadioButton().isSelected()) {
+					if (searchView.getDepartureAirport().getText().length() == 3
+							&& searchView.getArrivalAirport().getText().length() == 3) {
+						Date first = searchView.getFirstDepartureDateSelector().getDate();
+						Date second = searchView.getSecondDepartureDateSelector().getDate();
 						if (first != null && second != null) {
 							if (first.after(new Date()) && (second.after(first) || second.equals(first))) {
 								model.setFirstDepartureDate(first);
 								model.setSecondDepartureDate(second);
-								model.setDepartureAirport(view.getDepartureAirport().getText());
-								model.setArrivalAirport(view.getArrivalAirport().getText());
+								model.setDepartureAirport(searchView.getDepartureAirport().getText());
+								model.setArrivalAirport(searchView.getArrivalAirport().getText());
 								
 								// Fire off a call to the thread for acquiring flights
 								TravelOptionFinder finder = new TravelOptionFinder();
@@ -420,10 +422,10 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							else {
 								Toolkit.getDefaultToolkit().beep();
 								if (first.before(new Date())) {
-									view.getFirstDepartureDateSelector().getEditor().setText("");
+									searchView.getFirstDepartureDateSelector().getEditor().setText("");
 								}
 								if (second.before(first) || second.before(new Date())) {
-									view.getSecondDepartureDateSelector().getEditor().setText("");
+									searchView.getSecondDepartureDateSelector().getEditor().setText("");
 								}
 							}
 						}
@@ -431,32 +433,32 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							Toolkit.getDefaultToolkit().beep();
 							if (first != null) {
 								if (!first.after(new Date()) || first.equals(new Date())) {
-									view.getFirstDepartureDateSelector().getEditor().setText("");
+									searchView.getFirstDepartureDateSelector().getEditor().setText("");
 								}
 							}
 							if (second != null) {
 								if (second.before(new Date())) {
-									view.getSecondDepartureDateSelector().getEditor().setText("");
+									searchView.getSecondDepartureDateSelector().getEditor().setText("");
 								}
 							}
 						}
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
-						if (view.getDepartureAirport().getText().length() != 3) {
-							view.getDepartureAirport().setForeground(Color.GRAY);
-							view.getDepartureAirport().setText("Enter Airport Code...");
+						if (searchView.getDepartureAirport().getText().length() != 3) {
+							searchView.getDepartureAirport().setForeground(Color.GRAY);
+							searchView.getDepartureAirport().setText("Enter Airport Code...");
 						}
-						if (view.getArrivalAirport().getText().length() != 3) {
-							view.getArrivalAirport().setForeground(Color.GRAY);
-							view.getArrivalAirport().setText("Enter Airport Code...");
+						if (searchView.getArrivalAirport().getText().length() != 3) {
+							searchView.getArrivalAirport().setForeground(Color.GRAY);
+							searchView.getArrivalAirport().setText("Enter Airport Code...");
 						}
 					}
 				}
 			}
 		});
 		
-		view.getReserveButton().setAction(new AbstractAction("Reserve") {
+		searchView.getReserveButton().setAction(new AbstractAction("Reserve") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -505,7 +507,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			}
 		});
 		
-		view.getPriceSortButton().setAction(new AbstractAction("Price Sort") {
+		searchView.getPriceSortButton().setAction(new AbstractAction("Price Sort") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -540,7 +542,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			}
 		});
 		
-		view.getTimeSortButton().setAction(new AbstractAction("Time Sort") {
+		searchView.getTimeSortButton().setAction(new AbstractAction("Time Sort") {
 			
 			/**
 			 * The serial version unique identification number for this action
@@ -585,8 +587,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		int selectedToDestIndex = view.getToDestList().getSelectedIndex();
-		int selectedFromDestIndex = view.getFromDestList().getSelectedIndex();
+		int selectedToDestIndex = searchView.getToDestList().getSelectedIndex();
+		int selectedFromDestIndex = searchView.getFromDestList().getSelectedIndex();
 		if (selectedToDestIndex >= 0) {
 			int counter = 0;
 			for (TravelOption option : model.getToDestinationTravelOptions()) {
@@ -626,10 +628,10 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	@SuppressWarnings("unchecked")
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equalsIgnoreCase(toDestUpdateTag)) {
-			view.updateToDestList((Collection<TravelOption>) evt.getNewValue());
+			searchView.updateToDestList((Collection<TravelOption>) evt.getNewValue());
 		}
 		if (evt.getPropertyName().equalsIgnoreCase(fromDestUpdateTag)) {
-			view.updateFromDestList((Collection<TravelOption>) evt.getNewValue());
+			searchView.updateFromDestList((Collection<TravelOption>) evt.getNewValue());
 		}
 	}
 }
