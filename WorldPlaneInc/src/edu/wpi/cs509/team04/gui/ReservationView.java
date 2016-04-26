@@ -213,6 +213,8 @@ public class ReservationView {
 		btnConfirm.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		btnConfirm.setBounds(25, 501, 245, 61);
 		background.add(btnConfirm);
+		
+		setupOneWayView();
 	}
 	
 	
@@ -239,7 +241,7 @@ public class ReservationView {
 	 * This method configures the view so that it corresponds
 	 * to a reservation being made for a one-way travel option
 	 */
-	public void setOneWay() {
+	public static void setupOneWayView() {
 		lblFromDest.setVisible(false);
 		panelFromDest.setVisible(false);
 	}
@@ -249,7 +251,7 @@ public class ReservationView {
 	 * This method configures the view so that it corresponds
 	 * to a reservation being made for a round-trip travel option
 	 */
-	public void setRoundTrip() {
+	public static void setupRoundTripView() {
 		lblFromDest.setVisible(true);
 		panelFromDest.setVisible(true);
 	}
