@@ -30,13 +30,12 @@ public class Helper {
 	 * 
 	 * @param flight identifies the selected flight to match the airplane.
 	 * @param resSys identifies the Server Interface.
-	 * @param team identifies the team instance on the database to connect.
 	 * @return Dictionary<String, Integer> with available seat information
 	 */
-	public static Dictionary<String, Integer> getAvailableSeats(Flight flight, ServerInterface resSys, String team) {
+	public static Dictionary<String, Integer> getAvailableSeats(Flight flight, ServerInterface resSys) {
 
 		//Get airplane data
-		String xmlAirplanes = resSys.getAirplanes(team);
+		String xmlAirplanes = resSys.getAirplanes();
 		
 		// Create the aggregate flights
 		Airplanes planes = new Airplanes();
@@ -119,11 +118,11 @@ public class Helper {
 	 * @param departDate identifies the Departure Date as YYYY_MM_DD.
 	 * @return List<Dictionary<String, Flight>> with list of flights.
 	 */
-	public static List<Dictionary<String, Flight>> getFlightList(String team, String departCode, String arriveCode, String departureDate) throws ParseException {
+	public static List<Dictionary<String, Flight>> getFlightList(String departCode, String arriveCode, String departureDate) throws ParseException {
 		
 		ServerInterface resSys = ServerInterface.getInstance();
 		departDate = departureDate;
-		String xmlFlights = resSys.getFlights(team, departCode, departDate);
+		String xmlFlights = resSys.getFlights(departCode, departDate);
 		Flights flights = new Flights();
 		Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
 
@@ -151,13 +150,13 @@ public class Helper {
 				flights2 = new Flights();
 				if (departTime2min.get(Calendar.DAY_OF_YEAR) == departTime2max.get(Calendar.DAY_OF_YEAR)){
 					String departDate2 = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
-					String xmlFlights2 = resSys.getFlights(team, departCode2, departDate2);
+					String xmlFlights2 = resSys.getFlights(departCode2, departDate2);
 					flights2.addAll(xmlFlights2);
 				} else {
 					String departDate2min = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
 					String departDate2max = String.format("%d_%02d_%02d", departTime2max.get(Calendar.YEAR), departTime2max.get(Calendar.MONTH), departTime2max.get(Calendar.DAY_OF_MONTH));
-					String xmlFlights2min = resSys.getFlights(team, departCode2, departDate2min);
-					String xmlFlights2max = resSys.getFlights(team, departCode2, departDate2max);
+					String xmlFlights2min = resSys.getFlights(departCode2, departDate2min);
+					String xmlFlights2max = resSys.getFlights(departCode2, departDate2max);
 					flights2.addAll(xmlFlights2min);
 					flights2.addAll(xmlFlights2max);
 				}
@@ -182,13 +181,13 @@ public class Helper {
 							flights3 = new Flights();
 							if (departTime3min.get(Calendar.DAY_OF_YEAR) == departTime3max.get(Calendar.DAY_OF_YEAR)){
 								String departDate3 = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
-								String xmlFlights3 = resSys.getFlights(team, departCode3, departDate3);
+								String xmlFlights3 = resSys.getFlights(departCode3, departDate3);
 								flights3.addAll(xmlFlights3);
 							} else {
 								String departDate3min = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
 								String departDate3max = String.format("%d_%02d_%02d", departTime3max.get(Calendar.YEAR), departTime3max.get(Calendar.MONTH), departTime3max.get(Calendar.DAY_OF_MONTH));
-								String xmlFlights3min = resSys.getFlights(team, departCode3, departDate3min);
-								String xmlFlights3max = resSys.getFlights(team, departCode3, departDate3max);
+								String xmlFlights3min = resSys.getFlights(departCode3, departDate3min);
+								String xmlFlights3max = resSys.getFlights(departCode3, departDate3max);
 								flights3.addAll(xmlFlights3min);
 								flights3.addAll(xmlFlights3max);
 							}
