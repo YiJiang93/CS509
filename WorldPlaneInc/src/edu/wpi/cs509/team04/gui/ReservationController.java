@@ -11,13 +11,11 @@ package edu.wpi.cs509.team04.gui;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs509.team04.common.TravelOption;
 import edu.wpi.cs509.team04.enums.TravelType;
-import edu.wpi.cs509.team04.resources.ConfigSingleton;
 import edu.wpi.cs509.team04.server.ServerInterface;
 
 /**
@@ -113,6 +111,7 @@ public class ReservationController {
 			public void actionPerformed(ActionEvent e) {
 				view.getFirstClassRadioButton().setSelected(true);
 				view.getCoachRadioButton().setSelected(false);
+				System.out.println("ACTIVATED FIRST CLASS BUTTON");
 			}
 		});
 		
@@ -155,10 +154,8 @@ public class ReservationController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ServerInterface serverInterface = ServerInterface.getInstance();
-				ConfigSingleton configSingleton = ConfigSingleton.getInstance();
-				String team = configSingleton.get("team");
 				String seating = "Coach";
-				Collection<String> flightNumbers = new ArrayList<String>();
+				ArrayList<String> flightNumbers = new ArrayList<String>();
 				
 				TravelOption firstLeg = sModel.getSelectedToDestOption();
 				
@@ -190,9 +187,11 @@ public class ReservationController {
 					seating = "First Class";
 				}
 				
-				for (String flightNumber : flightNumbers) {
-					serverInterface.buyTickets(team, flightNumber, seating);
-				}
+				serverInterface.lock();
+				serverInterface.buyTickets(flightNumbers.get(0), seating);
+				serverInterface.buyTickets(flightNumbers.get(1), seating);
+				serverInterface.buyTickets(flightNumbers.get(2), seating);
+				serverInterface.unlock();
 			}
 		});
 	}
