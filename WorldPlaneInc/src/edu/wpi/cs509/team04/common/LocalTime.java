@@ -35,9 +35,9 @@ public class LocalTime{
 
 	public static void init(){
 			
-		String team = ConfigSingleton.getInstance().get("team");
+//		String team = ConfigSingleton.getInstance().get("team");
 		ServerInterface resSys = ServerInterface.getInstance();
-		String xmlAirport = resSys.getAirports(team);
+		String xmlAirport = resSys.getAirports();
 			
 		Airports ports = new Airports();
 		ports.addAll(xmlAirport);
