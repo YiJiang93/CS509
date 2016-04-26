@@ -5,10 +5,10 @@ import java.util.Date;
 
 import edu.wpi.cs509.team04.common.Airports;
 import edu.wpi.cs509.team04.common.LocalTime;
+import edu.wpi.cs509.team04.gui.ReservationController;
 import edu.wpi.cs509.team04.gui.ReservationView;
 import edu.wpi.cs509.team04.gui.SearchController;
 import edu.wpi.cs509.team04.gui.SearchView;
-import edu.wpi.cs509.team04.resources.ConfigSingleton;
 import edu.wpi.cs509.team04.server.ServerInterface;
 
 /**
@@ -22,9 +22,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		String team = ConfigSingleton.getInstance().get("team");
 		ServerInterface resSys = ServerInterface.getInstance();
-		String xmlAirport = resSys.getAirports(team);
+		String xmlAirport = resSys.getAirports();
 			
 		Airports ports = new Airports();
 		ports.addAll(xmlAirport);
@@ -53,6 +52,7 @@ public class Main {
 				try {
 					SearchController.getInstance();
 					SearchView searchView = SearchView.getInstance();
+					ReservationController.getInstance();
 					ReservationView reservationView = ReservationView.getInstance();
 					reservationView.setVisible(false);
 					searchView.setVisible(true);
