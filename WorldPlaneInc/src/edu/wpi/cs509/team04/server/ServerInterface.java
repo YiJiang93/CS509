@@ -67,15 +67,16 @@ public class ServerInterface {
 	 * ticket agency through an HTTP GET request issued to the
 	 * CS 509 server
 	 * 
-	 * @param team Identifies the ticket agency requesting the information
 	 * @return An XML string listing all of the airports
 	 */
-	public String getAirports(String team) {
+	public String getAirports() {
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
+		ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+		String team = configSingleton.get("team");
 		
 		try {
 			// Create an HTTP connection to the server for a GET request
@@ -112,15 +113,16 @@ public class ServerInterface {
 	 * ticket agency through an HTTP GET request issued to the
 	 * CS 509 server
 	 * 
-	 * @param team Identifies the ticket agency requesting the information
 	 * @return An XML string listing all of the airplanes
 	 */
-	public String getAirplanes(String team) {
+	public String getAirplanes() {
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
+		ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+		String team = configSingleton.get("team");
 		
 		try {
 			// Create an HTTP connection to the server for a GET request
@@ -155,17 +157,18 @@ public class ServerInterface {
 	 * retrieving the list of flights available for the
 	 * specified team, departure airport, and day
 	 * 
-	 * @param team Identifies the ticket agency requesting the information
 	 * @param airportCode Identifies the departure airport
 	 * @param day Identifies the departure date
 	 * @return An XML string listing flights available for the specified criteria
 	 */
-	public String getFlights(String team, String airportCode, String day) {
+	public String getFlights(String airportCode, String day) {
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
+		ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+		String team = configSingleton.get("team");
 		
 		try {
 			// Create an HTTP connection to the server for a GET request
@@ -199,12 +202,13 @@ public class ServerInterface {
 	/**
 	 * This method is used to lock the database
 	 * 
-	 * @param team The ticket agency requesting the lock
 	 * @return true if database is successfully locked; false otherwise
 	 */
-	public boolean lock(String team) {
+	public boolean lock() {
 		URL url;
 		HttpURLConnection connection;
+		ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+		String team = configSingleton.get("team");
 		
 		try {
 			url = new URL(mUrlBase);
@@ -247,12 +251,13 @@ public class ServerInterface {
 	/**
 	 * This method is used to unlock the database
 	 * 
-	 * @param team The ticket agency requesting the unlock
 	 * @return true if database is successfully unlocked; false otherwise
 	 */
-	public boolean unlock (String team) {
+	public boolean unlock() {
 		URL url;
 		HttpURLConnection connection;
+		ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+		String team = configSingleton.get("team");
 		
 		try {
 			url = new URL(mUrlBase);
@@ -298,12 +303,14 @@ public class ServerInterface {
 	 * This method is used to reserve a flight by posting a
 	 * flight reservation to the database for an update
 	 * 
-	 * @param team The ticket agency requesting the reservation
 	 * @param flightNumber The number of the flight being reserved
 	 * @param seating The type of seating requested in the reservation
-	 * @return true if the reservation is successfully made; false otherwise
+	 * @return true if successful, false otherwise
 	 */
-	public boolean buyTickets(String team, String flightNumber, String seating) {
+	public boolean buyTickets(String flightNumber, String seating) {
+		
+		ConfigSingleton configSingleton = ConfigSingleton.getInstance();
+		String team = configSingleton.get("team");
 		
 		String xmlReservation = "<Flights>"
 				+ "<Flight number=\"" + flightNumber + "\" seating=\""+ seating + "\"/>"
