@@ -29,7 +29,6 @@ import edu.wpi.cs509.team04.enums.LayoverType;
 import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.threads.TravelOptionFinder;
-import edu.wpi.cs509.team04.threads.TravelOptionSorter;
 import edu.wpi.cs509.team04.threads.TravelOptionTimeSorter;
 import edu.wpi.cs509.team04.threads.TravelPriceSorter;
 
