@@ -99,7 +99,8 @@ public class TravelOption {
 			infoString += initialFlight.getmAirplane() + "<br>";
 			infoString += "First class = " + initialFlight.getmPriceFirstclass();
 			infoString += " , Coach = " + initialFlight.getmPriceCoach() + "<br>";
-			infoString += "Coach Seats = " + initialFlight.getmSeatsCoach();
+			infoString += "Coach Seats = " + initialFlight.getmSeatsCoach() + " , ";
+			infoString += "First Class Seats = " + initialFlight.getmSeatsFirstclass();
 			infoString += "<hr>";
 		} 
 		if (!firstLayover.equals(nullFlight)) {
@@ -116,7 +117,8 @@ public class TravelOption {
 			infoString += firstLayover.getmAirplane() + "<br>";
 			infoString += "First class = " + firstLayover.getmPriceFirstclass();
 			infoString += " , Coach = " + firstLayover.getmPriceCoach() + "<br>";
-			infoString += "Coach Seats = " + firstLayover.getmSeatsCoach();
+			infoString += "Coach Seats = " + firstLayover.getmSeatsCoach() + " , ";
+			infoString += "First Class Seats = " + firstLayover.getmSeatsFirstclass();
 			infoString += "<hr>";
 		}
 		if (!(firstLayover.equals(nullFlight)) && !(secondLayover.equals(nullFlight))) {
@@ -133,7 +135,8 @@ public class TravelOption {
 			infoString += secondLayover.getmAirplane() + "<br>";
 			infoString += "First class = " + secondLayover.getmPriceFirstclass();
 			infoString += " , Coach = " + secondLayover.getmPriceCoach() + "<br>";
-			infoString += "Coach Seats = " + secondLayover.getmSeatsCoach();
+			infoString += "Coach Seats = " + secondLayover.getmSeatsCoach() + " , ";
+			infoString += "First Class Seats = " + secondLayover.getmSeatsFirstclass();
 			infoString += "<hr>";
 		}
 		infoString += "</html>";
