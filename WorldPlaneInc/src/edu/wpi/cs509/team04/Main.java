@@ -1,15 +1,11 @@
 package edu.wpi.cs509.team04;
 
 import java.awt.EventQueue;
-import java.util.Date;
 
-import edu.wpi.cs509.team04.common.Airports;
-import edu.wpi.cs509.team04.common.LocalTime;
 import edu.wpi.cs509.team04.gui.ReservationController;
 import edu.wpi.cs509.team04.gui.ReservationView;
 import edu.wpi.cs509.team04.gui.SearchController;
 import edu.wpi.cs509.team04.gui.SearchView;
-import edu.wpi.cs509.team04.server.ServerInterface;
 
 /**
  * Project EntryPoint
