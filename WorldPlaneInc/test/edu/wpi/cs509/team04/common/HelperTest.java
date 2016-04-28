@@ -35,7 +35,26 @@ public class HelperTest {
 		seats.put("CoachSeats", maxCoach);
 
 		//Validate the seats construct is equal to the return of the method.
-		assertEquals(seats, Helper.getAvailableSeats(flight, resSys));
+		assertEquals(seats, Helper.getAvailableSeats(flight));
+	}
+	
+	@Test
+	public void testAvailableSeats() {
+
+		//Build seats construct with 0 First Class Seats available and 100 Coach Seats
+		Dictionary<String, Integer> seats = new Hashtable<String, Integer>(); 
+		seats.put("FirstClassSeats", 0);
+		seats.put("CoachSeats", 100);
+		
+		System.out.println("Type of Seating: First Class");
+		System.out.println("Number of Seats available: " + seats.get("FirstClassSeats"));
+
+		assertFalse(Helper.areSeatsAvailable(seats, "First Class"));
+		
+		System.out.println("Type of Seating: Coach");
+		System.out.println("Number of Seats available: " + seats.get("CoachSeats"));
+		assertTrue(Helper.areSeatsAvailable(seats, "Coach"));
+
 	}
 
 }

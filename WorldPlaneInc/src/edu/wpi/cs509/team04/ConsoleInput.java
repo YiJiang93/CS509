@@ -223,7 +223,7 @@ public class ConsoleInput {
 			if(!fn) System.out.println(flightNumber + " was not in the search results.");
 		}
 		
-		Dictionary<String, Integer> seats = Helper.getAvailableSeats(selectedFlight, resSys);
+		Dictionary<String, Integer> seats = Helper.getAvailableSeats(selectedFlight);
 		/*
 		//Get airplane data
 		String xmlAirplanes = resSys.getAirplanes();

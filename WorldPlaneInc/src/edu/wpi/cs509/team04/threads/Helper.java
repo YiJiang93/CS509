@@ -34,7 +34,9 @@ public class Helper {
 	 * @param resSys identifies the Server Interface.
 	 * @return Dictionary<String, Integer> with available seat information
 	 */
-	public static Dictionary<String, Integer> getAvailableSeats(Flight flight, ServerInterface resSys) {
+	public static Dictionary<String, Integer> getAvailableSeats(Flight flight) {
+
+		ServerInterface resSys = ServerInterface.getInstance();
 
 		//Get airplane data
 		String xmlAirplanes = resSys.getAirplanes();
@@ -64,6 +66,19 @@ public class Helper {
 
 		return seats;
 	}
+	
+	public static boolean areSeatsAvailable(Dictionary<String, Integer> seating, String type) {
+
+		if (type == "Coach"){type = "CoachSeats";}
+		if (type == "First Class"){type = "FirstClassSeats";}
+		
+		if (seating.get(type) > 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	
 	/**
 	 * Return Calendar Object with time adjusted
@@ -260,7 +275,18 @@ public class Helper {
 		return flightArray2;
 	}
 	
-	
+	/**
+	 * Return List<Dictionary<String, Flight>> pair with:
+	 *    keys: "First, Second, Third"
+	 *    values: Flight Object for the leg of the trip, or a null Flight.
+	 *    Ordered from cheapest or shortest flight.
+	 *    
+	 * Given a list of Flights, calculate the total Flight time or the Total Cost, then sort.
+	 * 
+	 * @param List<Dictionary<String, Flight>> list of flights to be sorted.
+	 * @param type identifies the method of sorting.
+	 * @return List<Dictionary<String, Flight>> with list of flights sorted.
+	 */
 	public static List<Dictionary<String, Flight>> getSortedFlightList(List<Dictionary<String, Flight>> flightList, String type) throws ParseException {
 		
 		List<Dictionary<String, Flight>> sortedFlightList = new ArrayList<Dictionary<String, Flight>>();

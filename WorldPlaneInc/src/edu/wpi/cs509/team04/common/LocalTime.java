@@ -33,8 +33,8 @@ import java.nio.file.StandardOpenOption;
  */
 public class LocalTime{
 
-	public static void init(){
-			
+	public static void init(){	
+
 		ServerInterface resSys = ServerInterface.getInstance();
 		String xmlAirport = resSys.getAirports();
 			
