@@ -457,11 +457,13 @@ public class SearchView {
 		searchResultsPanel.add(lblFromDestination);
 		
 		lblToDestSearch = new JLabel("Searching...");
+		lblToDestSearch.setVisible(false);
 		lblToDestSearch.setForeground(Color.WHITE);
 		lblToDestSearch.setBounds(269, 12, 80, 16);
 		searchResultsPanel.add(lblToDestSearch);
 		
 		lblFromDestSearch = new JLabel("Searching...");
+		lblFromDestSearch.setVisible(false);
 		lblFromDestSearch.setForeground(Color.WHITE);
 		lblFromDestSearch.setBounds(621, 12, 80, 16);
 		searchResultsPanel.add(lblFromDestSearch);
