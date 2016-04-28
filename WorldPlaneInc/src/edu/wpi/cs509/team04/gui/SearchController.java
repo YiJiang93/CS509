@@ -390,7 +390,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 								model.setFirstDepartureDate(first);
 								model.setDepartureAirport(searchView.getDepartureAirport().getText());
 								model.setArrivalAirport(searchView.getArrivalAirport().getText());
-								
+								SearchView.showToDestLoading(true);
+		
 								// Fire off a call to the thread for acquiring flights
 								TravelOptionFinder finder = new TravelOptionFinder();
 								finder.getFlights();
@@ -427,6 +428,9 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 								model.setSecondDepartureDate(second);
 								model.setDepartureAirport(searchView.getDepartureAirport().getText());
 								model.setArrivalAirport(searchView.getArrivalAirport().getText());
+								
+								SearchView.showToDestLoading(true);
+								SearchView.showFromDestLoading(true);
 								
 								// Fire off a call to the thread for acquiring flights
 								TravelOptionFinder finder = new TravelOptionFinder();
@@ -547,6 +551,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
 						TravelOptionSorter sorter = new TravelOptionSorter();
 						sorter.priceSort();
+						SearchView.showToDestSorting(true);
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -557,6 +562,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							&& !model.getFromDestinationTravelOptions().isEmpty()) {
 						TravelOptionSorter sorter = new TravelOptionSorter();
 						sorter.priceSort();
+						SearchView.showToDestSorting(true);
+						SearchView.showFromDestSorting(true);
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
