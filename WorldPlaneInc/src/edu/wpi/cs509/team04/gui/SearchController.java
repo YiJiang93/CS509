@@ -29,6 +29,8 @@ import edu.wpi.cs509.team04.enums.LayoverType;
 import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.threads.TravelOptionFinder;
+import edu.wpi.cs509.team04.threads.TravelOptionSorter;
+import edu.wpi.cs509.team04.threads.TravelOptionTimeSorter;
 import edu.wpi.cs509.team04.threads.TravelPriceSorter;
 
 /**
@@ -589,7 +591,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			public void actionPerformed(ActionEvent e) {
 				if (model.getTravelType() == TravelType.ONE_WAY) {
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
-						// apply the sort to the list model
+						TravelOptionTimeSorter sorter = new TravelOptionTimeSorter();
+						sorter.timeSort();
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -598,7 +601,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				if (model.getTravelType() == TravelType.ROUND_TRIP) {
 					if (!model.getToDestinationTravelOptions().isEmpty()
 							&& !model.getFromDestinationTravelOptions().isEmpty()) {
-						// apply the sort to the list models
+						TravelOptionTimeSorter sorter = new TravelOptionTimeSorter();
+						sorter.timeSort();
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
