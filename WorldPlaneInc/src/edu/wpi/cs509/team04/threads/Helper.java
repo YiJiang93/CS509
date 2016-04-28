@@ -13,6 +13,8 @@ import edu.wpi.cs509.team04.common.Airplane;
 import edu.wpi.cs509.team04.common.Airplanes;
 import edu.wpi.cs509.team04.common.Flight;
 import edu.wpi.cs509.team04.common.Flights;
+import edu.wpi.cs509.team04.enums.LayoverType;
+import edu.wpi.cs509.team04.gui.SearchModel;
 import edu.wpi.cs509.team04.server.ServerInterface;
 
 public class Helper {
@@ -109,10 +111,9 @@ public class Helper {
 	 *    values: Flight Object for the leg of the trip, or a null Flight.
 	 * 
 	 * Retrieve the list of possible trips from departure airport to arrival airport with up to two stop-overs.
-	 *  At least one hour after first flight lands before the next flight leaves, and no more than three hours.
-	 *  If the flight does not have two or three legs, null objects are returned.
+	 * At least one hour after first flight lands before the next flight leaves, and no more than three hours.
+	 * If the flight does not have two or three legs, null objects are returned.
 	 * 
-	 * @param team identifies the team instance on the database to connect.
 	 * @param departCode identifies the Departure Airport Code.
 	 * @param arriveCode identifies the final Arrival Airport Code.
 	 * @param departDate identifies the Departure Date as YYYY_MM_DD.
@@ -121,6 +122,7 @@ public class Helper {
 	public static List<Dictionary<String, Flight>> getFlightList(String departCode, String arriveCode, String departureDate) throws ParseException {
 		
 		ServerInterface resSys = ServerInterface.getInstance();
+		SearchModel searchModel = SearchModel.getInstance();
 		departDate = departureDate;
 		String xmlFlights = resSys.getFlights(departCode, departDate);
 		Flights flights = new Flights();
@@ -131,80 +133,83 @@ public class Helper {
 		flights.addAll(xmlFlights);
 
 		List<Dictionary<String, Flight>> flightArray = new ArrayList<Dictionary<String, Flight>>();
-
-		for(int i=0; i<flights.size() - 1; i++) {
-			System.out.println("FlightList 1, Flight " + i);
-			Flight flight = flights.get(i);
-			if(flight.getmCodeArrival().equals(arriveCode)) {
-				Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
-				flightStruct.put("First", flight);
-				flightStruct.put("Second",  nullFlight);
-				flightStruct.put("Third", nullFlight);
-				flightArray.add(flightStruct);
-			} else {
-				String departCode2 = flight.getmCodeArrival();
-				String arriveTime2 = flight.getmTimeArrival();
-				Calendar departTime2min = adjustTime(arriveTime2, 1);
-				Calendar departTime2max = adjustTime(arriveTime2, 3);
-				Flights flights2 = new Flights();
-				flights2 = new Flights();
-				if (departTime2min.get(Calendar.DAY_OF_YEAR) == departTime2max.get(Calendar.DAY_OF_YEAR)){
-					String departDate2 = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
-					String xmlFlights2 = resSys.getFlights(departCode2, departDate2);
-					flights2.addAll(xmlFlights2);
+		List<Dictionary<String, Flight>> flightArray2 = new ArrayList<Dictionary<String, Flight>>();
+		
+		if (searchModel.getLayoverType() != LayoverType.NO_LAYOVERS) {
+			for(int i=0; i<flights.size() - 1; i++) {
+				System.out.println("FlightList 1, Flight " + i);
+				Flight flight = flights.get(i);
+				if(flight.getmCodeArrival().equals(arriveCode)) {
+					Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
+					flightStruct.put("First", flight);
+					flightStruct.put("Second",  nullFlight);
+					flightStruct.put("Third", nullFlight);
+					flightArray.add(flightStruct);
 				} else {
-					String departDate2min = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
-					String departDate2max = String.format("%d_%02d_%02d", departTime2max.get(Calendar.YEAR), departTime2max.get(Calendar.MONTH), departTime2max.get(Calendar.DAY_OF_MONTH));
-					String xmlFlights2min = resSys.getFlights(departCode2, departDate2min);
-					String xmlFlights2max = resSys.getFlights(departCode2, departDate2max);
-					flights2.addAll(xmlFlights2min);
-					flights2.addAll(xmlFlights2max);
-				}
-				for(int j=0; j<flights2.size() - 1; j++) {
-					System.out.println("FlightList 2, Flight " + j);
-					Flight flight2 = flights2.get(j);
-					Calendar departTime2 = adjustTime(flight2.getmTimeDepart(), 0);
-					if(departTime2min.before(departTime2) && departTime2max.after(departTime2)){	
-						//if(flight2.getmArrivalCode().equals(departCode)) IGNORE
-						if(flight2.getmCodeArrival().equals(arriveCode)) {
-							Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
-							flightStruct.put("First", flight);
-							flightStruct.put("Second",  flight2);
-							flightStruct.put("Third", nullFlight);
-							flightArray.add(flightStruct);
-						} else {
-							String departCode3 = flight2.getmCodeArrival();
-							String arriveTime3 = flight2.getmTimeArrival();
-							Calendar departTime3min = adjustTime(arriveTime3, 1);
-							Calendar departTime3max = adjustTime(arriveTime3, 3);
-							Flights flights3 = new Flights();
-							flights3 = new Flights();
-							if (departTime3min.get(Calendar.DAY_OF_YEAR) == departTime3max.get(Calendar.DAY_OF_YEAR)){
-								String departDate3 = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
-								String xmlFlights3 = resSys.getFlights(departCode3, departDate3);
-								flights3.addAll(xmlFlights3);
+					String departCode2 = flight.getmCodeArrival();
+					String arriveTime2 = flight.getmTimeArrival();
+					Calendar departTime2min = adjustTime(arriveTime2, 1);
+					Calendar departTime2max = adjustTime(arriveTime2, 3);
+					Flights flights2 = new Flights();
+					flights2 = new Flights();
+					if (departTime2min.get(Calendar.DAY_OF_YEAR) == departTime2max.get(Calendar.DAY_OF_YEAR)){
+						String departDate2 = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
+						String xmlFlights2 = resSys.getFlights(departCode2, departDate2);
+						flights2.addAll(xmlFlights2);
+					} else {
+						String departDate2min = String.format("%d_%02d_%02d", departTime2min.get(Calendar.YEAR), departTime2min.get(Calendar.MONTH), departTime2min.get(Calendar.DAY_OF_MONTH));
+						String departDate2max = String.format("%d_%02d_%02d", departTime2max.get(Calendar.YEAR), departTime2max.get(Calendar.MONTH), departTime2max.get(Calendar.DAY_OF_MONTH));
+						String xmlFlights2min = resSys.getFlights(departCode2, departDate2min);
+						String xmlFlights2max = resSys.getFlights(departCode2, departDate2max);
+						flights2.addAll(xmlFlights2min);
+						flights2.addAll(xmlFlights2max);
+					}
+					for(int j=0; j<flights2.size() - 1; j++) {
+						System.out.println("FlightList 2, Flight " + j);
+						Flight flight2 = flights2.get(j);
+						Calendar departTime2 = adjustTime(flight2.getmTimeDepart(), 0);
+						if(departTime2min.before(departTime2) && departTime2max.after(departTime2)){	
+							//if(flight2.getmArrivalCode().equals(departCode)) IGNORE
+							if(flight2.getmCodeArrival().equals(arriveCode)) {
+								Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
+								flightStruct.put("First", flight);
+								flightStruct.put("Second",  flight2);
+								flightStruct.put("Third", nullFlight);
+								flightArray.add(flightStruct);
 							} else {
-								String departDate3min = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
-								String departDate3max = String.format("%d_%02d_%02d", departTime3max.get(Calendar.YEAR), departTime3max.get(Calendar.MONTH), departTime3max.get(Calendar.DAY_OF_MONTH));
-								String xmlFlights3min = resSys.getFlights(departCode3, departDate3min);
-								String xmlFlights3max = resSys.getFlights(departCode3, departDate3max);
-								flights3.addAll(xmlFlights3min);
-								flights3.addAll(xmlFlights3max);
-							}
-							for(int k=0; k < flights3.size() - 1; k++) {
-								System.out.println("FlightList 3, Flight " + k);
-								Flight flight3 = flights3.get(k);
-								Calendar departTime3 = adjustTime(flight3.getmTimeDepart(), 0);
-								if (k==10 && flight.getmCodeArrival().equals(arriveCode)){
-									k=10;
+								String departCode3 = flight2.getmCodeArrival();
+								String arriveTime3 = flight2.getmTimeArrival();
+								Calendar departTime3min = adjustTime(arriveTime3, 1);
+								Calendar departTime3max = adjustTime(arriveTime3, 3);
+								Flights flights3 = new Flights();
+								flights3 = new Flights();
+								if (departTime3min.get(Calendar.DAY_OF_YEAR) == departTime3max.get(Calendar.DAY_OF_YEAR)){
+									String departDate3 = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
+									String xmlFlights3 = resSys.getFlights(departCode3, departDate3);
+									flights3.addAll(xmlFlights3);
+								} else {
+									String departDate3min = String.format("%d_%02d_%02d", departTime3min.get(Calendar.YEAR), departTime3min.get(Calendar.MONTH), departTime3min.get(Calendar.DAY_OF_MONTH));
+									String departDate3max = String.format("%d_%02d_%02d", departTime3max.get(Calendar.YEAR), departTime3max.get(Calendar.MONTH), departTime3max.get(Calendar.DAY_OF_MONTH));
+									String xmlFlights3min = resSys.getFlights(departCode3, departDate3min);
+									String xmlFlights3max = resSys.getFlights(departCode3, departDate3max);
+									flights3.addAll(xmlFlights3min);
+									flights3.addAll(xmlFlights3max);
 								}
-								if(departTime3min.before(departTime3) && departTime3max.after(departTime3)){
-									if(flight3.getmCodeArrival().equals(arriveCode)) {
-										Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
-										flightStruct.put("First", flight);
-										flightStruct.put("Second",  flight2);
-										flightStruct.put("Third", flight3);
-										flightArray.add(flightStruct);
+								for(int k=0; k < flights3.size() - 1; k++) {
+									System.out.println("FlightList 3, Flight " + k);
+									Flight flight3 = flights3.get(k);
+									Calendar departTime3 = adjustTime(flight3.getmTimeDepart(), 0);
+									if (k==10 && flight.getmCodeArrival().equals(arriveCode)){
+										k=10;
+									}
+									if(departTime3min.before(departTime3) && departTime3max.after(departTime3)){
+										if(flight3.getmCodeArrival().equals(arriveCode)) {
+											Dictionary<String, Flight> flightStruct = new Hashtable<String, Flight>(); 
+											flightStruct.put("First", flight);
+											flightStruct.put("Second",  flight2);
+											flightStruct.put("Third", flight3);
+											flightArray.add(flightStruct);
+										}
 									}
 								}
 							}
@@ -212,10 +217,47 @@ public class Helper {
 					}
 				}
 			}
+			if (searchModel.getLayoverType() == LayoverType.ONE_LAYOVER) {
+				for (Dictionary<String, Flight> entry : flightArray) {
+					if (entry.get("Third").equals(nullFlight) &&
+							!entry.get("Second").equals(nullFlight)) {
+						Dictionary<String, Flight> flightStruct2 = new Hashtable<String, Flight>();
+						flightStruct2.put("First", entry.get("First"));
+						flightStruct2.put("Second", entry.get("Second"));
+						flightStruct2.put("Third", entry.get("Third"));
+						flightArray2.add(flightStruct2);
+					}
+				}
+			}
+			if (searchModel.getLayoverType() == LayoverType.TWO_LAYOVERS) {
+				for (Dictionary<String, Flight> entry : flightArray) {
+					if (!entry.get("Third").equals(nullFlight)) {
+						Dictionary<String, Flight> flightStruct2 = new Hashtable<String, Flight>();
+						flightStruct2.put("First", entry.get("First"));
+						flightStruct2.put("Second", entry.get("Second"));
+						flightStruct2.put("Third", entry.get("Third"));
+						flightArray2.add(flightStruct2);
+					}
+				}
+			}
+		}
+		else {
+			System.out.println("IN NO LAYOVER MODE");
+			for (Flight fl : flights) {
+				if (fl.getmCodeArrival().equals(searchModel.getArrivalAirport())
+						&& fl.getmCodeDepart().equals(searchModel.getDepartureAirport())) {
+					Dictionary<String, Flight> flightStruct2 = new Hashtable<String, Flight>();
+					flightStruct2.put("First", fl);
+					flightStruct2.put("Second", nullFlight);
+					flightStruct2.put("Third", nullFlight);
+					flightArray2.add(flightStruct2);
+				}
+			}
+			System.out.println("DONE WITH NO LAYOVER MODE");
 		}
 		
-		getSortedFlightList(flightArray, "priceF");
-		return flightArray;
+		//getSortedFlightList(flightArray, "priceF");
+		return flightArray2;
 	}
 	
 	
