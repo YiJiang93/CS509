@@ -276,7 +276,6 @@ public class ReservationController {
 				if (sModel.getTravelType() == TravelType.ONE_WAY) {
 					if (overallAcceptableFirstLeg) {
 						serverInterface.lock();
-						serverInterface.lock();
 						for (String number : flightNumbers) {
 							serverInterface.buyTickets(number, seating);
 						}
@@ -290,7 +289,6 @@ public class ReservationController {
 				
 				if (sModel.getTravelType() == TravelType.ROUND_TRIP) {
 					if (overallAcceptableFirstLeg && overallAcceptableSecondLeg) {
-						serverInterface.lock();
 						serverInterface.lock();
 						for (String number : flightNumbers) {
 							serverInterface.buyTickets(number, seating);
