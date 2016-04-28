@@ -11,12 +11,15 @@ package edu.wpi.cs509.team04.gui;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Dictionary;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs509.team04.common.Flight;
 import edu.wpi.cs509.team04.common.TravelOption;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.server.ServerInterface;
+import edu.wpi.cs509.team04.threads.Helper;
 
 /**
  * The ReservationController class provides a means for coordinating changes
@@ -90,6 +93,7 @@ public class ReservationController {
 			public void actionPerformed(ActionEvent e) {
 				view.getCoachRadioButton().setSelected(true);
 				view.getFirstClassRadioButton().setSelected(false);
+				view.displayError(false);
 			}
 		});
 		
@@ -111,7 +115,7 @@ public class ReservationController {
 			public void actionPerformed(ActionEvent e) {
 				view.getFirstClassRadioButton().setSelected(true);
 				view.getCoachRadioButton().setSelected(false);
-				System.out.println("ACTIVATED FIRST CLASS BUTTON");
+				view.displayError(false);
 			}
 		});
 		
@@ -133,6 +137,7 @@ public class ReservationController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.closeView();
+				view.displayError(false);
 			}
 		});
 		
@@ -155,19 +160,68 @@ public class ReservationController {
 			public void actionPerformed(ActionEvent e) {
 				ServerInterface serverInterface = ServerInterface.getInstance();
 				String seating = "Coach";
+				String helperSeating = "Coach";
 				ArrayList<String> flightNumbers = new ArrayList<String>();
 				
 				TravelOption firstLeg = sModel.getSelectedToDestOption();
+				boolean overallAcceptableFirstLeg = false;
+				boolean overallAcceptableSecondLeg = false;
+				
+				boolean acceptableFirstLeg1 = false;
+				boolean acceptableFirstLeg2 = false;
+				boolean acceptableFirstLeg3 = false;
+				boolean acceptableSecondLeg1 = false;
+				boolean acceptableSecondLeg2 = false;
+				boolean acceptableSecondLeg3 = false;
+				
+				Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
+				
+				if (view.getFirstClassRadioButton().isSelected()) {
+					seating = "FirstClass";
+					helperSeating = "First Class";
+				}
 				
 				if (firstLeg != null) {
-					if (firstLeg.getInitialFlight() != null) {
+					int firstLegFlights = 0;
+					Dictionary<String, Integer> availableSeats1;
+					Dictionary<String, Integer> availableSeats2;
+					Dictionary<String, Integer> availableSeats3;
+					if (firstLeg.getInitialFlight() != nullFlight) {
 						flightNumbers.add(firstLeg.getInitialFlight().getmNumber());
+						firstLegFlights++;
 					}
-					if (firstLeg.getFirstLayover() != null) {
+					if (firstLeg.getFirstLayover() != nullFlight) {
 						flightNumbers.add(firstLeg.getFirstLayover().getmNumber());
+						firstLegFlights++;
 					}
-					if (firstLeg.getSecondLayover() != null) {
+					if (firstLeg.getSecondLayover() != nullFlight) {
 						flightNumbers.add(firstLeg.getSecondLayover().getmNumber());
+						firstLegFlights++;
+					}
+					switch(firstLegFlights) {
+						case 1:
+							availableSeats1 = Helper.getAvailableSeats(firstLeg.getInitialFlight());
+							acceptableFirstLeg1 = Helper.areSeatsAvailable(availableSeats1, helperSeating, firstLeg.getInitialFlight());
+							overallAcceptableFirstLeg = acceptableFirstLeg1;
+							break;
+						case 2:
+							availableSeats1 = Helper.getAvailableSeats(firstLeg.getInitialFlight());
+							acceptableFirstLeg1 = Helper.areSeatsAvailable(availableSeats1, helperSeating, firstLeg.getInitialFlight());
+							availableSeats2 = Helper.getAvailableSeats(firstLeg.getFirstLayover());
+							acceptableFirstLeg2 = Helper.areSeatsAvailable(availableSeats2, helperSeating, firstLeg.getFirstLayover());
+							overallAcceptableFirstLeg = acceptableFirstLeg1 && acceptableFirstLeg2;
+							break;
+						case 3:
+							availableSeats1 = Helper.getAvailableSeats(firstLeg.getInitialFlight());
+							acceptableFirstLeg1 = Helper.areSeatsAvailable(availableSeats1, helperSeating, firstLeg.getInitialFlight());
+							availableSeats2 = Helper.getAvailableSeats(firstLeg.getFirstLayover());
+							acceptableFirstLeg2 = Helper.areSeatsAvailable(availableSeats2, helperSeating, firstLeg.getFirstLayover());
+							availableSeats3 = Helper.getAvailableSeats(firstLeg.getSecondLayover());
+							acceptableFirstLeg3 = Helper.areSeatsAvailable(availableSeats3, helperSeating, firstLeg.getSecondLayover());
+							overallAcceptableFirstLeg = acceptableFirstLeg1 && acceptableFirstLeg2 && acceptableFirstLeg3;
+							break;
+						default:
+							break;
 					}
 				}
 				
@@ -175,28 +229,79 @@ public class ReservationController {
 					TravelOption secondLeg = sModel.getSelectedFromDestOption();
 					
 					if (secondLeg != null) {
-						if (secondLeg.getInitialFlight() != null) {
+						int secondLegFlights = 0;
+						Dictionary<String, Integer> availableSeats1;
+						Dictionary<String, Integer> availableSeats2;
+						Dictionary<String, Integer> availableSeats3;
+						if (secondLeg.getInitialFlight() != nullFlight) {
 							flightNumbers.add(secondLeg.getInitialFlight().getmNumber());
+							secondLegFlights++;
 						}
-						if (secondLeg.getFirstLayover() != null) {
+						if (secondLeg.getFirstLayover() != nullFlight) {
 							flightNumbers.add(secondLeg.getFirstLayover().getmNumber());
+							secondLegFlights++;
 						}
-						if (secondLeg.getSecondLayover() != null) {
+						if (secondLeg.getSecondLayover() != nullFlight) {
 							flightNumbers.add(secondLeg.getSecondLayover().getmNumber());
+							secondLegFlights++;
+						}
+						switch(secondLegFlights) {
+							case 1:
+								availableSeats1 = Helper.getAvailableSeats(secondLeg.getInitialFlight());
+								acceptableSecondLeg1 = Helper.areSeatsAvailable(availableSeats1, helperSeating, secondLeg.getInitialFlight());
+								overallAcceptableSecondLeg = acceptableSecondLeg1;
+								break;
+							case 2:
+								availableSeats1 = Helper.getAvailableSeats(secondLeg.getInitialFlight());
+								acceptableSecondLeg1 = Helper.areSeatsAvailable(availableSeats1, helperSeating, secondLeg.getInitialFlight());
+								availableSeats2 = Helper.getAvailableSeats(secondLeg.getFirstLayover());
+								acceptableSecondLeg2 = Helper.areSeatsAvailable(availableSeats2, helperSeating, secondLeg.getFirstLayover());
+								overallAcceptableSecondLeg = acceptableSecondLeg1 && acceptableSecondLeg2;
+								break;
+							case 3:
+								availableSeats1 = Helper.getAvailableSeats(secondLeg.getInitialFlight());
+								acceptableSecondLeg1 = Helper.areSeatsAvailable(availableSeats1, helperSeating, secondLeg.getInitialFlight());
+								availableSeats2 = Helper.getAvailableSeats(secondLeg.getFirstLayover());
+								acceptableSecondLeg2 = Helper.areSeatsAvailable(availableSeats2, helperSeating, secondLeg.getFirstLayover());
+								availableSeats3 = Helper.getAvailableSeats(secondLeg.getSecondLayover());
+								acceptableSecondLeg3 = Helper.areSeatsAvailable(availableSeats3, helperSeating, secondLeg.getSecondLayover());
+								overallAcceptableSecondLeg = acceptableSecondLeg1 && acceptableSecondLeg2 && acceptableSecondLeg3;
+								break;
+							default:
+								break;
 						}
 					}
 				}
 				
-				if (view.getFirstClassRadioButton().isSelected()) {
-					seating = "First Class";
+				if (sModel.getTravelType() == TravelType.ONE_WAY) {
+					if (overallAcceptableFirstLeg) {
+						serverInterface.lock();
+						serverInterface.lock();
+						for (String number : flightNumbers) {
+							serverInterface.buyTickets(number, seating);
+						}
+						serverInterface.unlock();
+						view.closeView();
+					}
+					else {
+						view.displayError(true);
+					}
 				}
 				
-				serverInterface.lock();
-				for (String number : flightNumbers) {
-					serverInterface.buyTickets(number, seating);
+				if (sModel.getTravelType() == TravelType.ROUND_TRIP) {
+					if (overallAcceptableFirstLeg && overallAcceptableSecondLeg) {
+						serverInterface.lock();
+						serverInterface.lock();
+						for (String number : flightNumbers) {
+							serverInterface.buyTickets(number, seating);
+						}
+						serverInterface.unlock();
+						view.closeView();
+					}
+					else {
+						view.displayError(true);
+					}
 				}
-				serverInterface.unlock();
-				view.closeView();
 			}
 		});
 	}
