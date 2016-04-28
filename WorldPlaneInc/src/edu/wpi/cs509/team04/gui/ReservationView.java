@@ -48,22 +48,22 @@ public class ReservationView {
 	/**
 	 * The model for the to-destination list of travel options
 	 */
-	private static DefaultListModel<TravelOption> modelToDest;
+	private static DefaultListModel<String> modelToDest;
 	
 	/**
 	 * The visual list for the to-destination list of travel options
 	 */
-	private static JList<TravelOption> listToDest;
+	private static JList<String> listToDest;
 	
 	/**
 	 * The model for the from-destination list of travel options
 	 */
-	private static DefaultListModel<TravelOption> modelFromDest;
+	private static DefaultListModel<String> modelFromDest;
 	
 	/**
 	 * The visual list for the from-destination list of travel options
 	 */
-	private static JList<TravelOption> listFromDest;
+	private static JList<String> listFromDest;
 	
 	/**
 	 * The radio button for selecting coach seating
@@ -150,10 +150,10 @@ public class ReservationView {
 		background.add(panelToDest);
 		
 		// Configure the model for the to-destination list
-		modelToDest = new DefaultListModel<TravelOption>();
+		modelToDest = new DefaultListModel<String>();
 		
 		// Configure the list for the selected to-destination option
-		listToDest = new JList<TravelOption>(modelToDest);
+		listToDest = new JList<String>(modelToDest);
 		panelToDest.add(listToDest);
 		
 		// Configure the panel used for the selected from-destination option
@@ -164,10 +164,10 @@ public class ReservationView {
 		background.add(panelFromDest);
 		
 		// Configure the model for the from-destination list
-		modelFromDest = new DefaultListModel<TravelOption>();
+		modelFromDest = new DefaultListModel<String>();
 		
 		// Configure the list for the selected from-destination option
-		listFromDest = new JList<TravelOption>(modelFromDest);
+		listFromDest = new JList<String>(modelFromDest);
 		panelFromDest.add(listFromDest);
 		
 		// Configure the label for the selected to-destination option
@@ -309,7 +309,7 @@ public class ReservationView {
 	 */
 	public void updateToDestOption(TravelOption option) {
 		modelToDest.clear();
-		modelToDest.addElement(option);
+		modelToDest.addElement(option.toHtmlString());
 		if (modelToDest.size() == 1) {
 			listToDest.setSelectedIndex(0);
 		}
@@ -324,7 +324,7 @@ public class ReservationView {
 	 */
 	public void updateFromDestOption(TravelOption option) {
 		modelFromDest.clear();
-		modelFromDest.addElement(option);
+		modelFromDest.addElement(option.toHtmlString());
 		if (modelFromDest.size() == 1) {
 			listFromDest.setSelectedIndex(0);
 		}
