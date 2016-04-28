@@ -49,12 +49,12 @@ public class TravelOptionFinder implements Runnable {
 	private TravelType type;
 	
 	/**
-	 * 
+	 * When to leave from the starting airport
 	 */
 	private String toDay;
 	
 	/**
-	 * 
+	 * When to leave from the destination airport
 	 */
 	private String fromDay;
 	
