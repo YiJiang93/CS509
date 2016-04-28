@@ -101,7 +101,7 @@ public class Helper {
 	 * @param offset identifies the number of hours to modify the time.
 	 * @return Calendar Object
 	 */
-	private static Calendar adjustTime(String time, int offset){
+	public static Calendar adjustTime(String time, int offset){
 		
 		Dictionary<String, Integer> month = new Hashtable<String, Integer>();
 		month.put("Jan", 1);
