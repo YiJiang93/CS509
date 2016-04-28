@@ -22,19 +22,19 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ServerInterface resSys = ServerInterface.getInstance();
-		String xmlAirport = resSys.getAirports();
-			
-		Airports ports = new Airports();
-		ports.addAll(xmlAirport);
-		
-		for(int i =0; i < ports.size(); i++){
-
-				LocalTime t = new LocalTime();
-				System.out.println(t.Convert(ports.get(i), new Date()));
-			}
-		
-		
+//		ServerInterface resSys = ServerInterface.getInstance();
+//		String xmlAirport = resSys.getAirports();
+//			
+//		Airports ports = new Airports();
+//		ports.addAll(xmlAirport);
+//		
+//		for(int i =0; i < ports.size(); i++){
+//
+//				LocalTime t = new LocalTime();
+//				System.out.println(t.Convert(ports.get(i), new Date()));
+//			}
+//		
+//		
 		new Thread(new Runnable() {
 			public void run() {
 				LocalTime.init();
