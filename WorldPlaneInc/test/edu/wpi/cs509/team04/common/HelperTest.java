@@ -39,22 +39,45 @@ public class HelperTest {
 	}
 	
 	@Test
-	public void testAvailableSeats() {
+	public void testAreSeatsAvailable_Empty() {
 
-		//Build seats construct with 0 First Class Seats available and 100 Coach Seats
+		//Build seats construct with 24 First Class Seats available and 100 Coach Seats
 		Dictionary<String, Integer> seats = new Hashtable<String, Integer>(); 
-		seats.put("FirstClassSeats", 0);
+		seats.put("FirstClassSeats", 24);
 		seats.put("CoachSeats", 100);
 		
-		System.out.println("Type of Seating: First Class");
+		System.out.println("\nType of Seating: First Class");
 		System.out.println("Number of Seats available: " + seats.get("FirstClassSeats"));
+		System.out.println("Should return True \n");
+
+		//assertTrue(Helper.areSeatsAvailable(seats, "First Class"));
+		
+		System.out.println("Type of Seating: Coach");
+		System.out.println("Number of Seats available: " + seats.get("CoachSeats"));
+		System.out.println("Should return True");
+		//assertTrue(Helper.areSeatsAvailable(seats, "Coach"));
+
+	}
+
+	@Test
+	public void testAreSeatsAvailable_Full() {
+
+		//Build seats construct with 0 First Class Seats available and 0 Coach Seats
+		Dictionary<String, Integer> seats = new Hashtable<String, Integer>(); 
+		seats.put("FirstClassSeats", 0);
+		seats.put("CoachSeats", 0);
+		
+		System.out.println("\nType of Seating: First Class");
+		System.out.println("Number of Seats available: " + seats.get("FirstClassSeats"));
+		System.out.println("Should return False \n");
 
 		//assertFalse(Helper.areSeatsAvailable(seats, "First Class"));
 		
 		System.out.println("Type of Seating: Coach");
 		System.out.println("Number of Seats available: " + seats.get("CoachSeats"));
+
 		//assertTrue(Helper.areSeatsAvailable(seats, "Coach"));
-
+		System.out.println("Should return False");
+		//assertFalse(Helper.areSeatsAvailable(seats, "Coach"));
 	}
-
 }
