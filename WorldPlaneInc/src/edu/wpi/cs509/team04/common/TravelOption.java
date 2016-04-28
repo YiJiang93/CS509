@@ -9,6 +9,11 @@
 
 package edu.wpi.cs509.team04.common;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.wpi.cs509.team04.enums.SeatingType;
 
 /**
@@ -194,5 +199,42 @@ public class TravelOption {
 			}
 		}
 		return travelOptionCost;
+	}
+	
+	public long getDuration() {
+		Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
+		long flightTime = 0;
+		DateFormat format = new SimpleDateFormat("YYYY MMM DD HH:mm Z");
+		
+		Date timeDepart1 = new Date();
+		Date timeArrive1 = new Date();
+		Date timeDepart2 = new Date();
+		Date timeArrive2 = new Date();
+		Date timeDepart3 = new Date();
+		Date timeArrive3 = new Date();
+		
+		try {
+			if (!this.initialFlight.equals(nullFlight)) {
+				timeDepart1 = format.parse(initialFlight.getmTimeDepart());
+				timeArrive1 = format.parse(initialFlight.getmTimeArrival());
+				flightTime += timeArrive1.getTime() - timeDepart1.getTime(); 
+			}
+			if (!this.firstLayover.equals(nullFlight)) {
+				timeDepart2 = format.parse(initialFlight.getmTimeDepart());
+				timeArrive2 = format.parse(initialFlight.getmTimeArrival());
+				flightTime += timeArrive2.getTime() - timeDepart2.getTime();
+				flightTime += timeDepart2.getTime() - timeArrive1.getTime();
+			}
+			if (!this.secondLayover.equals(nullFlight)) {
+				timeDepart3 = format.parse(initialFlight.getmTimeDepart());
+				timeArrive3 = format.parse(initialFlight.getmTimeArrival());
+				flightTime += timeArrive3.getTime() - timeDepart3.getTime();
+				flightTime += timeDepart3.getTime() - timeArrive2.getTime();
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return flightTime;
 	}
 }
