@@ -29,7 +29,7 @@ import edu.wpi.cs509.team04.enums.LayoverType;
 import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.threads.TravelOptionFinder;
-import edu.wpi.cs509.team04.threads.TravelOptionSorter;
+import edu.wpi.cs509.team04.threads.TravelPriceSorter;
 
 /**
  * The SearchController class provides a means for coordinating changes
@@ -549,7 +549,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			public void actionPerformed(ActionEvent e) {
 				if (model.getTravelType() == TravelType.ONE_WAY) {
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
-						TravelOptionSorter sorter = new TravelOptionSorter();
+						TravelPriceSorter sorter = new TravelPriceSorter();
 						sorter.priceSort();
 						SearchView.showToDestSorting(true);
 					}
@@ -560,7 +560,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				if (model.getTravelType() == TravelType.ROUND_TRIP) {
 					if (!model.getToDestinationTravelOptions().isEmpty()
 							&& !model.getFromDestinationTravelOptions().isEmpty()) {
-						TravelOptionSorter sorter = new TravelOptionSorter();
+						TravelPriceSorter sorter = new TravelPriceSorter();
 						sorter.priceSort();
 						SearchView.showToDestSorting(true);
 						SearchView.showFromDestSorting(true);
