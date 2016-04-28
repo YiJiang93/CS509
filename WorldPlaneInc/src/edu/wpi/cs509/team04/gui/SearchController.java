@@ -29,8 +29,12 @@ import edu.wpi.cs509.team04.enums.LayoverType;
 import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.threads.TravelOptionFinder;
+<<<<<<< HEAD
 import edu.wpi.cs509.team04.threads.TravelOptionSorter;
 import edu.wpi.cs509.team04.threads.TravelOptionTimeSorter;
+=======
+import edu.wpi.cs509.team04.threads.TravelPriceSorter;
+>>>>>>> branch 'master' of https://github.com/axmat/CS509
 
 /**
  * The SearchController class provides a means for coordinating changes
@@ -391,7 +395,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 								model.setFirstDepartureDate(first);
 								model.setDepartureAirport(searchView.getDepartureAirport().getText());
 								model.setArrivalAirport(searchView.getArrivalAirport().getText());
-								
+								SearchView.showToDestLoading(true);
+		
 								// Fire off a call to the thread for acquiring flights
 								TravelOptionFinder finder = new TravelOptionFinder();
 								finder.getFlights();
@@ -428,6 +433,9 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 								model.setSecondDepartureDate(second);
 								model.setDepartureAirport(searchView.getDepartureAirport().getText());
 								model.setArrivalAirport(searchView.getArrivalAirport().getText());
+								
+								SearchView.showToDestLoading(true);
+								SearchView.showFromDestLoading(true);
 								
 								// Fire off a call to the thread for acquiring flights
 								TravelOptionFinder finder = new TravelOptionFinder();
@@ -491,6 +499,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				resView.displayError(false);
 				if (model.getTravelType() == TravelType.ONE_WAY) {
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
 						ReservationView reservationView = ReservationView.getInstance();
@@ -545,8 +554,9 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			public void actionPerformed(ActionEvent e) {
 				if (model.getTravelType() == TravelType.ONE_WAY) {
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
-						TravelOptionSorter sorter = new TravelOptionSorter();
+						TravelPriceSorter sorter = new TravelPriceSorter();
 						sorter.priceSort();
+						SearchView.showToDestSorting(true);
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -555,8 +565,10 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				if (model.getTravelType() == TravelType.ROUND_TRIP) {
 					if (!model.getToDestinationTravelOptions().isEmpty()
 							&& !model.getFromDestinationTravelOptions().isEmpty()) {
-						TravelOptionSorter sorter = new TravelOptionSorter();
+						TravelPriceSorter sorter = new TravelPriceSorter();
 						sorter.priceSort();
+						SearchView.showToDestSorting(true);
+						SearchView.showFromDestSorting(true);
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();

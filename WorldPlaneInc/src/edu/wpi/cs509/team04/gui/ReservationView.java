@@ -95,6 +95,11 @@ public class ReservationView {
 	 */
 	private static JPanel panelFromDest;
 	
+	/**
+	 * The label for the reservation error message
+	 */
+	private static JLabel lblBookingError;
+	
 	
 	/**
 	 * This method acquires the singleton instance
@@ -213,6 +218,13 @@ public class ReservationView {
 		btnConfirm.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		btnConfirm.setBounds(25, 501, 245, 61);
 		background.add(btnConfirm);
+		
+		// Configure the label for the error message
+		lblBookingError = new JLabel("Could not reserve flight due to seating");
+		lblBookingError.setVisible(false);
+		lblBookingError.setForeground(Color.RED);
+		lblBookingError.setBounds(25, 410, 245, 29);
+		background.add(lblBookingError);
 		
 		setupOneWayView();
 	}
@@ -336,5 +348,14 @@ public class ReservationView {
 	 */
 	public void closeView() {
 		frame.setVisible(false);
+	}
+	
+	
+	/**
+	 * This method displays the reservation error message
+	 * @param display Indicates whether the error message should be displayed
+	 */
+	public void displayError(Boolean display) {
+		lblBookingError.setVisible(display);
 	}
 }

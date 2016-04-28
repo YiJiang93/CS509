@@ -54,7 +54,11 @@ public class Helper {
 			Airplane plane = planes.get(i);
 			if(plane.model().equals(flight.getmAirplane())) {
 				maxFirstClass = plane.firstclass();
+				System.out.println("MAX FIRST CLASS = " + maxFirstClass);
+				System.out.println("BOOKED FIRST CLASS = " + bookedFirstClass);
 				maxCoach = plane.coach();
+				System.out.println("MAX COACH = " + maxCoach);
+				System.out.println("BOOKED COACH = " + bookedCoach);
 				break;
 			}
 		}
@@ -67,12 +71,19 @@ public class Helper {
 		return seats;
 	}
 	
-	public static boolean areSeatsAvailable(Dictionary<String, Integer> seating, String type) {
+	public static boolean areSeatsAvailable(Dictionary<String, Integer> seating, String type, Flight flight) {
 
 		if (type == "Coach"){type = "CoachSeats";}
 		if (type == "First Class"){type = "FirstClassSeats";}
 		
-		if (seating.get(type) > 0){
+		Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
+		
+		if (flight.equals(nullFlight)) {
+			return true;
+		}
+		
+		System.out.println("SEATING.get(type) = " + seating.get(type));
+		if (seating.get(type) > 0) {
 			return true;
 		} else {
 			return false;
