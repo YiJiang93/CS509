@@ -29,6 +29,7 @@ import edu.wpi.cs509.team04.enums.LayoverType;
 import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.threads.TravelOptionFinder;
+import edu.wpi.cs509.team04.threads.TravelOptionSorter;
 
 /**
  * The SearchController class provides a means for coordinating changes
@@ -53,6 +54,11 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	 * The graphical view associated with this controller
 	 */
 	private SearchView searchView;
+	
+	/**
+	 * The graphical view associated with the reservation controller
+	 */
+	private ReservationView resView;
 	
 	/**
 	 * The model associated with this controller
@@ -89,6 +95,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 	 */
 	private SearchController() {
 		searchView = SearchView.getInstance();
+		resView = ReservationView.getInstance();
 		model = SearchModel.getInstance();
 		model.addListener(this);
 		searchView.getToDestList().addListSelectionListener(this);
@@ -178,6 +185,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				searchView.getCoachRadioButton().setSelected(true);
 				searchView.getFirstClassRadioButton().setSelected(false);
 				model.setSeatingType(SeatingType.COACH);
+				resView.getCoachRadioButton().setSelected(true);
+				resView.getFirstClassRadioButton().setSelected(false);
 			}
 		});
 		
@@ -200,6 +209,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				searchView.getCoachRadioButton().setSelected(false);
 				searchView.getFirstClassRadioButton().setSelected(true);
 				model.setSeatingType(SeatingType.FIRST_CLASS);
+				resView.getCoachRadioButton().setSelected(false);
+				resView.getFirstClassRadioButton().setSelected(true);
 			}
 		});
 		
@@ -223,6 +234,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				searchView.getOneLayoverRadioButton().setSelected(false);
 				searchView.getTwoLayoversRadioButton().setSelected(false);
 				model.setLayoverType(LayoverType.NO_LAYOVERS);
+				model.setToDestinationTravelOptions(new ArrayList<TravelOption>());
+				model.setFromDestinationTravelOptions(new ArrayList<TravelOption>());
 			}
 		});
 		
@@ -246,6 +259,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				searchView.getOneLayoverRadioButton().setSelected(true);
 				searchView.getTwoLayoversRadioButton().setSelected(false);
 				model.setLayoverType(LayoverType.ONE_LAYOVER);
+				model.setToDestinationTravelOptions(new ArrayList<TravelOption>());
+				model.setFromDestinationTravelOptions(new ArrayList<TravelOption>());
 			}
 		});
 		
@@ -269,6 +284,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				searchView.getOneLayoverRadioButton().setSelected(false);
 				searchView.getTwoLayoversRadioButton().setSelected(true);
 				model.setLayoverType(LayoverType.TWO_LAYOVERS);
+				model.setToDestinationTravelOptions(new ArrayList<TravelOption>());
+				model.setFromDestinationTravelOptions(new ArrayList<TravelOption>());
 			}
 		});
 		
@@ -483,6 +500,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							
 						}
 						reservationView.setVisible(true);
+						reservationView.updateToDestOption(model.getSelectedToDestOption());
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -499,6 +517,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 							
 						}
 						reservationView.setVisible(true);
+						reservationView.updateToDestOption(model.getSelectedToDestOption());
+						reservationView.updateFromDestOption(model.getSelectedFromDestOption());
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -524,7 +544,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			public void actionPerformed(ActionEvent e) {
 				if (model.getTravelType() == TravelType.ONE_WAY) {
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
-						// apply the sort to the list model
+						TravelOptionSorter sorter = new TravelOptionSorter();
+						sorter.priceSort();
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
@@ -533,7 +554,8 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 				if (model.getTravelType() == TravelType.ROUND_TRIP) {
 					if (!model.getToDestinationTravelOptions().isEmpty()
 							&& !model.getFromDestinationTravelOptions().isEmpty()) {
-						// apply the sort to the list models
+						TravelOptionSorter sorter = new TravelOptionSorter();
+						sorter.priceSort();
 					}
 					else {
 						Toolkit.getDefaultToolkit().beep();
