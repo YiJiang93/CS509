@@ -157,7 +157,7 @@ public class LocalTime{
 		return null;
 	}
 	
-	public Date Convert(Airport airport, Date time){
+	public static Date Convert(Airport airport, Date time){
     	//Date localTime = time.getTime()-(mydateobj.get("rawOffset").getAsLong()-dateobj.get("rawOffset").getAsLong()+mydateobj.get("dstOffset").getAsLong()-dateobj.get("dstOffset").getAsLong())*1000;
 		
 		Document dateObj = getTimeDoc(airport.latitude(), airport.longitude());
