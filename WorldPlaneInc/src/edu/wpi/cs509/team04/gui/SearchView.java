@@ -164,6 +164,26 @@ public class SearchView {
 	 */
 	private static JList<String> toDestList;
 	
+	/**
+	 * Text for indicating that a to-destination search is in progress
+	 */
+	private static JLabel lblToDestSearch;
+	
+	/**
+	 * Text for indicating that a from-destination search is in progress
+	 */
+	private static JLabel lblFromDestSearch;
+	
+	/**
+	 * Text for indicating that a to-destination sort is in progress
+	 */
+	private static JLabel lblToDestSorting;
+	
+	/**
+	 * Text for indicating that a from-destination sort is in progress
+	 */
+	private static JLabel lblFromDestSorting;
+	
 	
 	/**
 	 * This method acquires the singleton instance
@@ -435,6 +455,28 @@ public class SearchView {
 		lblFromDestination.setFont(new Font("Lucida Grande", Font.ITALIC, 20));
 		lblFromDestination.setBounds(401, 6, 208, 23);
 		searchResultsPanel.add(lblFromDestination);
+		
+		lblToDestSearch = new JLabel("Searching...");
+		lblToDestSearch.setForeground(Color.WHITE);
+		lblToDestSearch.setBounds(269, 12, 80, 16);
+		searchResultsPanel.add(lblToDestSearch);
+		
+		lblFromDestSearch = new JLabel("Searching...");
+		lblFromDestSearch.setForeground(Color.WHITE);
+		lblFromDestSearch.setBounds(621, 12, 80, 16);
+		searchResultsPanel.add(lblFromDestSearch);
+		
+		lblToDestSorting = new JLabel("Sorting...");
+		lblToDestSorting.setVisible(false);
+		lblToDestSorting.setForeground(Color.WHITE);
+		lblToDestSorting.setBounds(269, 12, 80, 16);
+		searchResultsPanel.add(lblToDestSorting);
+		
+		lblFromDestSorting = new JLabel("Sorting...");
+		lblFromDestSorting.setVisible(false);
+		lblFromDestSorting.setForeground(Color.WHITE);
+		lblFromDestSorting.setBounds(621, 12, 61, 16);
+		searchResultsPanel.add(lblFromDestSorting);
 		
 		// Configure the footer panel
 		JPanel footerPanel = new JPanel();
@@ -729,5 +771,37 @@ public class SearchView {
 		fromDestScrollPane.setVisible(true);
 		fromDestList.setVisible(true);
 		secondDepartureDate.setVisible(true);
+	}
+	
+	
+	/**
+	 * Show to-destination loading
+	 */
+	public static void showToDestLoading(Boolean show) {
+		lblToDestSearch.setVisible(show);
+	}
+	
+	
+	/**
+	 * Show from-destination loading
+	 */
+	public static void showFromDestLoading(Boolean show) {
+		lblFromDestSearch.setVisible(show);
+	}
+	
+	
+	/**
+	 * Indicate to-destination sorting in progress
+	 */
+	public static void showToDestSorting(Boolean show) {
+		lblToDestSorting.setVisible(show);
+	}
+	
+	
+	/**
+	 * Indicate from-destination sorting in progress
+	 */
+	public static void showFromDestSorting(Boolean show) {
+		lblFromDestSorting.setVisible(show);
 	}
 }
