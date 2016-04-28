@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import edu.wpi.cs509.team04.gui.ReservationView;
 import edu.wpi.cs509.team04.resources.ConfigSingleton;
 
 /**
