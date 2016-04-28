@@ -29,12 +29,9 @@ import edu.wpi.cs509.team04.enums.LayoverType;
 import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.enums.TravelType;
 import edu.wpi.cs509.team04.threads.TravelOptionFinder;
-<<<<<<< HEAD
 import edu.wpi.cs509.team04.threads.TravelOptionSorter;
 import edu.wpi.cs509.team04.threads.TravelOptionTimeSorter;
-=======
 import edu.wpi.cs509.team04.threads.TravelPriceSorter;
->>>>>>> branch 'master' of https://github.com/axmat/CS509
 
 /**
  * The SearchController class provides a means for coordinating changes
