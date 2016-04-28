@@ -6,6 +6,7 @@ import edu.wpi.cs509.team04.gui.ReservationController;
 import edu.wpi.cs509.team04.gui.ReservationView;
 import edu.wpi.cs509.team04.gui.SearchController;
 import edu.wpi.cs509.team04.gui.SearchView;
+import edu.wpi.cs509.team04.threads.AirportFinder;
 
 /**
  * Project EntryPoint
@@ -27,6 +28,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					AirportFinder.getInstance();
 					SearchController.getInstance();
 					SearchView searchView = SearchView.getInstance();
 					ReservationController.getInstance();
