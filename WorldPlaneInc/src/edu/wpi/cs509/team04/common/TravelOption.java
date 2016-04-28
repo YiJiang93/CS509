@@ -12,9 +12,12 @@ package edu.wpi.cs509.team04.common;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import edu.wpi.cs509.team04.enums.SeatingType;
+import edu.wpi.cs509.team04.threads.AirportFinder;
+import edu.wpi.cs509.team04.threads.Helper;
 
 /**
  * The TravelOption class provides a means for storing an initial
@@ -89,12 +92,34 @@ public class TravelOption {
 	public String toHtmlString() {
 		Flight nullFlight = new Flight("", "0", "", "", "", "", "", "0.0", 0, "0.0", 0);
 		String infoString = "";
+		DateFormat format = new SimpleDateFormat("YYYY MMMM DD HH:mm Z");
+		AirportFinder finder = AirportFinder.getInstance();
+		
 		infoString += "<html><hr>";
 		if (!initialFlight.equals(nullFlight)) {
+			Airport arrival = finder.getAirport(initialFlight.getmCodeArrival());
+			Airport depart = finder.getAirport(initialFlight.getmCodeDepart());
+			//System.out.println(initialFlight.getmTimeArrival());
+			//String fromDB = initialFlight.getmTimeArrival();
+//			Calendar cal = Helper.adjustTime(fromDB,  0);
+//			Date newDate = cal.getTime();
+			//Date newDate = new Date(fromDB);
+			//Date converted = LocalTime.Convert(arrival, newDate);
+			//System.out.println(converted.toString());
+			String arrivalRaw = initialFlight.getmTimeArrival();
+			Date arrivalDate = new Date(arrivalRaw);
+			//System.out.println(arrivalRaw.toString());
+			Date arrivalTime = LocalTime.Convert(arrival, arrivalDate);
+			String departureRaw = initialFlight.getmTimeDepart();
+			Date departureDate = new Date(departureRaw);
+			Date departureTime = LocalTime.Convert(depart, departureDate);
+			String arrivalTimeString = arrivalTime.toString();
+			String departTimeString = departureTime.toString();
+			
 			infoString += "Depart";
 			infoString += "<hr>";
-			infoString += initialFlight.getmTimeDepart();
-			infoString += " - " + initialFlight.getmTimeArrival();
+			infoString += departTimeString;
+			infoString += " - " + arrivalTimeString;
 			infoString += " (" + initialFlight.getmFlightTime() + ")";
 			infoString += "<br>";
 			infoString += "(" + initialFlight.getmCodeDepart() + ") - (";
@@ -109,10 +134,29 @@ public class TravelOption {
 			infoString += "<hr>";
 		} 
 		if (!firstLayover.equals(nullFlight)) {
+			Airport arrival = finder.getAirport(firstLayover.getmCodeArrival());
+			Airport depart = finder.getAirport(firstLayover.getmCodeDepart());
+			//System.out.println(initialFlight.getmTimeArrival());
+			//String fromDB = initialFlight.getmTimeArrival();
+//			Calendar cal = Helper.adjustTime(fromDB,  0);
+//			Date newDate = cal.getTime();
+			//Date newDate = new Date(fromDB);
+			//Date converted = LocalTime.Convert(arrival, newDate);
+			//System.out.println(converted.toString());
+			String arrivalRaw = firstLayover.getmTimeArrival();
+			Date arrivalDate = new Date(arrivalRaw);
+			//System.out.println(arrivalRaw.toString());
+			Date arrivalTime = LocalTime.Convert(arrival, arrivalDate);
+			String departureRaw = firstLayover.getmTimeDepart();
+			Date departureDate = new Date(departureRaw);
+			Date departureTime = LocalTime.Convert(depart, departureDate);
+			String arrivalTimeString = arrivalTime.toString();
+			String departTimeString = departureTime.toString();
+			
 			infoString += "Change planes at (" + firstLayover.getmCodeDepart() + ")";
 			infoString += "<hr>";
-			infoString += firstLayover.getmTimeDepart();
-			infoString += " - " + firstLayover.getmTimeArrival();
+			infoString += departTimeString;
+			infoString += " - " + arrivalTimeString;
 			infoString += " (" + firstLayover.getmFlightTime() + ")";
 			infoString += "<br>";
 			infoString += "(" + firstLayover.getmCodeDepart() + ") - (";
@@ -127,10 +171,29 @@ public class TravelOption {
 			infoString += "<hr>";
 		}
 		if (!(firstLayover.equals(nullFlight)) && !(secondLayover.equals(nullFlight))) {
+			Airport arrival = finder.getAirport(secondLayover.getmCodeArrival());
+			Airport depart = finder.getAirport(secondLayover.getmCodeDepart());
+			//System.out.println(initialFlight.getmTimeArrival());
+			//String fromDB = initialFlight.getmTimeArrival();
+//			Calendar cal = Helper.adjustTime(fromDB,  0);
+//			Date newDate = cal.getTime();
+			//Date newDate = new Date(fromDB);
+			//Date converted = LocalTime.Convert(arrival, newDate);
+			//System.out.println(converted.toString());
+			String arrivalRaw = secondLayover.getmTimeArrival();
+			Date arrivalDate = new Date(arrivalRaw);
+			//System.out.println(arrivalRaw.toString());
+			Date arrivalTime = LocalTime.Convert(arrival, arrivalDate);
+			String departureRaw = secondLayover.getmTimeDepart();
+			Date departureDate = new Date(departureRaw);
+			Date departureTime = LocalTime.Convert(depart, departureDate);
+			String arrivalTimeString = arrivalTime.toString();
+			String departTimeString = departureTime.toString();
+			
 			infoString += "Change planes at (" + secondLayover.getmCodeDepart() + ")";
 			infoString += "<hr>";
-			infoString += secondLayover.getmTimeDepart();
-			infoString += " - " + secondLayover.getmTimeArrival();
+			infoString += departTimeString;
+			infoString += " - " + arrivalTimeString;
 			infoString += " (" + secondLayover.getmFlightTime() + ")";
 			infoString += "<br>";
 			infoString += "(" + secondLayover.getmCodeDepart() + ") - (";
