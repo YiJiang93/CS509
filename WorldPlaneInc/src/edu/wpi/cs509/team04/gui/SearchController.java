@@ -490,6 +490,7 @@ public class SearchController implements PropertyChangeListener, ListSelectionLi
 			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				resView.displayError(false);
 				if (model.getTravelType() == TravelType.ONE_WAY) {
 					if (!model.getToDestinationTravelOptions().isEmpty()) {
 						ReservationView reservationView = ReservationView.getInstance();
