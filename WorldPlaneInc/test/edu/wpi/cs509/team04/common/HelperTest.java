@@ -49,11 +49,11 @@ public class HelperTest {
 		System.out.println("Type of Seating: First Class");
 		System.out.println("Number of Seats available: " + seats.get("FirstClassSeats"));
 
-		assertFalse(Helper.availableSeats(seats, "First Class"));
+		assertFalse(Helper.areSeatsAvailable(seats, "First Class"));
 		
 		System.out.println("Type of Seating: Coach");
 		System.out.println("Number of Seats available: " + seats.get("CoachSeats"));
-		assertTrue(Helper.availableSeats(seats, "Coach"));
+		assertTrue(Helper.areSeatsAvailable(seats, "Coach"));
 
 	}
 

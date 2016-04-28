@@ -65,7 +65,7 @@ public class Helper {
 		return seats;
 	}
 	
-	public static boolean availableSeats(Dictionary<String, Integer> seating, String type) {
+	public static boolean areSeatsAvailable(Dictionary<String, Integer> seating, String type) {
 
 		if (type == "Coach"){type = "CoachSeats";}
 		if (type == "First Class"){type = "FirstClassSeats";}
