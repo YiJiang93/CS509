@@ -159,27 +159,31 @@ public class ReservationController {
 				
 				TravelOption firstLeg = sModel.getSelectedToDestOption();
 				
-				if (firstLeg.getInitialFlight() != null) {
-					flightNumbers.add(firstLeg.getInitialFlight().getmNumber());
-				}
-				if (firstLeg.getFirstLayover() != null) {
-					flightNumbers.add(firstLeg.getFirstLayover().getmNumber());
-				}
-				if (firstLeg.getSecondLayover() != null) {
-					flightNumbers.add(firstLeg.getSecondLayover().getmNumber());
+				if (firstLeg != null) {
+					if (firstLeg.getInitialFlight() != null) {
+						flightNumbers.add(firstLeg.getInitialFlight().getmNumber());
+					}
+					if (firstLeg.getFirstLayover() != null) {
+						flightNumbers.add(firstLeg.getFirstLayover().getmNumber());
+					}
+					if (firstLeg.getSecondLayover() != null) {
+						flightNumbers.add(firstLeg.getSecondLayover().getmNumber());
+					}
 				}
 				
 				if (sModel.getTravelType() == TravelType.ROUND_TRIP) {
 					TravelOption secondLeg = sModel.getSelectedFromDestOption();
 					
-					if (secondLeg.getInitialFlight() != null) {
-						flightNumbers.add(secondLeg.getInitialFlight().getmNumber());
-					}
-					if (secondLeg.getFirstLayover() != null) {
-						flightNumbers.add(secondLeg.getFirstLayover().getmNumber());
-					}
-					if (secondLeg.getSecondLayover() != null) {
-						flightNumbers.add(secondLeg.getSecondLayover().getmNumber());
+					if (secondLeg != null) {
+						if (secondLeg.getInitialFlight() != null) {
+							flightNumbers.add(secondLeg.getInitialFlight().getmNumber());
+						}
+						if (secondLeg.getFirstLayover() != null) {
+							flightNumbers.add(secondLeg.getFirstLayover().getmNumber());
+						}
+						if (secondLeg.getSecondLayover() != null) {
+							flightNumbers.add(secondLeg.getSecondLayover().getmNumber());
+						}
 					}
 				}
 				
@@ -188,10 +192,11 @@ public class ReservationController {
 				}
 				
 				serverInterface.lock();
-				serverInterface.buyTickets(flightNumbers.get(0), seating);
-				serverInterface.buyTickets(flightNumbers.get(1), seating);
-				serverInterface.buyTickets(flightNumbers.get(2), seating);
+				for (String number : flightNumbers) {
+					serverInterface.buyTickets(number, seating);
+				}
 				serverInterface.unlock();
+				view.closeView();
 			}
 		});
 	}
