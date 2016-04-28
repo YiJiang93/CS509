@@ -281,6 +281,8 @@ public class SearchModel {
 		for (TravelOption option : options) {
 			toDestTravelOptions.add(option);
 		}
+		SearchView.showToDestLoading(false);
+		SearchView.showToDestSorting(false);
 		propertyChangeSupport.firePropertyChange(
 				SearchController.toDestUpdateTag, null, toDestTravelOptions);
 	}
@@ -304,6 +306,8 @@ public class SearchModel {
 		for (TravelOption option : options) {
 			fromDestTravelOptions.add(option);
 		}
+		SearchView.showFromDestLoading(false);
+		SearchView.showFromDestSorting(false);
 		propertyChangeSupport.firePropertyChange(
 				SearchController.fromDestUpdateTag, null, fromDestTravelOptions);
 	}
