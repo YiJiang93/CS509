@@ -9,15 +9,12 @@ import org.junit.Test;
 
 import edu.wpi.cs509.team04.common.Flight;
 import edu.wpi.cs509.team04.common.Flights;
-import edu.wpi.cs509.team04.server.ServerInterface;
 import edu.wpi.cs509.team04.threads.Helper;
 
 public class HelperTest {
 
 	@Test
 	public void testGetAvailableSeats() {
-
-		ServerInterface resSys = ServerInterface.getInstance();
 		
 		//Create a sample Flight with no seats booked on a 737 (100 First Class seats and 28 Coach seats) 
 		Flights flights = new Flights();
