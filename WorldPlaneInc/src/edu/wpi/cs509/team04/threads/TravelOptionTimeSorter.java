@@ -9,7 +9,6 @@ import java.util.List;
 
 import edu.wpi.cs509.team04.common.Flight;
 import edu.wpi.cs509.team04.common.TravelOption;
-import edu.wpi.cs509.team04.enums.SeatingType;
 import edu.wpi.cs509.team04.gui.SearchModel;
 
 public class TravelOptionTimeSorter implements Runnable {
